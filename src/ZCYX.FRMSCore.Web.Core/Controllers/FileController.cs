@@ -1,4 +1,5 @@
-﻿using Abp.WorkFlow;
+﻿using Abp.File;
+using Abp.WorkFlow;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ namespace ZCYX.FRMSCore.Web.Core
                 return Json(Return_Helper_DG.Error_Msg_Ecode_Elevel_HttpCode("pictures total size > 100MB , server refused !"));
             }
 
-            var filePathResultList = new List<Project.FileUploadFiles>();
+            var filePathResultList = new List<FileUploadFiles>();
 
             foreach (var file in files)
             {
@@ -68,7 +69,7 @@ namespace ZCYX.FRMSCore.Web.Core
                     file.CopyTo(fs);
                     fs.Flush();
                 }
-                var ret = new Project.FileUploadFiles()
+                var ret = new FileUploadFiles()
                 {
                     Id = Application.EncryptionDes.Encrypt(fileFullName),
                     FileName = old_fileName,

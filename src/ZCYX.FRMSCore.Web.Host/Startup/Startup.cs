@@ -58,7 +58,6 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
 
             services.AddScoped<Abp.WorkFlow.WorkFlowRunFilterAttribute>();
             services.AddScoped<Abp.WorkFlow.WorkFlowCommitFilterAttribute>();
-            services.AddScoped<CWGL.FinancialAccountingCertificateFilterAttribute>();
             
             //services.AddScoped<Abp.WorkFlow.WorkFlowBusinessListAttribute>();
 

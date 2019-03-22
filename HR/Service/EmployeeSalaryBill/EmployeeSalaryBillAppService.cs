@@ -12,7 +12,6 @@ using Abp.Application.Services.Dto;
 using Abp.Linq.Extensions;
 using ZCYX.FRMSCore.Application;
 using Abp.Configuration;
-using CWGL;
 using ZCYX.FRMSCore.Model;
 
 namespace HR.Service
@@ -28,12 +27,10 @@ namespace HR.Service
         private readonly IRepository<OrganizationUnitPosts, Guid> _organizationUnitPostsRepository;
         private readonly IRepository<WorkFlowOrganizationUnits, long> _organizationUnitRepository;
 
-        private readonly ICWGLBackgroudWorkJobWithHangFire _iCWGLBackgroudWorkJobWithHangFire;
-
         private readonly IRepository<Setting,long> _setting;
 
         public EmployeeSalaryBillAppService(IRepository<Employee, Guid> employeeRepository,
-            IRepository<PostInfo, Guid> postsRepository, ICWGLBackgroudWorkJobWithHangFire iCWGLBackgroudWorkJobWithHangFire,
+            IRepository<PostInfo, Guid> postsRepository,
             IRepository<UserPosts, Guid> userPostsRepository,
             IRepository<WorkFlowOrganizationUnits, long> organizationUnitRepository, IRepository<Setting, long> setting,
             IRepository<OrganizationUnitPosts, Guid> organizationUnitPostsRepository,
@@ -47,7 +44,6 @@ namespace HR.Service
             _employeeRepository = employeeRepository;
             _employeeSalaryBillRepository = employeeSalaryBillRepository;
             _setting = setting;
-            _iCWGLBackgroudWorkJobWithHangFire = iCWGLBackgroudWorkJobWithHangFire;
         }
         /// <summary>
         /// 人事填报工资条
@@ -317,7 +313,6 @@ namespace HR.Service
             }
             s.Day = input.Day;
             s.Length = input.Length;
-            _iCWGLBackgroudWorkJobWithHangFire.CreateOrUpdateJobForAutoCreateWageTodo(s.HangFilreId.Value, s.Day + s.Length);
             set.Value = Newtonsoft.Json.JsonConvert.SerializeObject(s);
             await _setting.InsertOrUpdateAsync(set);
         }

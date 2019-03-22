@@ -11,9 +11,7 @@ using Abp.Zero.Configuration;
 using Abp.Zero.EntityFrameworkCore;
 using ZCYX.FRMSCore.EntityFrameworkCore;
 using ZCYX.FRMSCore.Tests.DependencyInjection;
-using Project;
 using HR;
-using XZGL;
 
 namespace ZCYX.FRMSCore.Tests
 {
@@ -21,9 +19,7 @@ namespace ZCYX.FRMSCore.Tests
         typeof(FRMSCoreApplicationModule),
         typeof(FRMSCoreEntityFrameworkModule),
         typeof(AbpTestBaseModule),
-        typeof(ProjectModule),
-        typeof(HRModule),
-        typeof(XZGLModule)
+        typeof(HRModule)
         )]
     public class FRMSCoreTestModule : AbpModule
     {

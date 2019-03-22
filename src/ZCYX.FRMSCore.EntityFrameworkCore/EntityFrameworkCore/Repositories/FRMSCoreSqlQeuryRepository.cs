@@ -6,7 +6,6 @@ using Abp.EntityFrameworkCore;
 using Abp.Linq.Extensions;
 using Abp.WorkFlow;
 using Microsoft.EntityFrameworkCore;
-using Project;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,14 +35,5 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore.Repositories
         }
     }
 
-    public class ProjectListRepository : FRMSCoreSqlQeuryRepository<ProjectBase, Guid, ProjectListDto, Guid>, IProjectListRepository
-    {
-        private IDbContextProvider<FRMSCoreDbContext> _dbContextProvider;
-
-        public ProjectListRepository(IDbContextProvider<FRMSCoreDbContext> dbContextProvider) : base(dbContextProvider)
-        {
-            _dbContextProvider = dbContextProvider;
-        }
-    }
 
 }

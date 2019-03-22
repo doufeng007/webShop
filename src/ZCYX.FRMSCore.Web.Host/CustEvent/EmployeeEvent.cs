@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.WorkFlow;
-using Docment;
-using GWGL;
 using HR;
 using ZCYX.FRMSCore.Application;
 
@@ -14,73 +12,6 @@ namespace ZCYX.FRMSCore.Web.Host
     public class EmployeeEvent
     {
    
-        /// <summary>
-        /// 创建待归档记录
-        /// </summary>
-        /// <param name="eventParams"></param>
-        /// <returns></returns>
-        public static void EmployeeReceiptRun(WorkFlowCustomEventParams eventParams)
-        {
-            var employeeReceiptRepository = Abp.AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<EmployeeReceipt, Guid>>();
-            var employeeReceiptModel = employeeReceiptRepository.Get(eventParams.InstanceID.ToGuid());
-            switch (employeeReceiptModel.TaskType)
-            {
-                case TaskTypeProperty.CreateTask:
-                    break;
-                case TaskTypeProperty.Distribute:
-                    var workFlowWorkTaskAppService = Abp.AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IWorkFlowWorkTaskAppService>();
-                    if (!string.IsNullOrEmpty(employeeReceiptModel.CopyForUsers))
-                    {
-                        if (employeeReceiptModel.CopyForType == CopyForTypeProperty.Sync)
-                        {
-                            var flowCopyForInput = new FlowCopyForInput()
-                            {
-                                FlowId=eventParams.FlowID,
-                                InstanceId=eventParams.InstanceID,
-                                TaskId=eventParams.TaskID,
-                                StepId=eventParams.StepID,
-                                GroupId=eventParams.GroupID,
-                                UserIds= employeeReceiptModel.CopyForUsers,
-                            };
-                            workFlowWorkTaskAppService.FlowCopyFor(flowCopyForInput);
-                        }
-                    }
-                    break;
-                case TaskTypeProperty.Filing:
-                    break;
-                    
-            }
-        }
-        public string GetEmployeeReceiptUser(WorkFlowCustomEventParams eventParams)
-        {
-            var employeeReceiptRepository = Abp.AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<EmployeeReceipt, Guid>>();
-            var employeeReceiptModel = employeeReceiptRepository.Get(eventParams.InstanceID.ToGuid());
-            if (string.IsNullOrEmpty(employeeReceiptModel.CopyForUsers))
-                return "";
-            var user = employeeReceiptModel.CopyForUsers.Split(',').LastOrDefault();
-            return user;
-        }
-        public static void CreateDocment(WorkFlowCustomEventParams eventParams)
-        {
-            var employeeReceiptRepository = Abp.AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<EmployeeReceipt, Guid>>();
-            var employeeReceiptModel = employeeReceiptRepository.Get(eventParams.InstanceID.ToGuid());
-            var docmentService = Abp.AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IDocmentAppService>();
-            var repository = Abp.AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<WorkFlowTask, Guid>>();
-            var flow = Abp.AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<WorkFlow, Guid>>();
-            var taskModel = repository.Get(eventParams.TaskID);
-            var flowModel = flow.Get(eventParams.FlowID);
-            docmentService.Create(new CreateDocmentInput()
-            {
-                Attr = (DocmentAttr)employeeReceiptModel.DocProperty,
-                Des = taskModel.Title,
-                FlowId = new Guid("1734da80-9ddf-4bc3-8f1a-d85fa80868d5"),
-                FlowTitle = flowModel.Name + "-归档请求",
-                QrCodeId=employeeReceiptModel.QrCodeId,
-                Name = taskModel.Title + "-档案待收",
-                Type = new Guid("71300f49-4542-43c5-1b44-08d5bbbe5313"),
-                UserId = taskModel.SenderID
-            });
-        }
             /// <summary>
             /// 调岗处理
             /// </summary>

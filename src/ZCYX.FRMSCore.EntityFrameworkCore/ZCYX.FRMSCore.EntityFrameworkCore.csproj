@@ -6,18 +6,8 @@
   <ProjectReference Include="..\..\Abp.Excel\Abp.Excel.csproj" />
   <ProjectReference Include="..\..\Abp.File\Abp.File.csproj" />
   <ProjectReference Include="..\..\Abp.WorkFlow\Abp.WorkFlow.csproj" />
-  <ProjectReference Include="..\..\CWGL\CWGL.csproj" />
-  <ProjectReference Include="..\..\Docment\Docment.csproj" />
   <ProjectReference Include="..\..\EmailServer\EmailServer.csproj" />
-  <ProjectReference Include="..\..\GWGL\GWGL.csproj" />
-  <ProjectReference Include="..\..\HQGL\HQGL.csproj" />
   <ProjectReference Include="..\..\HR\HR.csproj" />
   <ProjectReference Include="..\..\IMLib\IMLib.csproj" />
-  <ProjectReference Include="..\..\MeetingGL\MeetingGL.csproj" />
-  <ProjectReference Include="..\..\Project\Project.csproj" />
-  <ProjectReference Include="..\..\Supply\Supply.csproj" />
-  <ProjectReference Include="..\..\TaskGL\TaskGL.csproj" />
-  <ProjectReference Include="..\..\Train\Train.csproj" />
-  <ProjectReference Include="..\..\XZGL\XZGL.csproj" />
   <ProjectReference Include="..\ZCYX.FRMSCore.Core\ZCYX.FRMSCore.Core.csproj" />
 </ItemGroup></Project>
