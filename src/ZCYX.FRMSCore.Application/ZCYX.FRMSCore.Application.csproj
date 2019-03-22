@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><VersionPrefix>1.0.0.0</VersionPrefix><TargetFramework>netcoreapp2.0</TargetFramework><AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback><AssemblyName>ZCYX.FRMSCore.Application</AssemblyName><PackageId>ZCYX.FRMSCore.Application</PackageId><GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute><GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute><GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute><RootNamespace>ZCYX.FRMSCore</RootNamespace></PropertyGroup><PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <DocumentationFile>bin\Debug\netcoreapp2.0\ZCYX.FRMSCore.Application.xml</DocumentationFile>
+</PropertyGroup><ItemGroup>
+  <None Remove="Localization\Application-zh-CN.xml" />
+  <None Remove="Localization\Application-zh-Hans.xml" />
+</ItemGroup><ItemGroup>
+  <EmbeddedResource Include="Localization\Application-zh-Hans.xml" />
+  <EmbeddedResource Include="Localization\Application-zh-CN.xml" />
+</ItemGroup><ItemGroup>
+  <PackageReference Include="Abp.AspNetCore.SignalR" Version="4.3.0" />
+  <PackageReference Include="Abp.Dapper" Version="4.3.0" />
+  <PackageReference Include="Abp.HangFire.AspNetCore" Version="4.3.0" />
+  <PackageReference Include="CHSPinYinConv" Version="1.0.0" />
+  <PackageReference Include="HangFire.SqlServer" Version="1.6.22" />
+  <PackageReference Include="MessagePack" Version="1.7.3.4" />
+  <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
+</ItemGroup><ItemGroup><ProjectReference Include="..\..\Abp.IM\Abp.IM.csproj" /><ProjectReference Include="..\..\Abp.SignalR.Core\Abp.SignalR.Core.csproj" /><ProjectReference Include="..\..\LitJSON\LitJSON.csproj" /><ProjectReference Include="..\ZCYX.FRMSCore.Core\ZCYX.FRMSCore.Core.csproj" /></ItemGroup><ItemGroup Condition=" '$(TargetFramework)' == 'net461' "><Reference Include="System" /><Reference Include="Microsoft.CSharp" /></ItemGroup><ItemGroup>
+  <Folder Include="Service\QrCode\Dto\" />
+</ItemGroup></Project>

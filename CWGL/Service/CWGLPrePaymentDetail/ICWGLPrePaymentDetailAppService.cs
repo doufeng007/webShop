@@ -1,0 +1,29 @@
+﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Abp.WorkFlow;
+
+namespace CWGL
+{
+    public interface ICWGLPrePaymentDetailAppService : IApplicationService
+    {	
+	    /// <summary>
+        /// 根据条件分页获取列表
+        /// </summary>
+        /// <param name="page">查询实体</param>
+        /// <returns></returns>
+		Task<PagedResultDto<CWGLPrePaymentDetailListOutputDto>> GetList(GetCWGLPrePaymentDetailListInput input);
+
+		/// <summary>
+        /// 添加一个CWGLPrePaymentDetail
+        /// </summary>
+        /// <param name="input">实体</param>
+        /// <returns></returns>
+		Task Create(CreateCWGLPrePaymentDetailInput input);
+
+    }
+}

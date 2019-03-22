@@ -1,0 +1,789 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Docment</name>
+    </assembly>
+    <members>
+        <member name="T:Docment.DocmentList">
+            <summary>
+            档案列表
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.Type">
+            <summary>
+            档案类别
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.Des">
+            <summary>
+            档案备注
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.Status">
+            <summary>
+            状态(0:待收 -1：在档 -2：驳回 -3：借阅中 -4：已移交 -5：已销毁，-6：移交中)
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentList.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentStatus">
+            <summary>
+            档案状态
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrow.BackTime">
+            <summary>
+            归还时间
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrow.Verify">
+            <summary>
+            借阅验证码
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentDestroy">
+            <summary>
+            档案销毁
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentMove">
+            <summary>
+            档案移交申请
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMove.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMove.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentBorrowAppService">
+            <summary>
+            档案借阅管理
+            </summary>
+        </member>
+        <member name="M:Docment.DocmentBorrowAppService.Create(Docment.CreateDocmentBorrowInput)">
+            <summary>
+            创建档案借阅申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentBorrowAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            获取档案借阅详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentBorrowAppService.GetAll(Docment.DocmentBorrowSearchInput)">
+            <summary>
+            获取档案借阅记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentBorrowAppService.GetVerify(System.Guid)">
+            <summary>
+            获取借阅验证码
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentBorrowAppService.Verify(System.Guid,System.String)">
+            <summary>
+            档案管理员验证验证码
+            </summary>
+            <param name="id"></param>
+            <param name="verify"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentBorrowAppService.Update(Docment.UpdateeDocmentBorrowInput)">
+            <summary>
+            更新档案借阅记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentBorrowAppService.StopBorrow(System.Guid,System.Guid,System.String)">
+            <summary>
+            档案管理员作废借阅申请
+            </summary>
+            <param name="id"></param>
+            <param name="reason"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Docment.CreateDocmentBorrowInput">
+            <summary>
+            创建档案借阅
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentBorrowInput.BackTime">
+            <summary>
+            归还时间
+            </summary>
+        </member>
+        <member name="T:Docment.UpdateeDocmentBorrowInput">
+            <summary>
+            更新档案借阅信息
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentBorrowDto">
+            <summary>
+            档案借阅信息
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowDto.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowDto.Type">
+            <summary>
+            档案类别 
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowDto.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowDto.BackTime">
+            <summary>
+            归还时间
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentBorrowListDto">
+            <summary>
+            档案借阅列表
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowListDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowListDto.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowListDto.Type">
+            <summary>
+            档案类别 
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowListDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowListDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowListDto.UserId">
+            <summary>
+            申请人
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowSearchInput.BorrowType">
+            <summary>
+            获取借阅申请记录0：我的借阅 1：领导审核 2：档案员出借 3：借阅记录
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentBorrowSearchInput.Type">
+            <summary>
+            档案类别
+            </summary>
+        </member>
+        <member name="M:Docment.IDocmentBorrowAppService.Create(Docment.CreateDocmentBorrowInput)">
+            <summary>
+            创建借阅申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentBorrowAppService.Update(Docment.UpdateeDocmentBorrowInput)">
+            <summary>
+            更新借阅申请
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Docment.IDocmentBorrowAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            获取借阅申请详情
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentBorrowAppService.GetAll(Docment.DocmentBorrowSearchInput)">
+            <summary>
+            获取借阅记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentBorrowAppService.GetVerify(System.Guid)">
+            <summary>
+            获取借阅验证码
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentBorrowAppService.StopBorrow(System.Guid,System.Guid,System.String)">
+            <summary>
+            档案管理员作废申请
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Docment.DocmentDestroyAppService">
+            <summary>
+            档案销毁
+            </summary>
+        </member>
+        <member name="M:Docment.DocmentDestroyAppService.Create(Docment.CreateDocmentDestroyInput)">
+            <summary>
+            创建档案销毁申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentDestroyAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            获取档案销毁申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.DocmentDestroyAppService.Update(Docment.UpdateeDocmentDestroyInput)">
+            <summary>
+            更新档案销毁申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Docment.CreateDocmentDestroyInput">
+            <summary>
+            创建档案销毁
+            </summary>
+        </member>
+        <member name="T:Docment.UpdateeDocmentDestroyInput">
+            <summary>
+            更新档案销毁信息
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentDestroyDto">
+            <summary>
+            档案销毁信息
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyDto.DocmentId_Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyDto.Type">
+            <summary>
+            档案类别 
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyDto.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="T:Docment.DocmentDestroyListDto">
+            <summary>
+            档案销毁列表
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyListDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyListDto.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyListDto.Type">
+            <summary>
+            档案类别 
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyListDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyListDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDestroyListDto.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="T:Docment.IDocmentDestroyAppeService">
+            <summary>
+            档案销毁
+            </summary>
+        </member>
+        <member name="M:Docment.IDocmentDestroyAppeService.Create(Docment.CreateDocmentDestroyInput)">
+            <summary>
+            创建销毁申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentDestroyAppeService.Update(Docment.UpdateeDocmentDestroyInput)">
+            <summary>
+            更新销毁申请
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Docment.IDocmentDestroyAppeService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            获取销毁申请详情
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Docment.Service.DocmentMoveAppService">
+            <summary>
+            档案移交
+            </summary>
+        </member>
+        <member name="M:Docment.Service.DocmentMoveAppService.Create(Docment.CreateDocmentMoveInput)">
+            <summary>
+            创建归档移交申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentMoveAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            归档移交申请详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentMoveAppService.Update(Docment.UpdateeDocmentMoveInput)">
+            <summary>
+            更新归档申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentAppService.Create(Docment.CreateDocmentInput)">
+            <summary>
+            创建归档申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentAppService.Add(Docment.CreateDocmentInput)">
+            <summary>
+            档案管理员新增档案
+            </summary>
+            <param name="inptu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            归档申请详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentAppService.GetAll(Docment.DocmentSearchInput)">
+            <summary>
+            在档档案列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentAppService.GetAllForWorkflow(Docment.DocmentSearchInput)">
+            <summary>
+            获取档案袋列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentAppService.Update(Docment.UpdateDocmentInput)">
+            <summary>
+            更新归档申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.Service.DocmentAppService.Delete(System.Guid)">
+            <summary>
+            删除归档申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Docment.CreateDocmentMoveInput">
+            <summary>
+            创建档案移交
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentMoveInput.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentMoveInput.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveDto.DocmentId_Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveDto.Type">
+            <summary>
+            档案类别 
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveDto.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveListDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveListDto.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveListDto.Type">
+            <summary>
+            档案类别 
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveListDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveListDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentMoveListDto.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="M:Docment.IDocmentMoveAppService.Create(Docment.CreateDocmentMoveInput)">
+            <summary>
+            创建归档申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentMoveAppService.Update(Docment.UpdateeDocmentMoveInput)">
+            <summary>
+            更新归档申请
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Docment.IDocmentMoveAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            获取归档申请详情
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Docment.CreateDocmentInput">
+            <summary>
+            创建档案
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.Type">
+            <summary>
+            档案类别
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.Des">
+            <summary>
+            档案备注
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.FileList">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="P:Docment.CreateDocmentInput.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.Type">
+            <summary>
+            档案类别
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.Des">
+            <summary>
+            档案备注
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.FileList">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="P:Docment.UpdateDocmentInput.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.Type">
+            <summary>
+            档案类别
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.Des">
+            <summary>
+            档案备注
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.FileList">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentDto.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.No">
+            <summary>
+            档案编号
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.Name">
+            <summary>
+            档案名称
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.Type">
+            <summary>
+            档案类别 
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.Location">
+            <summary>
+            存放位置
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.Attr">
+            <summary>
+            档案属性
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.UserId">
+            <summary>
+            责任人
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.Des">
+            <summary>
+            档案备注
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentListDto.FileList">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentSearchInput.Attr">
+            <summary>
+            档案属性（电子=0,纸质=1）
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentSearchInput.Type">
+            <summary>
+            档案类别
+            </summary>
+        </member>
+        <member name="P:Docment.DocmentSearchInput.Status">
+            <summary>
+            档案状态待收 = 0, 在档 = -1, 借阅中 = -3,  已移交 = -4, 已销毁 = -5
+            </summary>
+        </member>
+        <member name="M:Docment.IDocmentAppService.Create(Docment.CreateDocmentInput)">
+            <summary>
+            创建归档申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentAppService.Update(Docment.UpdateDocmentInput)">
+            <summary>
+            更新归档申请
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Docment.IDocmentAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            获取归档申请详情
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Docment.IDocmentAppService.GetAll(Docment.DocmentSearchInput)">
+            <summary>
+            获取档案列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

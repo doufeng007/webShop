@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="zh-CN">
+  <texts>
+    <text name="Pages" value="基础程序" />
+    <text name="Administration" value="系统管理" />
+    <text name="Tenants" value="租户管理" />
+    <text name="TenantsCreate" value="租户创建" />
+    <text name="Users" value="用户管理" />
+    <text name="Roles" value="角色管理" />
+    <text name="RolesCreate" value="角色创建" />
+    <text name="OrganizationUnits" value="组织架构" />
+    <text name="CreatingNewOrganizationUnits" value="新建组织" />
+    <text name="EditingOrganizationUnits" value="编辑组织" />
+    <text name="DeletingOrganizationUnits" value="删除组织" />
+    <text name="Home" value="工作台" />
+    <text name="AuditLogs" value="系统日志" />
+    <text name="SystemLogs" value="审计日志" />
+    <text name="CreatingNewUser" value="新建用户" />
+    <text name="EditingUser" value="编辑用户" />
+    <text name="DeletingUser" value="删除用户" />
+    <text name="ChangingPermissions" value="修改权限" />
+    <text name="LoginForUsers" value="该账号登陆" />
+    <text name="HangFireManager" value="后台工作计划管理" />
+    <text name="RealationSystem" value="关联系统" />
+    <text name="EntityNotFound" value="数据库 {0} 中没有id= {1} 的记录。" />
+  </texts>
+</localizationDictionary>

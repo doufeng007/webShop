@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Localization\WorkFlowDictionaryLanguage-zh-CN.xml" />
+    <None Remove="Localization\WorkFlowDictionaryLanguage-zh-Hans.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\WorkFlowDictionaryLanguage-zh-Hans.xml" />
+    <EmbeddedResource Include="Localization\WorkFlowDictionaryLanguage-zh-CN.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp.AutoMapper" Version="4.3.0" />
+    <PackageReference Include="Abp.EntityFrameworkCore" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\ZCYX.FRMSCore.Application\ZCYX.FRMSCore.Application.csproj" />
+  </ItemGroup>
+
+</Project>

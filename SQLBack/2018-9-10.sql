@@ -1,0 +1,1 @@
+﻿ALTER TABLE DocmentBorrow ADD Verify  varchar(50)  NULL  --借阅验证码字段

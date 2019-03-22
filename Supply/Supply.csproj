@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\Supply.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Localization\SupplyLanguage-zh-Hans.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\SupplyLanguage-zh-Hans.xml" />
+    <EmbeddedResource Include="Localization\SupplyLanguage-zh-CN.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Entity\SupplyScrapMain.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Abp.Excel\Abp.Excel.csproj" />
+    <ProjectReference Include="..\Abp.File\Abp.File.csproj" />
+    <ProjectReference Include="..\Abp.WorkFlow\Abp.WorkFlow.csproj" />
+    <ProjectReference Include="..\CWGL\CWGL.csproj" />
+  </ItemGroup>
+
+</Project>

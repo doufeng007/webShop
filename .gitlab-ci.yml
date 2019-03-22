@@ -1,0 +1,13 @@
+﻿build_image:
+  script:
+    - dotnet restore src/ZCYX.FRMSCore.Web.Host/ZCYX.FRMSCore.Web.Host.csproj -s https://nuget.cdn.azure.cn/v3/index.json
+    - cd src/ZCYX.FRMSCore.Web.Host
+    - dotnet publish ZCYX.FRMSCore.Web.Host.csproj -c Release -o publish
+    - cd ../../
+    - docker build -t registry.cn-shenzhen.aliyuncs.com/gmmy/frmscoregov:latest .
+    - docker push registry.cn-shenzhen.aliyuncs.com/gmmy/frmscoregov:latest
+    - docker tag registry.cn-shenzhen.aliyuncs.com/gmmy/frmscoregov:latest registry.cn-shenzhen.aliyuncs.com/gmmy/frmscoregov2:latest
+    - docker push registry.cn-shenzhen.aliyuncs.com/gmmy/frmscoregov2:latest
+    - docker rmi registry.cn-shenzhen.aliyuncs.com/gmmy/frmscoregov2:latest
+    - docker rmi registry.cn-shenzhen.aliyuncs.com/gmmy/frmscoregov:latest
+    - ssh root@192.168.0.153 'bash /frmscoregov/docker-update-frmscoregov.sh'

@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Sql\**" />
+    <EmbeddedResource Remove="Sql\**" />
+    <None Remove="Sql\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="az4ccx34.aiu~" />
+    <None Remove="Localization\WorkFlowLanguage-zh-CN.xml" />
+    <None Remove="Localization\WorkFlowLanguage-zh-Hans.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\WorkFlowLanguage-zh-Hans.xml" />
+    <EmbeddedResource Include="Localization\WorkFlowLanguage-zh-CN.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp.AutoMapper" Version="4.3.0" />
+    <PackageReference Include="Abp.Dapper" Version="4.3.0" />
+    <PackageReference Include="Abp.EntityFrameworkCore" Version="4.3.0" />
+    <PackageReference Include="Abp.ZeroCore" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Abp.Dictionary\Abp.WorkFlowDictionary.csproj" />
+    <ProjectReference Include="..\Abp.File\Abp.File.csproj" />
+    <ProjectReference Include="..\Abp.SignalR.Core\Abp.SignalR.Core.csproj" />
+    <ProjectReference Include="..\LitJSON\LitJSON.csproj" />
+    <ProjectReference Include="..\src\ZCYX.FRMSCore.Application\ZCYX.FRMSCore.Application.csproj" />
+    <ProjectReference Include="..\src\ZCYX.FRMSCore.Core\ZCYX.FRMSCore.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\TaskGL.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Abp.File\Abp.File.csproj" />
+    <ProjectReference Include="..\Abp.WorkFlow\Abp.WorkFlow.csproj" />
+    <ProjectReference Include="..\Project\Project.csproj" />
+    <ProjectReference Include="..\src\ZCYX.FRMSCore.Application\ZCYX.FRMSCore.Application.csproj" />
+  </ItemGroup>
+
+</Project>

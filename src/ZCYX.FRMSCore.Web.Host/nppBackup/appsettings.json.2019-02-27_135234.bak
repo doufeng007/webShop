@@ -1,0 +1,91 @@
+﻿{
+  "ConnectionStrings": {
+    "Default": "Server=192.168.0.150;Database=FRMSCore_Dev;User ID=sa;Password=China2018;MultipleActiveResultSets=true;"
+  },
+
+  "App": {
+    "ServerRootAddress": "http://*:8033",
+    "ClientRootAddress": "*",
+    "CorsOrigins": "*",
+    "ProjectFlow": "9EEC8F87-CEBF-4C26-A85D-5932990AE1DD",
+    "AuditFlow": "8F22E800-6F86-4F12-9650-CF1994161014",
+    "XietongdanweiOrgId": "10022",
+    "PayDay": 10,
+    "WorkContact": "9cbd3a13-fbac-4ccc-8974-20eeb2a8b4c9,2ef7bdf7-e352-4190-ba71-5bd232c5d801",
+    "WageFlowId": "66d2abd8-dda2-4175-bfe6-8a0515abf71b",
+    "WageRoleId": 7025,
+    "MaxRequestBodySize": 200,
+    "ACOtherId": "BF29E135-484B-4A86-BB71-11EB5289B2B7",
+    "CJZMongoDB": "192.168.0.153",
+    "TaskManagementFlowId": "ed931ed4-242d-4358-8572-2b3bdb76f9bd"
+  },
+  "buildOptions": {
+    "embed": {
+      "include": [
+        "swagger/**/*.*"
+      ]
+    }
+  },
+  "Abp": {
+    "RedisCache": {
+      "Enable": false,
+      "ConnectionString": "127.0.0.1",
+      "DatabaseId": -1
+    }
+  },
+  "WorkTemp": {
+    "Workon": "95f525b2-96e6-4c4c-82e5-db07041fa307",
+    "Workout": "225b6244-b6e5-4c4c-ba3f-a64c70544bbe",
+    "EmployeeAskForLeave": "1895ACBC-E16F-4D17-99B7-92D8A9C83103"
+  },
+  "Authentication": {
+    "JwtBearer": {
+      "IsEnabled": "true",
+      "SecurityKey": "FRMSCore_C421AAEE0D114E9C",
+      "Issuer": "FRMSCore",
+      "Audience": "FRMSCore"
+    }
+  },
+  "RabbitMQ": {
+    "rabbitMQHost": "192.168.0.16",
+    "rabbitMQPort": "5672",
+    "rabbitMQUserName": "rhpass",
+    "rabbitMQPwd": "China2018",
+    "frmsgovUrl": "http://192.168.0.15:8077"
+  },
+  "Password": {
+    "RequireDigit": false,
+    "RequiredLength": 3,
+    "MaxLength": 15,
+    "RequireNonAlphanumeric": false,
+    "RequireUppercase": false,
+    "RequireLowercase": false
+  },
+  "CLService": {
+    "clUrl": "http://dev.rhpass.com:1101"
+  },
+  "ElasticClient": {
+    "Url": "http://192.168.0.150:9200"
+  },
+  "IM": {
+    "apiURL": "http://a1.easemob.com",
+    "OrgName": "1156180809146223",
+    "AppName": "rhttest",
+    "ClientID": "YXA6v1LfMLf1Eeik7Vu4arrkMg",
+    "ClientSecret": "YXA6e0qACzOIkQxT8s8-4ZUzXW8jcOQ",
+    "CompanyGroupId": "60308391526402"
+
+  },
+  "Monitor": {
+    "SkyWalking": {
+      "Open": 0,
+      "ApplicationCode": "南部县财政评审中心企业综合管理系统",
+      "DirectServers": "39.108.153.21:11800"
+    },
+    "Exceptionless": {
+      "Open": 0,
+      "apiKey": "sLbknTBMxHRSB12pTHJhbtI8bMTicKANGD2beaeH",
+      "serverUrl": "http://39.108.153.21:8081"
+    }
+  }
+}

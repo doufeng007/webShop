@@ -1,0 +1,2776 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MeetingGL</name>
+    </assembly>
+    <members>
+        <member name="P:MeetingGL.MeetingFile.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingFile.FileName">
+            <summary>
+            资料名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingFile.UserId">
+            <summary>
+            提供人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingFile.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssue.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssue.OrgId">
+            <summary>
+            汇报部门
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssue.UserId">
+            <summary>
+            汇报人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssue.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssue.RelationProposalId">
+            <summary>
+            关联提案编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssue.ProjectLeaderId">
+            <summary>
+            关联项目负责人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueRelation.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueRelation.IssueId">
+            <summary>
+            议题编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogistics.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogistics.MeetingTypeId">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogistics.UserId">
+            <summary>
+            经办人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLogisticsRelation.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLogisticsRelation.LogisticsId">
+            <summary>
+            后勤编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLogisticsRelation.UserId">
+            <summary>
+            经办人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLogisticsRelation.Remark">
+            <summary>
+            需求描述
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLogisticsRelation.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.ActiveStartTime">
+            <summary>
+            生效开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.ActiveEndTime">
+            <summary>
+            生效结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.PeriodType">
+            <summary>
+            重复模式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.PeriodNumber1">
+            <summary>
+            重复参数1
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.PeriodNumber2">
+            <summary>
+            重复参数2
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.PeriodNumber3">
+            <summary>
+            重复参数3
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.PreTimeType">
+            <summary>
+            提前创建时间类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.PreTimeNum">
+            <summary>
+            提前创建时间数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRule.NextCreateTime">
+            <summary>
+            下次创建时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfo.MeetingRoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfo.BusinessId">
+            <summary>
+            业务id
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfo.BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfo.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfo.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfo.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.ReturnReceiptEnable">
+            <summary>
+            是否启用回执
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.WarningEnable">
+            <summary>
+            是否启用提醒
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.WarningDateNumber">
+            <summary>
+            会前提醒时间数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.WraningDataType">
+            <summary>
+            会前提示时间类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.WraingType">
+            <summary>
+            会前提醒方式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.SignTime1">
+            <summary>
+            签到开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.SignTime2">
+            <summary>
+            签到结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.SignType">
+            <summary>
+            签到规则
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBase.Status">
+            <summary>
+            状态  0 禁用  1 启用
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.MeetingUserRole">
+            <summary>
+            会议人员角色
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.ReturnReceiptStatus">
+            <summary>
+            回执状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.ConfirmData">
+            <summary>
+            回执时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.AskForLeaveRemark">
+            <summary>
+            请假备注
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.DealWithUsers">
+            <summary>
+            DealWithUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUser.CopyForUsers">
+            <summary>
+            CopyForUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTask.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTask.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTask.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTask.Remark">
+            <summary>
+            Remark
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTask.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTask.DealWithUsers">
+            <summary>
+            DealWithUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTask.CopyForUsers">
+            <summary>
+            CopyForUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.MeetingTypeId">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.RoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.MeetingRoomName">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.OrgId">
+            <summary>
+            会议组织单位编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.OrganizeName">
+            <summary>
+            会议组织单位
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.MeetingCreateUser">
+            <summary>
+            发起者
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.ModeratorId">
+            <summary>
+            主持人编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.RecorderId">
+            <summary>
+            记录人编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.AttendingLeaders">
+            <summary>
+            参会领导
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.MeetingGuest">
+            <summary>
+            会议嘉宾
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.JoinPersonnel">
+            <summary>
+            参会人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.MeetingTheme">
+            <summary>
+            会议主题
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.OtherPersonnel">
+            <summary>
+            其他人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.Record">
+            <summary>
+            会议记录
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.MeetingIsssueType">
+            <summary>
+            会议议题类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.MeetingIssue">
+            <summary>
+            会议议题
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.IsNeedFile">
+            <summary>
+            是否需要会议资料
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.IsNeedLogistics">
+            <summary>
+            是否需要会务后勤
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.DealWithUsers">
+            <summary>
+            DealWithUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.CopyForUsers">
+            <summary>
+            CopyForUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.RealAttendeeUsers">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.RealMeetingGuest">
+            <summary>
+            实际参会嘉宾
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.AbsentUser">
+            <summary>
+            缺席人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeeting.HasSubmitRecord">
+            <summary>
+            是否提交会议记录
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoom.Name">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoom.Address">
+            <summary>
+            会议室位置
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoom.IsEnable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoom.BookingStatus">
+            <summary>
+             0 空置 1 使用中
+            </summary>
+        </member>
+        <member name="T:MeetingGL.IssueType">
+            <summary>
+            议题类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingIssueInput.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingIssueInput.OrgId">
+            <summary>
+            汇报部门
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingIssueInput.UserId">
+            <summary>
+            汇报人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingIssueInput.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.OrgId">
+            <summary>
+            汇报部门
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.OrgName">
+            <summary>
+            汇报部门名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.UserId">
+            <summary>
+            汇报人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.UserName">
+            <summary>
+            汇报人名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.IssueType">
+            <summary>
+            议题类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.SingleProjectId">
+            <summary>
+            关联项目id
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueListOutputDto.SingleProjecetName">
+            <summary>
+            关联项目名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.OrgId">
+            <summary>
+            汇报部门
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.UserId">
+            <summary>
+            汇报人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.SingleProjectId">
+            <summary>
+            关联项目id
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.SingleProjecetName">
+            <summary>
+            关联项目名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.HasPass">
+            <summary>
+            是否已议
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingIssueOutputDto.ReadStatus">
+            <summary>
+            准备状态
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IMeetingIssueAppService.GetList(MeetingGL.GetMeetingIssueListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingIssueAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingIssueAppService.Create(MeetingGL.CreateMeetingIssueInput)">
+            <summary>
+            添加一个MeetingIssue
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingIssueAppService.Update(MeetingGL.UpdateMeetingIssueInput)">
+            <summary>
+            修改一个MeetingIssue
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingIssueAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingIssueAppService.GetList(MeetingGL.GetMeetingIssueListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingIssueAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingIssueAppService.Create(MeetingGL.CreateMeetingIssueInput)">
+            <summary>
+            添加一个MeetingIssue
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingIssueAppService.Update(MeetingGL.UpdateMeetingIssueInput)">
+            <summary>
+            修改一个MeetingIssue
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingIssueAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingIssueAppService.UpdateNesIssueSatatus(System.Guid)">
+            <summary>
+            更新会议记录新增的议题状态
+            </summary>
+            <param name="meetingId"></param>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingLlogisticsInput.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingLlogisticsInput.MeetingTypeId">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingLlogisticsInput.UserId">
+            <summary>
+            经办人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsListOutputDto.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsListOutputDto.MeetingTypeName">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsListOutputDto.UserName">
+            <summary>
+            经办人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsOutputDto.Name">
+            <summary>
+            事项
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsOutputDto.MeetingTypeId">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsOutputDto.UserId">
+            <summary>
+            经办人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingLlogisticsOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IMeetingLlogisticsAppService.GetList(MeetingGL.GetMeetingLlogisticsListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingLlogisticsAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingLlogisticsAppService.Create(MeetingGL.CreateMeetingLlogisticsInput)">
+            <summary>
+            添加一个MeetingLlogistics
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingLlogisticsAppService.Update(MeetingGL.UpdateMeetingLlogisticsInput)">
+            <summary>
+            修改一个MeetingLlogistics
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingLlogisticsAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingLlogisticsAppService.GetList(MeetingGL.GetMeetingLlogisticsListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingLlogisticsAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingLlogisticsAppService.Create(MeetingGL.CreateMeetingLlogisticsInput)">
+            <summary>
+            添加一个MeetingLlogistics
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingLlogisticsAppService.Update(MeetingGL.UpdateMeetingLlogisticsInput)">
+            <summary>
+            修改一个MeetingLlogistics
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingLlogisticsAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingRoomUseInfoInput.MeetingRoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingRoomUseInfoInput.BusinessId">
+            <summary>
+            业务id
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingRoomUseInfoInput.BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingRoomUseInfoInput.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingRoomUseInfoInput.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingRoomUseInfoInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingRoomUseInfoListInput.MeetingRoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingRoomUseInfoListInput.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingRoomUseInfoListInput.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingRoomUseInfoListInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.MeetingRoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.BusinessId">
+            <summary>
+            业务id
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.MeetingRoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.BusinessId">
+            <summary>
+            业务id
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingRoomUseInfoOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IMeetingRoomUseInfoAppService.GetList(MeetingGL.GetMeetingRoomUseInfoListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingRoomUseInfoAppService.Get(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingRoomUseInfoAppService.Create(MeetingGL.CreateMeetingRoomUseInfoInput)">
+            <summary>
+            添加一个MeetingRoomUseInfo
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingRoomUseInfoAppService.Update(MeetingGL.UpdateMeetingRoomUseInfoInput)">
+            <summary>
+            修改一个MeetingRoomUseInfo
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingRoomUseInfoAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingRoomUseInfoAppService.GetList(MeetingGL.GetMeetingRoomUseInfoListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingRoomUseInfoAppService.Get(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingRoomUseInfoAppService.Create(MeetingGL.CreateMeetingRoomUseInfoInput)">
+            <summary>
+            添加一个MeetingRoomUseInfo
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingRoomUseInfoAppService.Update(MeetingGL.UpdateMeetingRoomUseInfoInput)">
+            <summary>
+            修改一个MeetingRoomUseInfo
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingRoomUseInfoAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.ReturnReceiptEnable">
+            <summary>
+            是否启用回执
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.WarningEnable">
+            <summary>
+            是否启用提醒
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.WarningDateNumber">
+            <summary>
+            会前提醒时间数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.WraningDataType">
+            <summary>
+            会前提示时间类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.WraingType">
+            <summary>
+            会前提醒方式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.SignTime1">
+            <summary>
+            签到开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.SignTime2">
+            <summary>
+            签到结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.SignType">
+            <summary>
+            签到规则
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingTypeBaseInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.ReturnReceiptEnable">
+            <summary>
+            是否启用回执
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.WarningEnable">
+            <summary>
+            是否启用提醒
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.WarningDateNumber">
+            <summary>
+            会前提醒时间数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.WraningDataType">
+            <summary>
+            会前提示时间类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.WraingType">
+            <summary>
+            会前提醒方式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.Status">
+            <summary>
+            状态  0 禁用  1 启用
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.ReturnReceiptEnable">
+            <summary>
+            是否启用回执
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.WarningEnable">
+            <summary>
+            是否启用提醒
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.WarningDateNumber">
+            <summary>
+            会前提醒时间数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.WraningDataType">
+            <summary>
+            会前提示时间类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.WraingType">
+            <summary>
+            会前提醒方式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.SignTime1">
+            <summary>
+            签到开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.SignTime2">
+            <summary>
+            签到结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.SignType">
+            <summary>
+            签到规则
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingTypeBaseOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IMeetingTypeBaseAppService.GetList(MeetingGL.GetMeetingTypeBaseListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingTypeBaseAppService.Get(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingTypeBaseAppService.Create(MeetingGL.CreateMeetingTypeBaseInput)">
+            <summary>
+            添加一个MeetingTypeBase
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingTypeBaseAppService.Update(MeetingGL.UpdateMeetingTypeBaseInput)">
+            <summary>
+            修改一个MeetingTypeBase
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingTypeBaseAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingTypeBaseAppService.GetList(MeetingGL.GetMeetingTypeBaseListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingTypeBaseAppService.Get(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingTypeBaseAppService.Create(MeetingGL.CreateMeetingTypeBaseInput)">
+            <summary>
+            添加一个MeetingTypeBase
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingTypeBaseAppService.Update(MeetingGL.UpdateMeetingTypeBaseInput)">
+            <summary>
+            修改一个MeetingTypeBase
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingTypeBaseAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserBeforeTaskInput.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserBeforeTaskInput.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserBeforeTaskInput.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserBeforeTaskInput.Remark">
+            <summary>
+            Remark
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserBeforeTaskInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserBeforeTaskListInput.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserBeforeTaskListInput.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserBeforeTaskListInput.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserBeforeTaskListInput.Remark">
+            <summary>
+            Remark
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserBeforeTaskListInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskListOutputDto.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskListOutputDto.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskListOutputDto.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskListOutputDto.Remark">
+            <summary>
+            Remark
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskListOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskLogDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskLogDto.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskLogDto.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskLogDto.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskLogDto.Remark">
+            <summary>
+            Remark
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskLogDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskLogDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskOutputDto.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskOutputDto.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskOutputDto.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskOutputDto.Remark">
+            <summary>
+            Remark
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserBeforeTaskOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserBeforeTaskAppService.GetList(MeetingGL.GetMeetingUserBeforeTaskListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserBeforeTaskAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserBeforeTaskAppService.Create(MeetingGL.CreateMeetingUserBeforeTaskInput)">
+            <summary>
+            添加一个MeetingUserBeforeTask
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserBeforeTaskAppService.Update(MeetingGL.UpdateMeetingUserBeforeTaskInput)">
+            <summary>
+            修改一个MeetingUserBeforeTask
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserBeforeTaskAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserBeforeTaskAppService.GetList(MeetingGL.GetMeetingUserBeforeTaskListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserBeforeTaskAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserBeforeTaskAppService.Create(MeetingGL.CreateMeetingUserBeforeTaskInput)">
+            <summary>
+            添加一个MeetingUserBeforeTask
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserBeforeTaskAppService.Update(MeetingGL.UpdateMeetingUserBeforeTaskInput)">
+            <summary>
+            修改一个MeetingUserBeforeTask
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserBeforeTaskAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserInput.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserInput.MeetingUserRole">
+            <summary>
+            会议人员角色
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingUserInput.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserListInput.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserListInput.MeetingUserRole">
+            <summary>
+            会议人员角色
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserListInput.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserListInput.ReturnReceiptStatus">
+            <summary>
+            回执状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserListInput.ConfirmData">
+            <summary>
+            回执时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserListInput.AskForLeaveRemark">
+            <summary>
+            请假备注
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetMeetingUserListInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.MeetingUserRole">
+            <summary>
+            会议人员角色
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.ReturnReceiptStatus">
+            <summary>
+            回执状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.ConfirmData">
+            <summary>
+            回执时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.AskForLeaveRemark">
+            <summary>
+            请假备注
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.MeetingUserRole">
+            <summary>
+            会议人员角色
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.ReturnReceiptStatus">
+            <summary>
+            回执状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.ConfirmData">
+            <summary>
+            回执时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.AskForLeaveRemark">
+            <summary>
+            请假备注
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserLogDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.MeetingUserRole">
+            <summary>
+            会议人员角色
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.ReturnReceiptStatus">
+            <summary>
+            回执状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.ConfirmData">
+            <summary>
+            回执时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.AskForLeaveRemark">
+            <summary>
+            请假备注
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.MeetingUserRole">
+            <summary>
+            会议人员角色
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.UserId">
+            <summary>
+            人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.ReturnReceiptStatus">
+            <summary>
+            回执状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.ConfirmData">
+            <summary>
+            回执时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.AskForLeaveRemark">
+            <summary>
+            请假备注
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingUserOutputDtoForView.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.UpdateMeetingUserInput.ReturnReceiptStatus">
+            <summary>
+            回执状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.UpdateMeetingUserInput.AskForLeaveRemark">
+            <summary>
+            请假备注
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserAppService.Create(MeetingGL.CreateMeetingUserInput)">
+            <summary>
+            添加一个MeetingUser
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserAppService.Update(MeetingGL.UpdateMeetingUserInput)">
+            <summary>
+            修改一个MeetingUser
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IMeetingUserAppService.GetMeetingCreateUserForReturnReceipt(System.Guid)">
+            <summary>
+            查询会议的发起者
+            </summary>
+            <param name="instanceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserAppService.Create(MeetingGL.CreateMeetingUserInput)">
+            <summary>
+            添加一个MeetingUser
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserAppService.CreateSelf(MeetingGL.CreateMeetingUserInput)">
+            <summary>
+            添加一个MeetingUser
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserAppService.Update(MeetingGL.UpdateMeetingUserInput)">
+            <summary>
+            修改一个MeetingUser
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.MeetingUserAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingRoomInput.Name">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingRoomInput.Address">
+            <summary>
+            会议室位置
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetXZGLMeetingRoomListInput.Name">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetXZGLMeetingRoomListInput.Address">
+            <summary>
+            会议室位置
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetXZGLMeetingRoomListInput.IsEnable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.Name">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.Address">
+            <summary>
+            会议室位置
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.IsEnable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.MeetingCount">
+            <summary>
+            会议室使用数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.MeetingRoomSizeType">
+            <summary>
+            分类
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomListOutputDto.BookingStatus">
+            <summary>
+             0 空置 1 使用中
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomOutputDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomOutputDto.Name">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomOutputDto.Address">
+            <summary>
+            会议室位置
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomOutputDto.IsEnable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomOutputDto.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomTimeListOutput.Name">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingRoomTimeListOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListTimeOutput.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListTimeOutput.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingRoomAppService.GetList(MeetingGL.GetXZGLMeetingRoomListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="input">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingRoomAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingRoomAppService.Create(MeetingGL.CreateXZGLMeetingRoomInput)">
+            <summary>
+            添加一个XZGLMeetingRoom
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingRoomAppService.Update(MeetingGL.XZGLMeetingRoomUpdateInput)">
+            <summary>
+            修改一个XZGLMeetingRoom
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingRoomAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingRoomAppService.Enable(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            会议室启用或禁用
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingRoomAppService.GetList(MeetingGL.GetXZGLMeetingRoomListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="input">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingRoomAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingRoomAppService.Create(MeetingGL.CreateXZGLMeetingRoomInput)">
+            <summary>
+            添加一个XZGLMeetingRoom
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingRoomAppService.Update(MeetingGL.XZGLMeetingRoomUpdateInput)">
+            <summary>
+            修改一个XZGLMeetingRoom
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingRoomAppService.Enable(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            会议室启用或禁用
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingRoomAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingRoomAppService.GetTimeList">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.CreatePeriodMeetingWithHangFire.Cancle(System.Guid)">
+            <summary>
+            根据项目工时自动创建工作项到期待办提醒
+            </summary>
+            <param name="porjectId"></param>
+            <param name="taskId"></param>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.ActiveStartTime">
+            <summary>
+            生效开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.ActiveEndTime">
+            <summary>
+            生效结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.PeriodType">
+            <summary>
+            重复模式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.PeriodNumber1">
+            <summary>
+            重复参数1
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.PeriodNumber2">
+            <summary>
+            重复参数2
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.PeriodNumber3">
+            <summary>
+            重复参数3
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.PreTimeType">
+            <summary>
+            提前创建时间类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateMeetingPeriodRuleInput.PreTimeNum">
+            <summary>
+            提前创建时间数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingFileOutput.ReadStatus">
+            <summary>
+            准备状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.MeetingTypeId">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.RoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.MeetingRoomName">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.OrgId">
+            <summary>
+            会议组织单位编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.OrganizeName">
+            <summary>
+            会议组织单位
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.MeetingCreateUser">
+            <summary>
+            发起者
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.ModeratorId">
+            <summary>
+            主持人编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.RecorderId">
+            <summary>
+            记录人编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.AttendingLeaders">
+            <summary>
+            参会领导
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.MeetingGuest">
+            <summary>
+            会议嘉宾
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.JoinPersonnel">
+            <summary>
+            参会人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.MeetingTheme">
+            <summary>
+            会议主题
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.MeetingIsssueType">
+            <summary>
+            会议议题类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.MeetingIssue">
+            <summary>
+            会议议题
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.IsNeedFile">
+            <summary>
+            是否需要会议资料
+            </summary>
+        </member>
+        <member name="P:MeetingGL.CreateXZGLMeetingInput.IsNeedLogistics">
+            <summary>
+            是否需要会务后勤
+            </summary>
+        </member>
+        <member name="P:MeetingGL.GetXZGLMeetingListInput.RoomId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.MeetingId">
+            <summary>
+            会议编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.ActiveStartTime">
+            <summary>
+            生效开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.ActiveEndTime">
+            <summary>
+            生效结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.PeriodType">
+            <summary>
+            重复模式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.PeriodNumber1">
+            <summary>
+            重复参数1
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.PeriodNumber2">
+            <summary>
+            重复参数2
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.PeriodNumber3">
+            <summary>
+            重复参数3
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.PreTimeType">
+            <summary>
+            提前创建时间类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.PreTimeNum">
+            <summary>
+            提前创建时间数
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.MeetingPeriodRuleOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.SubmitRecordInput.RealAttendeeUsers">
+             <summary>
+            实际与会人员
+             </summary>
+        </member>
+        <member name="P:MeetingGL.SubmitRecordInput.RealMeetingGuest">
+            <summary>
+            实际参会嘉宾
+            </summary>
+        </member>
+        <member name="P:MeetingGL.SubmitRecordInput.AbsentUser">
+            <summary>
+            缺席人
+            </summary>
+        </member>
+        <member name="T:MeetingGL.XZGLMeetingListOutputDto">
+            <summary>
+            会议-列表
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.MeetingTypeName">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.MeetingRoomName">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.ModeratorName">
+            <summary>
+            主持人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="T:MeetingGL.XZGLMeetingPeriodListOutputDto">
+            <summary>
+            周期会议-列表
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.Name">
+            <summary>
+            会议名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.MeetingRoomName">
+            <summary>
+            会议室地点
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.PeriodName">
+            <summary>
+            重复模式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.ActiveStartTime">
+            <summary>
+            生效开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.ActiveEndTime">
+            <summary>
+            生效结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.JoinPersonnel">
+            <summary>
+            参会人编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.JoinPersonnelName">
+            <summary>
+            参会人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.StatusTitle">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.PeriodType">
+            <summary>
+            重复模式
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.PeriodNumber1">
+            <summary>
+            重复参数1
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.PeriodNumber2">
+            <summary>
+            重复参数2
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingPeriodListOutputDto.PeriodNumber3">
+            <summary>
+            重复参数3
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.Name">
+            <summary>
+            会议名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.MeetingRoomName">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.MeetingTypeName">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.OrganizeName">
+            <summary>
+            会议组织单位
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.ModeratorName">
+            <summary>
+            主持人姓名
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.RecorderName">
+            <summary>
+            记录人姓名
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.MeetingGuest">
+            <summary>
+            会议嘉宾
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingChangeDto.MeetingTheme">
+            <summary>
+            会议主题
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.MeetingTypeId">
+            <summary>
+            会议类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.RoomId">
+            <summary>
+            会议室编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.MeetingRoomName">
+            <summary>
+            会议室名称
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.StartTime">
+            <summary>
+            会议开始时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.EndTime">
+            <summary>
+            会议结束时间
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.OrgId">
+            <summary>
+            会议组织单位编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.OrganizeName">
+            <summary>
+            会议组织单位
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.MeetingCreateUser">
+            <summary>
+            发起者
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.ModeratorId">
+            <summary>
+            主持人编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.RecorderId">
+            <summary>
+            记录人编号
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.AttendingLeaders">
+            <summary>
+            参会领导
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.MeetingGuest">
+            <summary>
+            会议嘉宾
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.JoinPersonnel">
+            <summary>
+            参会人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.MeetingTheme">
+            <summary>
+            会议主题
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.OtherPersonnel">
+            <summary>
+            其他人员
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.Record">
+            <summary>
+            会议记录
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.MeetingIsssueType">
+            <summary>
+            会议议题类型
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.MeetingIssue">
+            <summary>
+            会议议题
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.IsNeedFile">
+            <summary>
+            是否需要会议资料
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.IsNeedLogistics">
+            <summary>
+            是否需要会务后勤
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.DealWithUsers">
+            <summary>
+            DealWithUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.CopyForUsers">
+            <summary>
+            CopyForUsers
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.RealAttendeeUsers">
+             <summary>
+            实际与会人员
+             </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.RealAttendeeUsers_Name">
+             <summary>
+            实际与会人员
+             </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.RealMeetingGuest">
+            <summary>
+            实际参会嘉宾
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.AbsentUser">
+            <summary>
+            缺席人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.AbsentUserName">
+            <summary>
+            缺席人
+            </summary>
+        </member>
+        <member name="P:MeetingGL.XZGLMeetingOutputDto.HasSubmitRecord">
+            <summary>
+            是否提交会议记录
+            </summary>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.GetList(MeetingGL.GetXZGLMeetingListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.GetPeriodList(MeetingGL.GetXZGLMeetingListInput)">
+            <summary>
+            周期会议-列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.UpdatePeriodClear(MeetingGL.PeriodClearInput)">
+            <summary>
+            周期会议取消
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.Create(MeetingGL.CreateXZGLMeetingInput)">
+            <summary>
+            添加一个XZGLMeeting
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.Update(MeetingGL.UpdateXZGLMeetingInput)">
+            <summary>
+            修改一个XZGLMeeting
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.CheckPostFromUser(System.Guid,System.Int32)">
+            <summary>
+            检查当前会议人员权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.NotifyMeeting(Abp.WorkFlow.WorkFlowCustomEventParams)">
+            <summary>
+            抄送参会人员
+            </summary>
+            <param name="Id"></param>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.GetViewForRecord(System.Guid)">
+            <summary>
+            提交会议记录-获取
+            </summary>
+            <param name="instanceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.SubmitRecord(MeetingGL.SubmitRecordInput)">
+            <summary>
+            提交会议记录-保存
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.GetMeetingConfirmUser(System.Guid)">
+            <summary>
+            会议确认
+            </summary>
+            <param name="instanceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.IXZGLMeetingAppService.GetMeetingRecodeUser(System.Guid)">
+            <summary>
+            会议记录人
+            </summary>
+            <param name="instanceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.GetList(MeetingGL.GetXZGLMeetingListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.GetMyList(MeetingGL.GetXZGLMeetingListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.UpdatePeriodClear(MeetingGL.PeriodClearInput)">
+            <summary>
+            周期会议取消
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.GetPeriodList(MeetingGL.GetXZGLMeetingListInput)">
+            <summary>
+            周期会议-列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.Create(MeetingGL.CreateXZGLMeetingInput)">
+            <summary>
+            添加一个XZGLMeeting
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.Update(MeetingGL.UpdateXZGLMeetingInput)">
+            <summary>
+            修改一个XZGLMeeting
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.CheckPostFromUser(System.Guid,System.Int32)">
+            <summary>
+            检查用户权限
+            </summary>
+            <param name="TaskId"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.NotifyMeeting(Abp.WorkFlow.WorkFlowCustomEventParams)">
+            <summary>
+            完成抄送会议
+            </summary>
+            <param name="eventParams"></param>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.GetViewForRecord(System.Guid)">
+            <summary>
+            提交会议记录-获取
+            </summary>
+            <param name="instanceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.SubmitRecord(MeetingGL.SubmitRecordInput)">
+            <summary>
+            提交会议记录-保存
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.GetMeetingConfirmUser(System.Guid)">
+            <summary>
+            查找会议确认人
+            </summary>
+            <param name="instanceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MeetingGL.XZGLMeetingAppService.GetMeetingRecodeUser(System.Guid)">
+            <summary>
+            查找会议记录人
+            </summary>
+            <param name="instanceId"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

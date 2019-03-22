@@ -1,0 +1,1209 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TaskGL</name>
+    </assembly>
+    <members>
+        <member name="P:TaskGL.TaskManagement.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.DealWithUsers">
+            <summary>
+            DealWithUsers
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.Requirement">
+            <summary>
+            任务要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.SignFileId">
+            <summary>
+            签名文件
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.UserId">
+            <summary>
+            负责人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.Type">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.EndTime">
+            <summary>
+            截止时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.TaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.IsUrgent">
+            <summary>
+            是否紧急
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.Superintendent">
+            <summary>
+            督办人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.Explain">
+            <summary>
+            任务说明
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.PerformanceScore">
+            <summary>
+            绩效量分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.ProjectId">
+            <summary>
+            所属项目
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.TaskStatus">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.TaskManagementIId">
+            <summary>
+            关联旧任务
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.Number">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.ProjectName">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.TaskCreateUserId">
+            <summary>
+            任务发起人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagement.CreateUserRoleType">
+            <summary>
+            任务发起角色
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.Type">
+            <summary>
+            变更类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.TaskManagementId">
+            <summary>
+            变更编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.Reason">
+            <summary>
+            原因
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.Assessment">
+            <summary>
+            评估
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.Requirement">
+            <summary>
+            要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.CreatorUserId">
+            <summary>
+            创建者
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.PerformanceScore">
+            <summary>
+            绩效分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChange.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementTypeEnum.Draft">
+            <summary>
+            拟稿
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementTypeEnum.File">
+            <summary>
+            归档
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementTypeEnum.Car">
+            <summary>
+            用车
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementTypeEnum.Apply">
+            <summary>
+            用品申领
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementChangeTypeEnum.TaskRedo">
+            <summary>
+            任务重做
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementChangeTypeEnum.ChangeMission">
+            <summary>
+            变更任务
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementChangeTypeEnum.RevokeTask">
+            <summary>
+            撤销任务
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementReasonEnum.Update">
+            <summary>
+            需求变更
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementReasonEnum.Error">
+            <summary>
+            资料有误
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskManagementReasonEnum.Cancel">
+            <summary>
+            任务取消
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskStatisticDetailTypeEnum.MyTask">
+            <summary>
+            我的任务
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskStatisticDetailTypeEnum.MySuperintendentTask">
+            <summary>
+            我督办的任务
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskStatisticDetailTypeEnum.MyOrganizationTask">
+            <summary>
+            我部门的任务
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskStatisticDetailTypeEnum.MyProjectTask">
+            <summary>
+            我项目组的任务
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskStatisticDetailTypeEnum.MyFollowTask">
+            <summary>
+            我关注的任务
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskStatisticsDropTypeEnum.Organization">
+            <summary>
+            部门
+            </summary>
+        </member>
+        <member name="F:TaskGL.Enum.TaskStatisticsDropTypeEnum.ProjectGroup">
+            <summary>
+            项目组
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementChangeInput.Type">
+            <summary>
+            变更类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementChangeInput.TaskManagementId">
+            <summary>
+            变更编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementChangeInput.Reason">
+            <summary>
+            原因
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementChangeInput.Assessment">
+            <summary>
+            评估
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementChangeInput.Requirement">
+            <summary>
+            要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementChangeInput.PerformanceScore">
+            <summary>
+            绩效分
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementChangeInput.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="P:TaskGL.GetTaskManagementChangeListInput.TaskManagementId">
+            <summary>
+            变更编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.Type">
+            <summary>
+            变更类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.TaskManagementId">
+            <summary>
+            变更编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.Reason">
+            <summary>
+            原因
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.Assessment">
+            <summary>
+            评估
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.Requirement">
+            <summary>
+            要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.PerformanceScore">
+            <summary>
+            绩效分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeListOutputDto.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.Type">
+            <summary>
+            变更类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.TaskManagementId">
+            <summary>
+            变更编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.Reason">
+            <summary>
+            原因
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.Assessment">
+            <summary>
+            评估
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.Requirement">
+            <summary>
+            要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.PerformanceScore">
+            <summary>
+            绩效分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementChangeOutputDto.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="M:TaskGL.ITaskManagementChangeAppService.GetList(TaskGL.GetTaskManagementChangeListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementChangeAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementChangeAppService.Create(TaskGL.CreateTaskManagementChangeInput)">
+            <summary>
+            添加一个TaskManagementChange
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementChangeAppService.Update(TaskGL.UpdateTaskManagementChangeInput)">
+            <summary>
+            修改一个TaskManagementChange
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementChangeAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementChangeAppService.GetList(TaskGL.GetTaskManagementChangeListInput)">
+            <summary>
+            获取变更列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementChangeAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementChangeAppService.Create(TaskGL.CreateTaskManagementChangeInput)">
+            <summary>
+            创建变更
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementChangeAppService.Update(TaskGL.UpdateTaskManagementChangeInput)">
+             <summary>
+            修改变更
+             </summary>
+             <param name="input">实体</param>
+             <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementChangeAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.TaskType">
+            <summary>
+            任务统计类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.All">
+            <summary>
+            全部任务
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.Approvaling">
+            <summary>
+            审批中
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.Reject">
+            <summary>
+            驳回
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.BefreStart">
+            <summary>
+            待开始
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.Doing">
+            <summary>
+            进行中
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.Done">
+            <summary>
+            已完成
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.Redo">
+            <summary>
+            重做
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.MyTaskStatisticDetailResponse.Revoke">
+            <summary>
+            撤销
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskStatisticResponse.TodoCount">
+             <summary>
+            待办项目数量
+             </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskStatisticResponse.DoingCount">
+            <summary>
+            在办项目数量
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskStatisticResponse.DoneCount">
+            <summary>
+            已办项目数量
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskStatisticResponse.HandleRate">
+            <summary>
+            完成率
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsResponse.UserName">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsResponse.All">
+            <summary>
+            全部任务
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsResponse.Doing">
+            <summary>
+            进行中
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsResponse.Done">
+            <summary>
+            已完成
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsResponse.BeOverdue">
+            <summary>
+            逾期
+            </summary>
+        </member>
+        <member name="P:TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsResponse.Urgent">
+            <summary>
+            紧急
+            </summary>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.ITaskManagementStatisticsAppService.GetTaskStatistic">
+            <summary>
+            获取日常任务的统计
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.ITaskManagementStatisticsAppService.GetMyTaskStatistic">
+            <summary>
+            获取与我相关的统计
+            </summary>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.ITaskManagementStatisticsAppService.GetStatisticDroplist">
+            <summary>
+            获取下拉菜单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.ITaskManagementStatisticsAppService.GetTaskUserStatistics(TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsRequest)">
+            <summary>
+            人员统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.ITaskManagementStatisticsAppService.GetTaskTypeStatistics(TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsRequest)">
+            <summary>
+            任务类型统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.TaskManagementStatisticsAppService.GetTaskStatistic">
+            <summary>
+            获取日常任务的统计
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.TaskManagementStatisticsAppService.GetMyTaskStatistic">
+            <summary>
+            获取与我相关的统计
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.TaskManagementStatisticsAppService.GetStatisticDroplist">
+            <summary>
+            获取统计页面的下拉菜单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.TaskManagementStatisticsAppService.GetTaskUserStatistics(TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsRequest)">
+            <summary>
+            人员统计接口
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.TaskManagementStatisticsAppService.GetTaskTypeStatistics(TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsRequest)">
+            <summary>
+            任务类型统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.TaskManagementStatisticsAppService.MyTaskFactory(TaskGL.Enum.TaskStatisticDetailTypeEnum,System.Collections.Generic.List{ZCYX.FRMSCore.Application.TaskManagementStateEnum})">
+            <summary>
+            构造与我相关dto工厂
+            </summary>
+            <param name="type"></param>
+            <param name="stateList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.Service.TaskManagementStatistics.TaskManagementStatisticsAppService.InitSearch(TaskGL.Service.TaskManagementStatistics.Dto.TaskUserStatisticsRequest)">
+            <summary>
+            初始化人员统计/类型统计查询dto
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.DealWithUsers">
+            <summary>
+            DealWithUsers
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.Requirement">
+            <summary>
+            任务要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.SignFileId">
+            <summary>
+            签名文件
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.UserId">
+            <summary>
+            负责人
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.Type">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.EndTime">
+            <summary>
+            截止时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.TaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.IsUrgent">
+            <summary>
+            是否紧急
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.Superintendent">
+            <summary>
+            督办人
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.Explain">
+            <summary>
+            任务说明
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.PerformanceScore">
+            <summary>
+            绩效量分
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.ProjectId">
+            <summary>
+            所属项目
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.TaskStatus">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.TaskManagementIId">
+            <summary>
+            关联旧任务
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.Number">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.ProjectName">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.CreateTaskManagementInput.IsCreateByleader">
+            <summary>
+            是否领导发起
+            </summary>
+        </member>
+        <member name="T:TaskGL.CreateOrUpdateTaskManagementRecordInput">
+            <summary>
+            工作记录
+            </summary>
+        </member>
+        <member name="P:TaskGL.GetTaskManagementListInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.GetTaskManagementListInput.Type">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="T:TaskGL.TaskManagementListOutputDto">
+            <summary>
+            任务列表
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.Type">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.Number">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.TaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.TaskCreateUserId">
+            <summary>
+            任务发起人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.TaskCreateUserName">
+            <summary>
+            任务发起人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.UserId">
+            <summary>
+            负责人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.UserName">
+            <summary>
+            负责人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.Superintendent">
+            <summary>
+            督办人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.SuperintendentName">
+            <summary>
+            督办人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.EndTime">
+            <summary>
+            截止时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.ProjectName">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.TaskStatus">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.TaskStatusTitle">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.IsUrgent">
+            <summary>
+            是否紧急
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementListOutputDto.IsFollow">
+            <summary>
+            是否关注
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.Requirement">
+            <summary>
+            任务要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.SignFileId">
+            <summary>
+            签名文件
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.UserName">
+            <summary>
+            负责人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.TypeName">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.EndTime">
+            <summary>
+            截止时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.TaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.IsUrgent">
+            <summary>
+            是否紧急
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.SuperintendentName">
+            <summary>
+            督办人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.Explain">
+            <summary>
+            任务说明
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.PerformanceScore">
+            <summary>
+            绩效量分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.ProjectName">
+            <summary>
+            所属项目
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementLogDto.Number">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.Requirement">
+            <summary>
+            任务要求
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.TaskCreateUserId">
+            <summary>
+            任务发起人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.TaskCreateUserName">
+            <summary>
+            任务发起人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.Type">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.SignFileId">
+            <summary>
+            签名文件
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.UserId">
+            <summary>
+            负责人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.EndTime">
+            <summary>
+            截止时间
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.TaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.IsUrgent">
+            <summary>
+            是否紧急
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.Superintendent">
+            <summary>
+            督办人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.SuperintendentName">
+            <summary>
+            督办人
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.Explain">
+            <summary>
+            任务说明
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.PerformanceScore">
+            <summary>
+            绩效量分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.SpiritScore">
+            <summary>
+            精神分
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.ProjectId">
+            <summary>
+            所属项目
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.TaskStatus">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.TaskManagementIId">
+            <summary>
+            关联旧任务
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.Number">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:TaskGL.TaskManagementOutputDto.ProjectName">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="P:TaskGL.UpdateTaskManagementByChangeIdInput.ChangeId">
+            <summary>
+            变更对应的编号
+            </summary>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.GetList(TaskGL.GetTaskManagementListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.Create(TaskGL.CreateTaskManagementInput)">
+            <summary>
+            添加一个TaskManagement
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.Update(TaskGL.UpdateTaskManagementInput)">
+            <summary>
+            修改一个TaskManagement
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.IsLeader">
+            <summary>
+            当前登录用户是否是领导
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.SaveRecore(TaskGL.CreateOrUpdateTaskManagementRecordInput)">
+            <summary>
+            更新任务工作记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.GetRecordByTaskId(System.Guid)">
+            <summary>
+            获取任务工作记录
+            </summary>
+            <param name="id">任务编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.AutoAddWriteForTask(System.Guid,System.Guid)">
+            <summary>
+            自动加签
+            </summary>
+            <param name="id"></param>
+            <param name="taskId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.ITaskManagementAppService.FindAuditUser(System.Guid,System.Int32)">
+            <summary>
+            查找审批人
+            </summary>
+            <param name="id"></param>
+            <param name="actionType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.GetList(TaskGL.GetTaskManagementListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.Get(Abp.WorkFlow.GetWorkFlowTaskCommentInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.Create(TaskGL.CreateTaskManagementInput)">
+            <summary>
+            添加一个TaskManagement
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.Update(TaskGL.UpdateTaskManagementInput)">
+            <summary>
+            修改一个TaskManagement
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.UpdateByChangeId(TaskGL.UpdateTaskManagementByChangeIdInput)">
+            <summary>
+            修改一个TaskManagement
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.IsLeader">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.SaveRecore(TaskGL.CreateOrUpdateTaskManagementRecordInput)">
+            <summary>
+            更新任务工作记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.GetRecordByTaskId(System.Guid)">
+            <summary>
+            获取任务工作记录
+            </summary>
+            <param name="id">任务编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.AutoAddWriteForTask(System.Guid,System.Guid)">
+            <summary>
+            自动给办公室主任创建的任务， 进行加签
+            </summary>
+            <param name="id"></param>
+            <param name="taskId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskManagementAppService.FindAuditUser(System.Guid,System.Int32)">
+            <summary>
+            查找审批人
+            </summary>
+            <param name="id"></param>
+            <param name="actionType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TaskGL.TaskGLNavigationProvider.SetNavigation(Abp.Application.Navigation.INavigationProviderContext)">
+            <summary>
+            /7777
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.GetTaskManagementRelationListInput.FlowId">
+            <summary>
+            流程编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.GetTaskManagementRelationListInput.InStanceId">
+            <summary>
+            关联编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.GetTaskManagementRelationListInput.TaskManagementId">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.GetTaskManagementRelationInput.FlowId">
+            <summary>
+            流程编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.GetTaskManagementRelationInput.RelationTaskId">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.TaskManagementRelationListOutputDto.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.TaskManagementRelationListOutputDto.FlowId">
+            <summary>
+            流程编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.TaskManagementRelationListOutputDto.InStanceId">
+            <summary>
+            关联编号
+            </summary>
+        </member>
+        <member name="P:ZCYX.FRMSCore.Application.TaskManagementRelationListOutputDto.TaskManagementId">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="M:ZCYX.FRMSCore.Application.ITaskManagementRelationAppService.GetList(ZCYX.FRMSCore.Application.GetTaskManagementRelationListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZCYX.FRMSCore.Application.ITaskManagementRelationAppService.Get(ZCYX.FRMSCore.Application.GetTaskManagementRelationInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZCYX.FRMSCore.Application.TaskManagementRelationAppService.GetList(ZCYX.FRMSCore.Application.GetTaskManagementRelationListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZCYX.FRMSCore.Application.TaskManagementRelationAppService.Get(ZCYX.FRMSCore.Application.GetTaskManagementRelationInput)">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="zh-Hans">
+  <texts>
+    <text name="WorkFlowDictionary" value="数据字典" />
+    <text name="WorkFlowDictionaryCreate" value="创建字典" />
+    <text name="WorkFlowDictionaryEdit" value="编辑字典" />
+    <text name="WorkFlowDictionaryDelete" value="删除字典" />
+  </texts>
+</localizationDictionary>

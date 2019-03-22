@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="zh-CN">
+  <texts>
+    <text name="ProjectMenu" value="项目管理" />
+    <text name="ProjectBianzhiInit" value="编制项目录入" />
+    <text name="ProjectAuditInit" value="审核项目录入" />
+    <text name="ProjectTodo" value="项目评审" />
+    <text name="ProjectList" value="项目查询" />
+    
+    <text name="ProjectCheck" value="项目查询" />
+    <text name="AssistantMenuName_ConstructionOrganizations" value="送审单位" />
+    <text name="ProjectArea" value ="片区管理" />
+    <text name="ProjectAuditGroup" value ="项目组管理" />
+    <text name="DailyOffice" value ="日常办公" />
+    <text name="DailyOffice_Notice" value ="公告管理" />
+    <text name="DailyOffice_XZNotice" value ="通知公告" />
+    <text name="ProjectHelper" value ="评审辅助" />
+    <text name="ChargeOrganizations" value ="主管部门" />
+    <text name="BusinessDepartment" value ="业务股市" />
+    <text name="ReplyUnit" value ="批准单位" />
+    <text name="Pages_System" value ="系统管理" />
+    <text name="SysMenuName_Organize" value="组织机构" />
+    <text name="SysMenuName_Dic" value="数据字典" />
+    <text name="WorkflowConfiger" value="流程管理" />
+    <text name="WorkflowFormManager" value="模型管理" />
+    <text name="DailyOffice_NoticeDocument" value="公文管理" />
+    <text name="DailyOffice_OAReport" value="工作汇报" />
+    <text name="Pages_OA" value="OA模块" />
+    <text name="Employee" value="人力资源" />
+    <text name="OAEmployee" value="员工花名册" />
+    <text name="OAPerformance" value="绩效考核" />
+    <text name="OAPerformanceMain" value="发起考评" />
+    <text name="OAFixed" value="资产管理" />
+    <text name="OAFixedAssets" value="固定资产台账" />
+    <text name="OAFixedAssetsPurchase" value="固定资产采购" />
+    <text name="OAFixedAssetsUseApply" value="固定资产领用" />
+    <text name="OAFixedAssetsReturn" value="固定资产归还" />
+    <text name="OAFixedAssetsRepair" value="固定资产维修" />
+    <text name="OAFixedAssetsScrap" value="固定资产报废" />
+
+    <text name="OAProject" value="投标管理" />
+    <text name="OABidProject" value="项目信息" />
+    <text name="OABidFilePurchase" value="招标文件购买" />
+    <text name="OABidSelfAudit" value="资格自审" />
+    <text name="OABidProjectCheck" value="项目勘察" />
+    <text name="OATenderAudit" value="投标文件审查" />
+    <text name="OATenderEnemy" value="竞争对手情况" />
+    <text name="OATenderCash" value="保证金申请" />
+    <text name="OATenderBuess" value="投标费用" />
+
+    <text name="OAMoney" value="财务管理" />
+    <text name="OAPay" value="付款申请" />
+    <text name="OABorrow" value="借款申请" />
+    <text name="OAPettyCash" value="备用金申请" />
+    <text name="OAFee" value="报销申请" />
+    <text name="OAProgressFundDeclare" value="进度款申报" />
+
+    <text name="ProjectAuditFile" value="评审资料管理" />
+
+    <text name="OAContractManager" value="合同管理" />
+    <text name="OAContract" value="合同录入" />
+    <text name="OAContractCollectionFee" value="合同收款" />
+    <text name="OACompletionSettlement" value="完工结算" />
+
+    <text name="OAWork" value="考勤管理" />
+    <text name="OABuessOut" value="外出" />
+    <text name="OAWorkout" value="出差" />
+    <text name="OALeave" value="请假" />
+    <text name="OAWorkon" value="加班" />
+    <text name="DailyOffice_OATodo" value="OA事项待办" />
+    <text name="OACustomerManager" value="客户关系" />
+    <text name="OACustomer" value="客户档案" />
+
+    <text name="OADepartManager" value="行政管理" />
+    <text name="OAMeeting" value="会议管理" />
+    <text name="OAUseCar" value="用车管理" />
+
+    <text name="OATaskManager" value="任务管理" />
+    <text name="OATask" value="任务下发" />
+
+    <text name="NoticeCenter" value="消息中心" />
+    <text name="NoticeCenter_Notice" value="通知公告" />
+    <text name="NoticeCenter_New" value="公司新闻" />
+    <text name="NoticeCenter_Message" value="事务通知" />
+    <text name="Pages_NoticeCenter_Get" value="查看通知公告" />
+    <text name="Pages_NoticeCenter_Create" value="创建通知公告" />
+
+  </texts>
+</localizationDictionary>

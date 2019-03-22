@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.1" />
+    <PackageReference Include="Elasticsearch.Net" Version="6.5.0" />
+    <PackageReference Include="NEST" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\ZCYX.FRMSCore.Application\ZCYX.FRMSCore.Application.csproj" />
+  </ItemGroup>
+
+</Project>
