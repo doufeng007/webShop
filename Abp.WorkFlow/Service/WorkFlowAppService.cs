@@ -75,11 +75,6 @@ namespace Abp.WorkFlow
             _roleRelationRepository = roleRelationRepository;
             _userRoleRepository =userRoleRepository;
         }
-        public  string aa()
-        {
-
-            return "aa";
-        }
 
         public async Task<Guid> CreateWorkFlow(CreateWorkFlowInput input)
         {
