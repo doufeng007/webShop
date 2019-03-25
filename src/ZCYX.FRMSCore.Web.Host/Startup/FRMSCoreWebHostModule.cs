@@ -20,7 +20,8 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
         , typeof(AbpSignalRCoreModule)
         , typeof(HR.HRModule)
         , typeof(SearchAll.SearchAllModule)
-        , typeof(IMLib.IMLibModule))]
+        , typeof(IMLib.IMLibModule)
+        , typeof(B_H5.B_H5Module))]
     //[DependsOn(
     //   typeof(FRMSCoreWebCoreModule))]
     public class FRMSCoreWebHostModule : AbpModule
@@ -65,7 +66,7 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
           typeof(HR.HRModule).GetAssembly()
           );
 
-       
+
             Configuration.Modules.AbpAspNetCore()
                 .CreateControllersForAppServices(
                     typeof(EmailServer.EmailServerModule).GetAssembly()
@@ -77,7 +78,12 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
                     typeof(IMLibModule).GetAssembly()
                 );
 
-           
+            Configuration.Modules.AbpAspNetCore()
+              .CreateControllersForAppServices(
+                  typeof(B_H5.B_H5Module).GetAssembly()
+              );
+
+
         }
     }
 }
