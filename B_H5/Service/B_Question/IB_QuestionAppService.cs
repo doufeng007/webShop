@@ -23,7 +23,7 @@ namespace B_H5
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		Task<B_QuestionOutputDto> Get(NullableIdDto<Guid> input);
+		Task<B_QuestionOutputDto> Get(EntityDto<Guid> input);
 
 		/// <summary>
         /// 添加一个B_Question

@@ -10,17 +10,6 @@ namespace B_H5
 {
     public class GetB_QuestionListInput : PagedAndSortedInputDto, IShouldNormalize
     {
-        /// <summary>
-        /// UserId
-        /// </summary>
-        public long UserId { get; set; }
-
-        /// <summary>
-        /// Content
-        /// </summary>
-        public string Content { get; set; }
-
-
 
         public void Normalize()
         {
