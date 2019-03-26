@@ -25,71 +25,51 @@ namespace B_H5
         public long UserId { get; set; }
 
         /// <summary>
-        /// AgencyLevel
+        /// 名称
         /// </summary>
-        public Guid AgencyLevel { get; set; }
+        public string UserName { get; set; }
 
         /// <summary>
-        /// AgenCyCode
+        /// 代理级别
+        /// </summary>
+        public string AgencyLevelName { get; set; }
+
+        /// <summary>
+        /// 代理编码
         /// </summary>
         public string AgenCyCode { get; set; }
 
         /// <summary>
-        /// Provinces
+        /// 手机
+        /// </summary>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// 省份
         /// </summary>
         public string Provinces { get; set; }
 
         /// <summary>
-        /// County
-        /// </summary>
-        public string County { get; set; }
-
-        /// <summary>
-        /// City
+        /// 城市
         /// </summary>
         public string City { get; set; }
 
+
         /// <summary>
-        /// Address
+        /// 区县
+        /// </summary>
+        public string County { get; set; }
+
+
+        /// <summary>
+        /// 地址
         /// </summary>
         public string Address { get; set; }
 
         /// <summary>
-        /// Type
-        /// </summary>
-        public int Type { get; set; }
-
-        /// <summary>
-        /// SignData
+        /// 加入时间
         /// </summary>
         public DateTime SignData { get; set; }
 
-        /// <summary>
-        /// Agreement
-        /// </summary>
-        public string Agreement { get; set; }
-
-        /// <summary>
-        /// Status
-        /// </summary>
-        public int? Status { get; set; }
-
-        /// <summary>
-        /// CreationTime
-        /// </summary>
-        public DateTime CreationTime { get; set; }
-
-        /// <summary>
-        /// OpenId
-        /// </summary>
-        public string OpenId { get; set; }
-
-        /// <summary>
-        /// UnitId
-        /// </summary>
-        public string UnitId { get; set; }
-
-
-		
     }
 }

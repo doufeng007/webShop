@@ -38,7 +38,7 @@ namespace Abp.File
                         join b in _abpFileRelationRepository.GetAll() on a.Id equals b.FileId
                         where b.BusinessId == input.BusinessId && b.BusinessType == input.BusinessType
                         && !b.IsDeleted
-                        orderby b.CreationTime 
+                        orderby b.CreationTime
                         orderby a.FileName
                         select new { File = a, Sort = b.Sort };
             var ret = new List<GetAbpFilesOutput>();
@@ -81,6 +81,75 @@ namespace Abp.File
             }
             return ret;
         }
+
+
+        public async Task<List<GetMultiAbpFilesOutput>> GetMultiListAsync(GetMultiAbpFilesInput input)
+        {
+            var businessType = (int)input.BusinessType;
+            if (input.BusinessIds == null || input.BusinessIds.Count == 0)
+                throw new UserFriendlyException(0, "业务参数错误");
+            var query = from a in _abpFileRepository.GetAll()
+                        join b in _abpFileRelationRepository.GetAll() on a.Id equals b.FileId
+                        where input.BusinessIds.Contains(b.BusinessId) && b.BusinessType == businessType
+                        && !b.IsDeleted
+                        orderby b.CreationTime
+                        orderby a.FileName
+                        select new { File = a, Sort = b.Sort, BusinessId = b.BusinessId };
+            var ret = new List<GetMultiAbpFilesOutput>();
+            var data = await query.ToListAsync();
+            var dataGroup = data.GroupBy(r => r.BusinessId).ToList();
+            foreach (var item in dataGroup)
+            {
+                var entity = new GetMultiAbpFilesOutput()
+                {
+                    BusinessId = item.Key,
+                    Files = item.Select(r => new GetAbpFilesOutput()
+                    {
+                        FileName = r.File.FileName,
+                        FileSize = r.File.FileSize,
+                        Id = r.File.Id,
+                        Sort = r.Sort
+                    }).ToList(),
+                };
+                ret.Add(entity);
+            }
+            return ret;
+        }
+
+
+        public List<GetMultiAbpFilesOutput> GetMultiList(GetMultiAbpFilesInput input)
+        {
+            var businessType = (int)input.BusinessType;
+            if (input.BusinessIds == null || input.BusinessIds.Count == 0)
+                throw new UserFriendlyException(0, "业务参数错误");
+            var query = from a in _abpFileRepository.GetAll()
+                        join b in _abpFileRelationRepository.GetAll() on a.Id equals b.FileId
+                        where input.BusinessIds.Contains(b.BusinessId) && b.BusinessType == businessType
+                        && !b.IsDeleted
+                        orderby b.CreationTime
+                        orderby a.FileName
+                        select new { File = a, Sort = b.Sort, BusinessId = b.BusinessId };
+            var ret = new List<GetMultiAbpFilesOutput>();
+            var data = query.ToList();
+            var dataGroup = data.GroupBy(r => r.BusinessId).ToList();
+            foreach (var item in dataGroup)
+            {
+                var entity = new GetMultiAbpFilesOutput()
+                {
+                    BusinessId = item.Key,
+                    Files = item.Select(r => new GetAbpFilesOutput()
+                    {
+                        FileName = r.File.FileName,
+                        FileSize = r.File.FileSize,
+                        Id = r.File.Id,
+                        Sort = r.Sort
+                    }).ToList(),
+                };
+                ret.Add(entity);
+            }
+            return ret;
+        }
+
 
         public async Task<GetAbpFilesOutput> GetAsync(GetAbpFilesInput input)
         {

@@ -1,0 +1,2013 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>B_H5</name>
+    </assembly>
+    <members>
+        <member name="F:B_H5.B_H5Consts.LocalizationSourceName">
+            <summary>
+            本地化文件位置
+            </summary>
+        </member>
+        <member name="T:B_H5.B_Agency">
+            <summary>
+            代理
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.AgenCyCode">
+            <summary>
+            AgenCyCode
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.SignData">
+            <summary>
+            SignData
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.Agreement">
+            <summary>
+            Agreement
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Agency.UnitId">
+            <summary>
+            UnitId
+            </summary>
+        </member>
+        <member name="T:B_H5.B_InviteUrl">
+            <summary>
+            推广链接
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrl.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrl.ValidityDataType">
+            <summary>
+            ValidityDataType
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrl.AvailableCount">
+            <summary>
+            AvailableCount
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrl.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="T:B_H5.B_Message">
+            <summary>
+            代理消息
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Message.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Message.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Message.BusinessType">
+            <summary>
+            BusinessType
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Message.BusinessId">
+            <summary>
+            BusinessId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Message.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Message.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="T:B_H5.B_MyAddress">
+            <summary>
+            我的地址
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.Addres">
+            <summary>
+            Addres
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.Consignee">
+            <summary>
+            Consignee
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.Tel">
+            <summary>
+            Tel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddress.IsDefault">
+            <summary>
+            IsDefault
+            </summary>
+        </member>
+        <member name="T:B_H5.B_Notice">
+            <summary>
+            公告
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Notice.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Notice.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Notice.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="T:B_H5.B_Question">
+            <summary>
+            用户反馈
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Question.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_Question.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="T:B_H5.B_StoreSignUp">
+            <summary>
+            实体店报名
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.BankNumber">
+            <summary>
+            BankNumber
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.BankUserName">
+            <summary>
+            BankUserName
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.BankName">
+            <summary>
+            BankName
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.OpenDate">
+            <summary>
+            OpenDate
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.StorArea">
+            <summary>
+            StorArea
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUp.Goods">
+            <summary>
+            Goods
+            </summary>
+        </member>
+        <member name="T:B_H5.B_TrialProduct">
+            <summary>
+            试用装
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProduct.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProduct.IsActive">
+            <summary>
+            IsActive
+            </summary>
+        </member>
+        <member name="M:B_H5.B_AgencyAppService.GetList(B_H5.GetB_AgencyListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_AgencyAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_AgencyAppService.Create(B_H5.CreateB_AgencyInput)">
+            <summary>
+            添加一个B_Agency
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_AgencyAppService.Update(B_H5.UpdateB_AgencyInput)">
+            <summary>
+            修改一个B_Agency
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_AgencyAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.AgenCyCode">
+            <summary>
+            AgenCyCode
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.SignData">
+            <summary>
+            SignData
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.Agreement">
+            <summary>
+            Agreement
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyListOutputDto.UnitId">
+            <summary>
+            UnitId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.AgenCyCode">
+            <summary>
+            AgenCyCode
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.SignData">
+            <summary>
+            SignData
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.Agreement">
+            <summary>
+            Agreement
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_AgencyOutputDto.UnitId">
+            <summary>
+            UnitId
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.AgenCyCode">
+            <summary>
+            AgenCyCode
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.SignData">
+            <summary>
+            SignData
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.Agreement">
+            <summary>
+            Agreement
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_AgencyInput.UnitId">
+            <summary>
+            UnitId
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.AgenCyCode">
+            <summary>
+            AgenCyCode
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.SignData">
+            <summary>
+            SignData
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.Agreement">
+            <summary>
+            Agreement
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_AgencyListInput.UnitId">
+            <summary>
+            UnitId
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_AgencyAppService.GetList(B_H5.GetB_AgencyListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_AgencyAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_AgencyAppService.Create(B_H5.CreateB_AgencyInput)">
+            <summary>
+            添加一个B_Agency
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_AgencyAppService.Update(B_H5.UpdateB_AgencyInput)">
+            <summary>
+            修改一个B_Agency
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_AgencyAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_InviteUrlAppService.GetList(B_H5.GetB_InviteUrlListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_InviteUrlAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_InviteUrlAppService.Create(B_H5.CreateB_InviteUrlInput)">
+            <summary>
+            添加一个B_InviteUrl
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_InviteUrlAppService.Update(B_H5.UpdateB_InviteUrlInput)">
+            <summary>
+            修改一个B_InviteUrl
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_InviteUrlAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_InviteUrlListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlListOutputDto.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlListOutputDto.ValidityDataType">
+            <summary>
+            ValidityDataType
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlListOutputDto.AvailableCount">
+            <summary>
+            AvailableCount
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlListOutputDto.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlOutputDto.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlOutputDto.ValidityDataType">
+            <summary>
+            ValidityDataType
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlOutputDto.AvailableCount">
+            <summary>
+            AvailableCount
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlOutputDto.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:B_H5.B_InviteUrlOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_InviteUrlInput.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_InviteUrlInput.ValidityDataType">
+            <summary>
+            ValidityDataType
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_InviteUrlInput.AvailableCount">
+            <summary>
+            AvailableCount
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_InviteUrlInput.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_InviteUrlListInput.AgencyLevel">
+            <summary>
+            AgencyLevel
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_InviteUrlListInput.ValidityDataType">
+            <summary>
+            ValidityDataType
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_InviteUrlListInput.AvailableCount">
+            <summary>
+            AvailableCount
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_InviteUrlListInput.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_InviteUrlAppService.GetList(B_H5.GetB_InviteUrlListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_InviteUrlAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_InviteUrlAppService.Create(B_H5.CreateB_InviteUrlInput)">
+            <summary>
+            添加一个B_InviteUrl
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_InviteUrlAppService.Update(B_H5.UpdateB_InviteUrlInput)">
+            <summary>
+            修改一个B_InviteUrl
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_InviteUrlAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="T:B_H5.B_MessageAppService">
+            <summary>
+            代理消息
+            </summary>
+        </member>
+        <member name="M:B_H5.B_MessageAppService.GetList(B_H5.GetB_MessageListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MessageAppService.Get(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MessageAppService.Create(B_H5.CreateB_MessageInput)">
+            <summary>
+            添加一个B_Message
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MessageAppService.Update(B_H5.UpdateB_MessageInput)">
+            <summary>
+            修改一个B_Message
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MessageAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.BusinessType">
+            <summary>
+            BusinessType
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.BusinessId">
+            <summary>
+            BusinessId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.BusinessType">
+            <summary>
+            BusinessType
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.BusinessId">
+            <summary>
+            BusinessId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MessageOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MessageInput.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MessageInput.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MessageInput.BusinessType">
+            <summary>
+            BusinessType
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MessageInput.BusinessId">
+            <summary>
+            BusinessId
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MessageInput.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MessageInput.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MessageListInput.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MessageListInput.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MessageListInput.BusinessType">
+            <summary>
+            BusinessType
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MessageListInput.BusinessId">
+            <summary>
+            BusinessId
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MessageListInput.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MessageListInput.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="T:B_H5.IB_MessageAppService">
+            <summary>
+            代理消息接口
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_MessageAppService.GetList(B_H5.GetB_MessageListInput)">
+            <summary>
+            获取列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MessageAppService.Get(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MessageAppService.Create(B_H5.CreateB_MessageInput)">
+            <summary>
+            添加一个B_Message
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MessageAppService.Update(B_H5.UpdateB_MessageInput)">
+            <summary>
+            修改一个B_Message
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MessageAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MyAddressAppService.GetList(B_H5.GetB_MyAddressListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MyAddressAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MyAddressAppService.Create(B_H5.CreateB_MyAddressInput)">
+            <summary>
+            添加一个B_MyAddress
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MyAddressAppService.Update(B_H5.UpdateB_MyAddressInput)">
+            <summary>
+            修改一个B_MyAddress
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_MyAddressAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.Addres">
+            <summary>
+            Addres
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.Consignee">
+            <summary>
+            Consignee
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.Tel">
+            <summary>
+            Tel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.IsDefault">
+            <summary>
+            IsDefault
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.Addres">
+            <summary>
+            Addres
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.Consignee">
+            <summary>
+            Consignee
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.Tel">
+            <summary>
+            Tel
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.IsDefault">
+            <summary>
+            IsDefault
+            </summary>
+        </member>
+        <member name="P:B_H5.B_MyAddressOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.Addres">
+            <summary>
+            Addres
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.Consignee">
+            <summary>
+            Consignee
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.Tel">
+            <summary>
+            Tel
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_MyAddressInput.IsDefault">
+            <summary>
+            IsDefault
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.Addres">
+            <summary>
+            Addres
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.Consignee">
+            <summary>
+            Consignee
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.Tel">
+            <summary>
+            Tel
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_MyAddressListInput.IsDefault">
+            <summary>
+            IsDefault
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_MyAddressAppService.GetList(B_H5.GetB_MyAddressListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MyAddressAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MyAddressAppService.Create(B_H5.CreateB_MyAddressInput)">
+            <summary>
+            添加一个B_MyAddress
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MyAddressAppService.Update(B_H5.UpdateB_MyAddressInput)">
+            <summary>
+            修改一个B_MyAddress
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_MyAddressAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="T:B_H5.B_NoticeAppService">
+            <summary>
+            公司消息
+            </summary>
+        </member>
+        <member name="M:B_H5.B_NoticeAppService.GetList(B_H5.GetB_NoticeListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_NoticeAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_NoticeAppService.Create(B_H5.CreateB_NoticeInput)">
+            <summary>
+            添加一个B_Notice
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_NoticeAppService.Update(B_H5.UpdateB_NoticeInput)">
+            <summary>
+            修改一个B_Notice
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_NoticeAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_NoticeListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeListOutputDto.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeListOutputDto.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeOutputDto.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeOutputDto.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeOutputDto.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.B_NoticeOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_NoticeInput.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_NoticeInput.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_NoticeInput.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_NoticeListInput.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_NoticeListInput.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_NoticeListInput.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="T:B_H5.IB_NoticeAppService">
+            <summary>
+            公司消息接口
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_NoticeAppService.GetList(B_H5.GetB_NoticeListInput)">
+            <summary>
+            列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_NoticeAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_NoticeAppService.Create(B_H5.CreateB_NoticeInput)">
+            <summary>
+            添加一个B_Notice
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_NoticeAppService.Update(B_H5.UpdateB_NoticeInput)">
+            <summary>
+            修改一个B_Notice
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_NoticeAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_QuestionAppService.GetList(B_H5.GetB_QuestionListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_QuestionAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_QuestionAppService.Create(B_H5.CreateB_QuestionInput)">
+            <summary>
+            添加一个B_Question
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_QuestionAppService.Update(B_H5.UpdateB_QuestionInput)">
+            <summary>
+            修改一个B_Question
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_QuestionAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_QuestionListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_QuestionListOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_QuestionListOutputDto.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.B_QuestionListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_QuestionOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_QuestionOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_QuestionOutputDto.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.B_QuestionOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_QuestionInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_QuestionInput.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_QuestionListInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_QuestionListInput.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_QuestionAppService.GetList(B_H5.GetB_QuestionListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_QuestionAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_QuestionAppService.Create(B_H5.CreateB_QuestionInput)">
+            <summary>
+            添加一个B_Question
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_QuestionAppService.Update(B_H5.UpdateB_QuestionInput)">
+            <summary>
+            修改一个B_Question
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_QuestionAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_StoreSignUpAppService.GetList(B_H5.GetB_StoreSignUpListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_StoreSignUpAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_StoreSignUpAppService.Create(B_H5.CreateB_StoreSignUpInput)">
+            <summary>
+            添加一个B_StoreSignUp
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_StoreSignUpAppService.Update(B_H5.UpdateB_StoreSignUpInput)">
+            <summary>
+            修改一个B_StoreSignUp
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_StoreSignUpAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.BankNumber">
+            <summary>
+            BankNumber
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.BankUserName">
+            <summary>
+            BankUserName
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.BankName">
+            <summary>
+            BankName
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.OpenDate">
+            <summary>
+            OpenDate
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.StorArea">
+            <summary>
+            StorArea
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.Goods">
+            <summary>
+            Goods
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.BankNumber">
+            <summary>
+            BankNumber
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.BankUserName">
+            <summary>
+            BankUserName
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.BankName">
+            <summary>
+            BankName
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.OpenDate">
+            <summary>
+            OpenDate
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.StorArea">
+            <summary>
+            StorArea
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.Goods">
+            <summary>
+            Goods
+            </summary>
+        </member>
+        <member name="P:B_H5.B_StoreSignUpOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.BankNumber">
+            <summary>
+            BankNumber
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.BankUserName">
+            <summary>
+            BankUserName
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.BankName">
+            <summary>
+            BankName
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.OpenDate">
+            <summary>
+            OpenDate
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.StorArea">
+            <summary>
+            StorArea
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_StoreSignUpInput.Goods">
+            <summary>
+            Goods
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.UserId">
+            <summary>
+            UserId
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.Provinces">
+            <summary>
+            Provinces
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.County">
+            <summary>
+            County
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.City">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.Address">
+            <summary>
+            Address
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.BankNumber">
+            <summary>
+            BankNumber
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.BankUserName">
+            <summary>
+            BankUserName
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.BankName">
+            <summary>
+            BankName
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.OpenDate">
+            <summary>
+            OpenDate
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.StorArea">
+            <summary>
+            StorArea
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_StoreSignUpListInput.Goods">
+            <summary>
+            Goods
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_StoreSignUpAppService.GetList(B_H5.GetB_StoreSignUpListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_StoreSignUpAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_StoreSignUpAppService.Create(B_H5.CreateB_StoreSignUpInput)">
+            <summary>
+            添加一个B_StoreSignUp
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_StoreSignUpAppService.Update(B_H5.UpdateB_StoreSignUpInput)">
+            <summary>
+            修改一个B_StoreSignUp
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_StoreSignUpAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_TrialProductAppService.GetList(B_H5.GetB_TrialProductListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_TrialProductAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_TrialProductAppService.Create(B_H5.CreateB_TrialProductInput)">
+            <summary>
+            添加一个B_TrialProduct
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_TrialProductAppService.Update(B_H5.UpdateB_TrialProductInput)">
+            <summary>
+            修改一个B_TrialProduct
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.B_TrialProductAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="P:B_H5.B_TrialProductListOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProductListOutputDto.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProductListOutputDto.IsActive">
+            <summary>
+            IsActive
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProductListOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProductOutputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProductOutputDto.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProductOutputDto.IsActive">
+            <summary>
+            IsActive
+            </summary>
+        </member>
+        <member name="P:B_H5.B_TrialProductOutputDto.CreationTime">
+            <summary>
+            CreationTime
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_TrialProductInput.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.CreateB_TrialProductInput.IsActive">
+            <summary>
+            IsActive
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_TrialProductListInput.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:B_H5.GetB_TrialProductListInput.IsActive">
+            <summary>
+            IsActive
+            </summary>
+        </member>
+        <member name="M:B_H5.IB_TrialProductAppService.GetList(B_H5.GetB_TrialProductListInput)">
+            <summary>
+            根据条件分页获取列表
+            </summary>
+            <param name="page">查询实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_TrialProductAppService.Get(Abp.Application.Services.Dto.NullableIdDto{System.Guid})">
+            <summary>
+            根据主键获取实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_TrialProductAppService.Create(B_H5.CreateB_TrialProductInput)">
+            <summary>
+            添加一个B_TrialProduct
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_TrialProductAppService.Update(B_H5.UpdateB_TrialProductInput)">
+            <summary>
+            修改一个B_TrialProduct
+            </summary>
+            <param name="input">实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:B_H5.IB_TrialProductAppService.Delete(Abp.Application.Services.Dto.EntityDto{System.Guid})">
+            <summary>
+            逻辑删除实体
+            </summary>
+            <param name="input">主键</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -56,7 +56,7 @@ namespace B_H5
         /// Type
         /// </summary>
         [Range(0, int.MaxValue,ErrorMessage="")]
-        public int Type { get; set; }
+        public B_AgencyTypeEnum Type { get; set; }
 
         /// <summary>
         /// SignData
@@ -72,19 +72,6 @@ namespace B_H5
         /// Status
         /// </summary>
         public int? Status { get; set; }
-
-        /// <summary>
-        /// OpenId
-        /// </summary>
-        [MaxLength(200,ErrorMessage = "OpenId长度必须小于200")]
-        public string OpenId { get; set; }
-
-        /// <summary>
-        /// UnitId
-        /// </summary>
-        [MaxLength(200,ErrorMessage = "UnitId长度必须小于200")]
-        public string UnitId { get; set; }
-
 
 		
         #endregion

@@ -23,10 +23,6 @@ namespace B_H5
         /// </summary>
         public string Title { get; set; }
 
-        /// <summary>
-        /// Content
-        /// </summary>
-        public string Content { get; set; }
 
         /// <summary>
         /// Status

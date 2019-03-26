@@ -23,7 +23,7 @@ namespace B_H5
         /// <summary>
         /// BusinessType
         /// </summary>
-        public int BusinessType { get; set; }
+        public B_H5MesagessType BusinessType { get; set; }
 
         /// <summary>
         /// BusinessId

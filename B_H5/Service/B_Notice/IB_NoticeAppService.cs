@@ -9,12 +9,15 @@ using Abp.WorkFlow;
 
 namespace B_H5
 {
+    /// <summary>
+    /// 公司消息接口
+    /// </summary>
     public interface IB_NoticeAppService : IApplicationService
     {	
 	    /// <summary>
-        /// 根据条件分页获取列表
+        /// 列表
         /// </summary>
-        /// <param name="page">查询实体</param>
+        /// <param name="input"></param>
         /// <returns></returns>
 		Task<PagedResultDto<B_NoticeListOutputDto>> GetList(GetB_NoticeListInput input);
 

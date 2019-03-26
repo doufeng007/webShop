@@ -9,12 +9,15 @@ using Abp.WorkFlow;
 
 namespace B_H5
 {
+    /// <summary>
+    /// 代理消息接口
+    /// </summary>
     public interface IB_MessageAppService : IApplicationService
     {	
 	    /// <summary>
-        /// 根据条件分页获取列表
+        /// 获取列表
         /// </summary>
-        /// <param name="page">查询实体</param>
+        /// <param name="input"></param>
         /// <returns></returns>
 		Task<PagedResultDto<B_MessageListOutputDto>> GetList(GetB_MessageListInput input);
 
@@ -23,7 +26,7 @@ namespace B_H5
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		Task<B_MessageOutputDto> Get(NullableIdDto<Guid> input);
+		Task<B_MessageOutputDto> Get(EntityDto<Guid> input);
 
 		/// <summary>
         /// 添加一个B_Message

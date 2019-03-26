@@ -8,73 +8,33 @@ using ZCYX.FRMSCore.Application.Dto;
 
 namespace B_H5
 {
+    /// <summary>
+    /// 代理列表参数
+    /// </summary>
     public class GetB_AgencyListInput : PagedAndSortedInputDto, IShouldNormalize
     {
         /// <summary>
-        /// UserId
+        /// 获取该用户的代理数据 为空则获取所有
         /// </summary>
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
 
         /// <summary>
-        /// AgencyLevel
+        /// 代理级别-数据字典对应id 为空则全部
         /// </summary>
-        public Guid AgencyLevel { get; set; }
+        public Guid? AgencyLevel { get; set; }
+
+
 
         /// <summary>
-        /// AgenCyCode
+        /// 代理类别
         /// </summary>
-        public string AgenCyCode { get; set; }
+        public B_AgencyTypeEnum Type { get; set; }
 
-        /// <summary>
-        /// Provinces
-        /// </summary>
-        public string Provinces { get; set; }
-
-        /// <summary>
-        /// County
-        /// </summary>
-        public string County { get; set; }
-
-        /// <summary>
-        /// City
-        /// </summary>
-        public string City { get; set; }
-
-        /// <summary>
-        /// Address
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        /// Type
-        /// </summary>
-        public int Type { get; set; }
-
-        /// <summary>
-        /// SignData
-        /// </summary>
-        public DateTime SignData { get; set; }
-
-        /// <summary>
-        /// Agreement
-        /// </summary>
-        public string Agreement { get; set; }
 
         /// <summary>
         /// Status
         /// </summary>
         public int? Status { get; set; }
-
-        /// <summary>
-        /// OpenId
-        /// </summary>
-        public string OpenId { get; set; }
-
-        /// <summary>
-        /// UnitId
-        /// </summary>
-        public string UnitId { get; set; }
-
 
 
         public void Normalize()

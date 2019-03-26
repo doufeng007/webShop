@@ -31,4 +31,12 @@ namespace Abp.File
 
         public int Sort { get; set; }
     }
+
+    public class GetMultiAbpFilesInput
+    {
+        [Required(ErrorMessage = "文件的BusinessId列表不能为空。")]
+        public List<string> BusinessIds { get; set; }
+
+        public AbpFileBusinessType BusinessType { get; set; }
+    }
 }

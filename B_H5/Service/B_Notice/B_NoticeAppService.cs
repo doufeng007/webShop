@@ -23,6 +23,9 @@ using ZCYX.FRMSCore.Model;
 
 namespace B_H5
 {
+    /// <summary>
+    /// 公司消息
+    /// </summary>
     public class B_NoticeAppService : FRMSCoreAppServiceBase, IB_NoticeAppService
     { 
         private readonly IRepository<B_Notice, Guid> _repository;
@@ -48,7 +51,6 @@ namespace B_H5
                         {
                             Id = a.Id,
                             Title = a.Title,
-                            Content = a.Content,
                             Status = a.Status,
                             CreationTime = a.CreationTime
 							

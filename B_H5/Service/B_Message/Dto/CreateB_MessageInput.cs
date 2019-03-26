@@ -29,7 +29,7 @@ namespace B_H5
         /// BusinessType
         /// </summary>
         [Range(0, int.MaxValue,ErrorMessage="")]
-        public int BusinessType { get; set; }
+        public B_H5MesagessType BusinessType { get; set; }
 
         /// <summary>
         /// BusinessId

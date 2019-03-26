@@ -22,6 +22,12 @@ namespace Abp.File
         List<GetAbpFilesOutput> GetList(GetAbpFilesInput input);
 
 
+        Task<List<GetMultiAbpFilesOutput>> GetMultiListAsync(GetMultiAbpFilesInput input);
+
+
+        List<GetMultiAbpFilesOutput> GetMultiList(GetMultiAbpFilesInput input);
+
+
         Task<GetAbpFilesOutput> GetAsync(GetAbpFilesInput input);
 
         GetAbpFilesOutput Get(GetAbpFilesInput input);

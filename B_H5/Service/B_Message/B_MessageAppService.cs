@@ -23,6 +23,9 @@ using ZCYX.FRMSCore.Model;
 
 namespace B_H5
 {
+    /// <summary>
+    /// 代理消息
+    /// </summary>
     public class B_MessageAppService : FRMSCoreAppServiceBase, IB_MessageAppService
     { 
         private readonly IRepository<B_Message, Guid> _repository;
@@ -68,10 +71,10 @@ namespace B_H5
         /// <param name="input">主键</param>
         /// <returns></returns>
 		
-		public async Task<B_MessageOutputDto> Get(NullableIdDto<Guid> input)
+		public async Task<B_MessageOutputDto> Get(EntityDto<Guid> input)
 		{
 			
-		    var model = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id.Value);
+		    var model = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
             if (model == null)
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");

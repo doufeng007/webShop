@@ -74,7 +74,7 @@ namespace B_H5
         /// Type
         /// </summary>
         [DisplayName(@"Type")]
-        public int Type { get; set; }
+        public B_AgencyTypeEnum Type { get; set; }
 
         /// <summary>
         /// SignData

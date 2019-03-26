@@ -7,9 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.WorkFlow;
+using Abp.File;
 
 namespace B_H5
 {
+    /// <summary>
+    /// 代理列表
+    /// </summary>
     [AutoMapFrom(typeof(B_Agency))]
     public class B_AgencyListOutputDto 
     {
@@ -24,70 +28,33 @@ namespace B_H5
         public long UserId { get; set; }
 
         /// <summary>
-        /// AgencyLevel
+        /// 姓名
         /// </summary>
-        public Guid AgencyLevel { get; set; }
+        public string UserName { get; set; }
+
 
         /// <summary>
-        /// AgenCyCode
+        /// 代理级别
+        /// </summary>
+        public string AgencyLevelName { get; set; }
+
+
+        /// <summary>
+        /// 代理编号
         /// </summary>
         public string AgenCyCode { get; set; }
 
-        /// <summary>
-        /// Provinces
-        /// </summary>
-        public string Provinces { get; set; }
-
-        /// <summary>
-        /// County
-        /// </summary>
-        public string County { get; set; }
-
-        /// <summary>
-        /// City
-        /// </summary>
-        public string City { get; set; }
-
-        /// <summary>
-        /// Address
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        /// Type
-        /// </summary>
-        public int Type { get; set; }
-
-        /// <summary>
-        /// SignData
-        /// </summary>
-        public DateTime SignData { get; set; }
-
-        /// <summary>
-        /// Agreement
-        /// </summary>
-        public string Agreement { get; set; }
-
-        /// <summary>
-        /// Status
-        /// </summary>
-        public int? Status { get; set; }
 
         /// <summary>
         /// CreationTime
         /// </summary>
         public DateTime CreationTime { get; set; }
 
-        /// <summary>
-        /// OpenId
-        /// </summary>
-        public string OpenId { get; set; }
 
         /// <summary>
-        /// UnitId
+        /// 头像
         /// </summary>
-        public string UnitId { get; set; }
-
+        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
 
     }
 }

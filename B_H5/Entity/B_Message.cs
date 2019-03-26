@@ -42,7 +42,7 @@ namespace B_H5
         /// BusinessType
         /// </summary>
         [DisplayName(@"BusinessType")]
-        public int BusinessType { get; set; }
+        public B_H5MesagessType BusinessType { get; set; }
 
         /// <summary>
         /// BusinessId
