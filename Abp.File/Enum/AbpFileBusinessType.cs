@@ -6,13 +6,14 @@ namespace Abp.File
 {
     public enum TurnType
     {
-        源文件=0,
-        转PDF=1
+        源文件 = 0,
+        转PDF = 1
     }
     public enum AbpFileBusinessType
     {
-        代理头像= 1,
-        
+        代理头像 = 1,
+        试用装缩略图 = 2,
+
 
 
 

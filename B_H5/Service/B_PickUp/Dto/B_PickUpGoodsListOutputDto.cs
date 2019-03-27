@@ -11,30 +11,18 @@ using Abp.File;
 
 namespace B_H5
 {
-    [AutoMapFrom(typeof(B_TrialProduct))]
-    public class B_TrialProductListOutputDto 
+    public class B_PickUpGoodsListOutputDto
     {
         /// <summary>
         /// Id
         /// </summary>
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// Title
-        /// </summary>
-        public string Title { get; set; }
-
 
         /// <summary>
-        /// CreationTime
+        /// 商品名称
         /// </summary>
-        public DateTime CreationTime { get; set; }
-
-        /// <summary>
-        /// 图片
-        /// </summary>
-        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
-
+        public string GoodsName { get; set; }
 
     }
 }

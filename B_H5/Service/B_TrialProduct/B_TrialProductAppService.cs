@@ -23,20 +23,26 @@ using ZCYX.FRMSCore.Model;
 
 namespace B_H5
 {
+    /// <summary>
+    /// 试用装
+    /// </summary>
     public class B_TrialProductAppService : FRMSCoreAppServiceBase, IB_TrialProductAppService
     { 
         private readonly IRepository<B_TrialProduct, Guid> _repository;
-		
-        public B_TrialProductAppService(IRepository<B_TrialProduct, Guid> repository
-		
-		)
+        private readonly IAbpFileRelationAppService _abpFileRelationAppService;
+
+        public B_TrialProductAppService(IRepository<B_TrialProduct, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
+
+        )
         {
             this._repository = repository;
-			
+            _abpFileRelationAppService = abpFileRelationAppService;
+
+
         }
 		
 	    /// <summary>
-        /// 根据条件分页获取列表
+        /// 获取试用装列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
@@ -48,13 +54,21 @@ namespace B_H5
                         {
                             Id = a.Id,
                             Title = a.Title,
-                            IsActive = a.IsActive,
                             CreationTime = a.CreationTime
-							
                         };
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
-			
+
+            var businessIds = ret.Select(r => r.Id.ToString()).ToList();
+            var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
+            {
+                BusinessIds = businessIds,
+                BusinessType = AbpFileBusinessType.试用装缩略图
+            });
+            foreach (var item in ret)
+                if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
+                    item.File = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString()).Files.FirstOrDefault();
+
             return new PagedResultDto<B_TrialProductListOutputDto>(toalCount, ret);
         }
 

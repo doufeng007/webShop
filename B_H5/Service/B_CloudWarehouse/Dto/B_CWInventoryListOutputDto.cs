@@ -11,8 +11,7 @@ using Abp.File;
 
 namespace B_H5
 {
-    [AutoMapFrom(typeof(B_TrialProduct))]
-    public class B_TrialProductListOutputDto 
+    public class B_CWInventoryListOutputDto
     {
         /// <summary>
         /// Id
@@ -24,6 +23,15 @@ namespace B_H5
         /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// 可提前数量
+        /// </summary>
+        public int CanExtractCount { get; set; }
+
+        /// <summary>
+        /// 取货数量
+        /// </summary>
+        public int TakeLessCount { get; set; }
 
         /// <summary>
         /// CreationTime

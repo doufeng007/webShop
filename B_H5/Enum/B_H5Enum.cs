@@ -25,6 +25,22 @@ namespace B_H5
         分销商 = 2,
     }
 
+    public enum B_CWInOrOutEnum
+    {
+        出仓 = 1,
+        入仓 = 2
+    }
 
+
+    /// <summary>
+    /// 进货订单状态
+    /// </summary>
+    public enum InOrderStatusEnum
+    {
+        待充值 = 1,
+        待审核 = 2,
+        上级缺货 = 3,
+        已完成 = 4
+    }
 
 }
