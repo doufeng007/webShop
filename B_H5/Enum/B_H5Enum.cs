@@ -16,6 +16,15 @@ namespace B_H5
     }
 
 
+    public enum GoodsType
+    {
+        试用 = 1,
+        云仓下单 = 2,
+        非云仓下单 = 3,
+        直购 = 4,
+
+    }
+
     /// <summary>
     /// 代理类别
     /// </summary>

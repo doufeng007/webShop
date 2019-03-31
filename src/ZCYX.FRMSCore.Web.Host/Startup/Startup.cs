@@ -191,7 +191,7 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
                 //options.InjectOnCompleteJavaScript("/swagger/ui/on-complete.js");
               //  options.InjectOnCompleteJavaScript("/src/SwaggerLogin.js");
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "FRMSCore API V1");
-                options.DocExpansion(DocExpansion.None);
+                options.DocExpansion(DocExpansion.List);
 
                 options.IndexStream = () => Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("ZCYX.FRMSCore.Web.Host.wwwroot.swagger.ui.index.html");

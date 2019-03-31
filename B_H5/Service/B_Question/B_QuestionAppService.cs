@@ -65,7 +65,7 @@ namespace B_H5
         public async Task<B_QuestionOutputDto> Get(EntityDto<Guid> input)
         {
 
-            var model = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id.Value);
+            var model = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
             if (model == null)
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");

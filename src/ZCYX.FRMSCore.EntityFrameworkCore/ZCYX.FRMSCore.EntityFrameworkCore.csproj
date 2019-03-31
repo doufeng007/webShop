@@ -6,6 +6,7 @@
   <ProjectReference Include="..\..\Abp.Excel\Abp.Excel.csproj" />
   <ProjectReference Include="..\..\Abp.File\Abp.File.csproj" />
   <ProjectReference Include="..\..\Abp.WorkFlow\Abp.WorkFlow.csproj" />
+  <ProjectReference Include="..\..\B_H5\B_H5.csproj" />
   <ProjectReference Include="..\..\EmailServer\EmailServer.csproj" />
   <ProjectReference Include="..\..\HR\HR.csproj" />
   <ProjectReference Include="..\..\IMLib\IMLib.csproj" />

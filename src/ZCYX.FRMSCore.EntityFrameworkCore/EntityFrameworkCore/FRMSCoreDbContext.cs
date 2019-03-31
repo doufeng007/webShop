@@ -13,6 +13,7 @@ using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Entity;
 using IMLib;
 using EmailServer;
+using B_H5;
 
 namespace ZCYX.FRMSCore.EntityFrameworkCore
 {
@@ -239,6 +240,25 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
 
         public virtual DbSet<EmailLog> EmailLog { get; set; }
+
+        #region  B_H5
+
+        public virtual DbSet<B_Agency> B_Agency { get; set; }
+        public virtual DbSet<B_InviteUrl> B_InviteUrl { get; set; }
+
+        public virtual DbSet<B_Message> B_Message { get; set; }
+        public virtual DbSet<B_MyAddress> B_MyAddress { get; set; }
+        public virtual DbSet<B_Notice> B_Notice { get; set; }
+        public virtual DbSet<B_Question> B_Question { get; set; }
+        public virtual DbSet<B_StoreSignUp> B_StoreSignUp { get; set; }
+        public virtual DbSet<B_TrialProduct> B_TrialProduct { get; set; }
+
+        
+
+
+        #endregion
+
+
         public FRMSCoreDbContext(DbContextOptions<FRMSCoreDbContext> options)
             : base(options)
         {
