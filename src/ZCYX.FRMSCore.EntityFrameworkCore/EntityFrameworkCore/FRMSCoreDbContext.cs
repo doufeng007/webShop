@@ -253,7 +253,26 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
         public virtual DbSet<B_StoreSignUp> B_StoreSignUp { get; set; }
         public virtual DbSet<B_TrialProduct> B_TrialProduct { get; set; }
 
+        public virtual DbSet<B_Categroy> B_Categroy { get; set; }
+
+        public virtual DbSet<B_Goods> B_Goods { get; set; }
+
+
+        public virtual DbSet<B_OrderDetail> B_OrderDetail { get; set; }
+
+
+        public virtual DbSet<B_OrderIn> B_OrderIn { get; set; }
+
+
+        public virtual DbSet<B_CWUserInventory> B_CWUserInventory { get; set; }
+
+
+        public virtual DbSet<B_Order> B_Order { get; set; }
+
         
+
+
+
 
 
         #endregion

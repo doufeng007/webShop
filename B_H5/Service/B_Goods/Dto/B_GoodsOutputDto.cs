@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Abp.WorkFlow;
 using Abp.File;
+using Abp.WorkFlow;
 
 namespace B_H5
 {
-    public class B_CWInventoryListOutputDto
+    [AutoMapFrom(typeof(B_Goods))]
+    public class B_GoodsOutputDto 
     {
         /// <summary>
         /// Id
@@ -19,30 +20,36 @@ namespace B_H5
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Title
+        /// Name
         /// </summary>
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// 可提前数量
+        /// CategroyId
         /// </summary>
-        public int CanExtractCount { get; set; }
+        public Guid? CategroyId { get; set; }
 
         /// <summary>
-        /// 缺货数量
+        /// Price
         /// </summary>
-        public int TakeLessCount { get; set; }
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// Pirce1
+        /// </summary>
+        public decimal Pirce1 { get; set; }
+
+        /// <summary>
+        /// Price2
+        /// </summary>
+        public decimal Price2 { get; set; }
 
         /// <summary>
         /// CreationTime
         /// </summary>
         public DateTime CreationTime { get; set; }
 
-        /// <summary>
-        /// 图片
-        /// </summary>
-        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
 
-
+		
     }
 }

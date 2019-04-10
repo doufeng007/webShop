@@ -23,53 +23,43 @@ using ZCYX.FRMSCore.Model;
 
 namespace B_H5
 {
-    /// <summary>
-    /// 试用装
-    /// </summary>
-    public class B_TrialProductAppService : FRMSCoreAppServiceBase, IB_TrialProductAppService
+    public class B_OrderDetailAppService : FRMSCoreAppServiceBase, IB_OrderDetailAppService
     { 
-        private readonly IRepository<B_TrialProduct, Guid> _repository;
-        private readonly IAbpFileRelationAppService _abpFileRelationAppService;
-
-        public B_TrialProductAppService(IRepository<B_TrialProduct, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
-
-        )
+        private readonly IRepository<B_OrderDetail, Guid> _repository;
+		
+        public B_OrderDetailAppService(IRepository<B_OrderDetail, Guid> repository
+		
+		)
         {
             this._repository = repository;
-            _abpFileRelationAppService = abpFileRelationAppService;
-
-
+			
         }
 		
 	    /// <summary>
-        /// 获取试用装列表
+        /// 根据条件分页获取列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
-		public async Task<PagedResultDto<B_TrialProductListOutputDto>> GetList(GetB_TrialProductListInput input)
+		public async Task<PagedResultDto<B_OrderDetailListOutputDto>> GetList(GetB_OrderDetailListInput input)
         {
 			var query = from a in _repository.GetAll().Where(x=>!x.IsDeleted)
 						
-                        select new B_TrialProductListOutputDto()
+                        select new B_OrderDetailListOutputDto()
                         {
                             Id = a.Id,
-                            Title = a.Title,
+                            BId = a.BId,
+                            BType = a.BType,
+                            Number = a.Number,
+                            CategroyId = a.CategroyId,
+                            GoodsId = a.GoodsId,
+                            Amout = a.Amout,
                             CreationTime = a.CreationTime
+							
                         };
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
-
-            var businessIds = ret.Select(r => r.Id.ToString()).ToList();
-            var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
-            {
-                BusinessIds = businessIds,
-                BusinessType = AbpFileBusinessType.商品缩略图
-            });
-            foreach (var item in ret)
-                if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
-                    item.File = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString()).Files.FirstOrDefault();
-
-            return new PagedResultDto<B_TrialProductListOutputDto>(toalCount, ret);
+			
+            return new PagedResultDto<B_OrderDetailListOutputDto>(toalCount, ret);
         }
 
 		/// <summary>
@@ -78,7 +68,7 @@ namespace B_H5
         /// <param name="input">主键</param>
         /// <returns></returns>
 		
-		public async Task<B_TrialProductOutputDto> Get(NullableIdDto<Guid> input)
+		public async Task<B_OrderDetailOutputDto> Get(NullableIdDto<Guid> input)
 		{
 			
 		    var model = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id.Value);
@@ -86,20 +76,24 @@ namespace B_H5
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
-            return model.MapTo<B_TrialProductOutputDto>();
+            return model.MapTo<B_OrderDetailOutputDto>();
 		}
 		/// <summary>
-        /// 添加一个B_TrialProduct
+        /// 添加一个B_OrderDetail
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
 		
-		public async Task Create(CreateB_TrialProductInput input)
+		public async Task Create(CreateB_OrderDetailInput input)
         {
-                var newmodel = new B_TrialProduct()
+                var newmodel = new B_OrderDetail()
                 {
-                    Title = input.Title,
-                    IsActive = input.IsActive
+                    BId = input.BId,
+                    BType = input.BType,
+                    Number = input.Number,
+                    CategroyId = input.CategroyId,
+                    GoodsId = input.GoodsId,
+                    Amout = input.Amout
 		        };
 				
                 await _repository.InsertAsync(newmodel);
@@ -107,11 +101,11 @@ namespace B_H5
         }
 
 		/// <summary>
-        /// 修改一个B_TrialProduct
+        /// 修改一个B_OrderDetail
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		public async Task Update(UpdateB_TrialProductInput input)
+		public async Task Update(UpdateB_OrderDetailInput input)
         {
 		    if (input.Id != Guid.Empty)
             {
@@ -121,8 +115,12 @@ namespace B_H5
                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
                }
 			   
-			   dbmodel.Title = input.Title;
-			   dbmodel.IsActive = input.IsActive;
+			   dbmodel.BId = input.BId;
+			   dbmodel.BType = input.BType;
+			   dbmodel.Number = input.Number;
+			   dbmodel.CategroyId = input.CategroyId;
+			   dbmodel.GoodsId = input.GoodsId;
+			   dbmodel.Amout = input.Amout;
 
                await _repository.UpdateAsync(dbmodel);
 			   

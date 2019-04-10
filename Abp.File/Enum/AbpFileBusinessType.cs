@@ -12,7 +12,8 @@ namespace Abp.File
     public enum AbpFileBusinessType
     {
         代理头像 = 1,
-        试用装缩略图 = 2,
+        商品缩略图 = 2,
+        商品类别图 = 3,
 
 
 

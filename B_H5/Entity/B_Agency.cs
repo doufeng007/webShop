@@ -21,7 +21,7 @@ namespace B_H5
     {
         public int? TenantId { get; set; }
         #region 表字段
-        
+
         /// <summary>
         /// UserId
         /// </summary>
@@ -29,10 +29,16 @@ namespace B_H5
         public long UserId { get; set; }
 
         /// <summary>
-        /// AgencyLevel
+        /// AgencyLevelId 代理级别id
         /// </summary>
-        [DisplayName(@"AgencyLevel")]
-        public Guid AgencyLevel { get; set; }
+        [DisplayName(@"AgencyLevelId")]
+        public Guid AgencyLevelId { get; set; }
+
+
+        /// <summary>
+        /// 代理级别
+        /// </summary>
+        public int AgencyLevel { get; set; }
 
         /// <summary>
         /// AgenCyCode
@@ -107,6 +113,25 @@ namespace B_H5
         [DisplayName(@"UnitId")]
         [MaxLength(200)]
         public string UnitId { get; set; }
+
+
+        public Guid? P_Id { get; set; }
+
+        /// <summary>
+        /// 原始上级代理
+        /// </summary>
+        public Guid? OriginalPid { get; set; }
+
+
+        /// <summary>
+        /// 货款
+        /// </summary>
+        public decimal GoodsPayment { get; set; }
+
+        /// <summary>
+        /// 余额
+        /// </summary>
+        public decimal Balance { get; set; }
 
 
         #endregion

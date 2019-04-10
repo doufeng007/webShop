@@ -46,10 +46,10 @@ namespace B_H5
     /// </summary>
     public enum InOrderStatusEnum
     {
-        待充值 = 1,
-        待审核 = 2,
-        上级缺货 = 3,
-        已完成 = 4
+        上级缺货 = 1,
+        已完成 = 2
     }
+
+
 
 }

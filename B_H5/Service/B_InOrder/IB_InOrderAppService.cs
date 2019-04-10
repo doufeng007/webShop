@@ -16,5 +16,13 @@ namespace B_H5
         Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input);
 
 
+        /// <summary>
+        /// 我的云仓-进货
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task OrderIn(OrderInInput input);
+
+
     }
 }

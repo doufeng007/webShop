@@ -56,7 +56,7 @@ namespace B_H5
             {
                 var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                             join u in UserManager.Users on a.UserId equals u.Id
-                            join b in _abpDictionaryrepository.GetAll() on a.AgencyLevel equals b.Id
+                            join b in _abpDictionaryrepository.GetAll() on a.AgencyLevelId equals b.Id
                             select new B_AgencyListOutputDto()
                             {
                                 Id = a.Id,
@@ -93,7 +93,7 @@ namespace B_H5
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                         join u in UserManager.Users on a.UserId equals u.Id
-                        join b in _abpDictionaryrepository.GetAll() on a.AgencyLevel equals b.Id
+                        join b in _abpDictionaryrepository.GetAll() on a.AgencyLevelId equals b.Id
                         where a.Id == input.Id
                         select new B_AgencyOutputDto()
                         {
@@ -130,6 +130,7 @@ namespace B_H5
             {
                 UserId = 1,
                 AgencyLevel = input.AgencyLevel,
+                AgencyLevelId = input.AgencyLevelId,
                 AgenCyCode = input.AgenCyCode,
                 Provinces = input.Provinces,
                 County = input.County,
@@ -139,6 +140,8 @@ namespace B_H5
                 SignData = input.SignData,
                 Agreement = input.Agreement,
                 Status = input.Status,
+                P_Id = input.P_Id,
+                OriginalPid = input.P_Id
             };
 
             await _repository.InsertAsync(newmodel);
@@ -161,6 +164,7 @@ namespace B_H5
                     throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
                 }
                 dbmodel.AgencyLevel = input.AgencyLevel;
+                dbmodel.AgencyLevelId = input.AgencyLevelId;
                 dbmodel.AgenCyCode = input.AgenCyCode;
                 dbmodel.Provinces = input.Provinces;
                 dbmodel.County = input.County;

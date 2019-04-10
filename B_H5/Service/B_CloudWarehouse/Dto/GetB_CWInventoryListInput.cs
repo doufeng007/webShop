@@ -10,6 +10,8 @@ namespace B_H5
     public class GetB_CWInventoryListInput : PagedAndSortedInputDto, IShouldNormalize
     {
 
+
+        public Guid CategroyPropertyId { get; set; }
         /// <summary>
         /// IsActive
         /// </summary>

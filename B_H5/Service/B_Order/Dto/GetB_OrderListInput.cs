@@ -1,0 +1,38 @@
+﻿using Abp.Runtime.Validation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ZCYX.FRMSCore.Application.Dto;
+
+namespace B_H5
+{
+    public class GetB_OrderListInput : PagedAndSortedInputDto, IShouldNormalize
+    {
+        /// <summary>
+        /// UserId
+        /// </summary>
+        public long UserId { get; set; }
+
+        /// <summary>
+        /// Amout
+        /// </summary>
+        public decimal Amout { get; set; }
+
+        /// <summary>
+        /// Stauts
+        /// </summary>
+        public int Stauts { get; set; }
+
+
+
+        public void Normalize()
+        {
+            if (string.IsNullOrEmpty(Sorting))
+            {
+                Sorting = " CreationTime desc";
+            }
+        }
+    }
+}
