@@ -12,7 +12,7 @@ namespace B_H5
     public interface IB_AgencyAppService : IApplicationService
     {	
 	    /// <summary>
-        /// 根据条件分页获取列表
+        /// 微信端-渠道列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
@@ -45,5 +45,11 @@ namespace B_H5
         /// <param name="input">主键</param>
         /// <returns></returns>
 		Task Delete(EntityDto<Guid> input);
+
+        /// <summary>
+        /// 封停代理
+        /// </summary>
+        /// <param name="input"></param>
+        Task Disable(EntityDto<Guid> input);
     }
 }

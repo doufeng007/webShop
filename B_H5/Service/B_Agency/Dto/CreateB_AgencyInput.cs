@@ -11,46 +11,46 @@ namespace B_H5
     public class CreateB_AgencyInput
     {
         #region 表字段
+
+
         /// <summary>
-        /// UserId
+        /// 姓名
         /// </summary>
-        public long UserId { get; set; }
+        public string Name { get; set; }
+
+
+        ///// <summary>
+        /////代理级别 
+        ///// </summary>
+        //public Guid AgencyLevelId { get; set; }
 
         /// <summary>
-        /// AgencyLevel
-        /// </summary>
-        public int AgencyLevel { get; set; }
-
-
-        public Guid AgencyLevelId { get; set; }
-
-        /// <summary>
-        /// AgenCyCode
+        /// 代理编码
         /// </summary>
         [MaxLength(100, ErrorMessage = "AgenCyCode长度必须小于100")]
         [Required(ErrorMessage = "必须填写AgenCyCode")]
         public string AgenCyCode { get; set; }
 
         /// <summary>
-        /// Provinces
+        /// 省
         /// </summary>
         [MaxLength(100, ErrorMessage = "Provinces长度必须小于100")]
         public string Provinces { get; set; }
 
         /// <summary>
-        /// County
+        /// 县
         /// </summary>
         [MaxLength(100, ErrorMessage = "County长度必须小于100")]
         public string County { get; set; }
 
         /// <summary>
-        /// City
+        /// 城市
         /// </summary>
         [MaxLength(100, ErrorMessage = "City长度必须小于100")]
         public string City { get; set; }
 
         /// <summary>
-        /// Address
+        /// 详细地址
         /// </summary>
         [MaxLength(200, ErrorMessage = "Address长度必须小于200")]
         public string Address { get; set; }
@@ -62,24 +62,32 @@ namespace B_H5
         public B_AgencyTypeEnum Type { get; set; }
 
         /// <summary>
-        /// SignData
+        /// 签约日期
         /// </summary>
         public DateTime SignData { get; set; }
 
         /// <summary>
-        /// Agreement
+        /// 协议
         /// </summary>
         public string Agreement { get; set; }
 
-        /// <summary>
-        /// Status
-        /// </summary>
-        public int? Status { get; set; }
 
         /// <summary>
         /// 父节点
         /// </summary>
         public Guid? P_Id { get; set; }
+
+
+
+        /// <summary>
+        /// 电话 作为账号
+        /// </summary>
+        public string Tel { get; set; }
+
+        /// <summary>
+        /// 微信号
+        /// </summary>
+        public string WxId { get; set; }
 
 
         #endregion

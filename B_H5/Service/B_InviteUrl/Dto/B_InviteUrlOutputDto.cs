@@ -12,7 +12,7 @@ using Abp.WorkFlow;
 namespace B_H5
 {
     [AutoMapFrom(typeof(B_InviteUrl))]
-    public class B_InviteUrlOutputDto 
+    public class B_InviteUrlOutputDto
     {
         /// <summary>
         /// Id
@@ -20,17 +20,23 @@ namespace B_H5
         public Guid Id { get; set; }
 
         /// <summary>
-        /// AgencyLevel
+        /// 代理等级id
         /// </summary>
-        public Guid AgencyLevel { get; set; }
+        public Guid AgencyLevelId { get; set; }
+
 
         /// <summary>
-        /// ValidityDataType
+        /// 代理等级
+        /// </summary>
+        public string AgencyLevelName { get; set; }
+
+        /// <summary>
+        /// 有效期
         /// </summary>
         public int ValidityDataType { get; set; }
 
         /// <summary>
-        /// AvailableCount
+        /// 有效次数
         /// </summary>
         public int AvailableCount { get; set; }
 
@@ -44,7 +50,35 @@ namespace B_H5
         /// </summary>
         public DateTime CreationTime { get; set; }
 
+        /// <summary>
+        /// 邀请代理
+        /// </summary>
+        public string CreateAgencyName { get; set; }
 
-		
+        /// <summary>
+        /// 邀请代理等级id
+        /// </summary>
+        public Guid CreateAgencyLevelId { get; set; }
+
+        /// <summary>
+        /// 邀请代理等级Name
+        /// </summary>
+        public string CreateAgencyLevelName { get; set; }
+
+
+        /// <summary>
+        /// 联系电话
+        /// </summary>
+        public string CreateAgencyTel { get; set; }
+
+
+        /// <summary>
+        /// 联系地址
+        /// </summary>
+        public string CreateAgencyAddress { get; set; }
+
+
+
+
     }
 }

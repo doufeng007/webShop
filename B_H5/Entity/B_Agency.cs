@@ -22,6 +22,8 @@ namespace B_H5
         public int? TenantId { get; set; }
         #region 表字段
 
+
+        //public string Name { get; set; }
         /// <summary>
         /// UserId
         /// </summary>
@@ -98,7 +100,7 @@ namespace B_H5
         /// Status
         /// </summary>
         [DisplayName(@"Status")]
-        public int? Status { get; set; }
+        public int Status { get; set; }
 
         /// <summary>
         /// OpenId
@@ -132,6 +134,12 @@ namespace B_H5
         /// 余额
         /// </summary>
         public decimal Balance { get; set; }
+
+
+        /// <summary>
+        /// 微信号
+        /// </summary>
+        public string WxId { get; set; }
 
 
         #endregion

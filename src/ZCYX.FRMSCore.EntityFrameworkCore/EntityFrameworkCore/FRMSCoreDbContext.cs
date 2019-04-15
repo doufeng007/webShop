@@ -269,8 +269,12 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
         public virtual DbSet<B_Order> B_Order { get; set; }
 
-        
 
+        public virtual DbSet<B_AgencyLevel> B_AgencyLevel { get; set; }
+
+        public virtual DbSet<B_AgencyApply> B_AgencyApply { get; set; }
+
+        
 
 
 

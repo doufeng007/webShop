@@ -51,5 +51,18 @@ namespace B_H5
     }
 
 
+    public enum B_AgencyAcountStatusEnum
+    {
+        正常 = 0,
+        封号 = 1
+    }
+
+
+    public enum B_AgencyApplyStatusEnum
+    {
+        待审核 = 0,
+        已通过 = 1,
+        未通过 = 2
+    }
 
 }

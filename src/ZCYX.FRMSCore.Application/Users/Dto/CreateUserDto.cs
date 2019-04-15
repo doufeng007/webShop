@@ -19,7 +19,7 @@ namespace ZCYX.FRMSCore.Users.Dto
         [Required]
         [StringLength(AbpUserBase.MaxNameLength)]
         public string Name { get; set; }
-        [Required]
+        //[Required]
         public bool? Sex { get; set; }
 
         public string IdCard { get; set; }

@@ -197,14 +197,14 @@ namespace ZCYX.FRMSCore.Users
 
             user.TenantId = AbpSession.TenantId;
             user.Password = _passwordHasher.HashPassword(user, input.Password);
-            user.IsEmailConfirmed = true;
-            user.WorkNumber = user.WorkNumber.Trim();
-            //验证工号是否唯一
-            var has = _userRepository.GetAll().FirstOrDefault(ite => ite.WorkNumber == user.WorkNumber);
-            if (has != null)
-            {
-                throw new UserFriendlyException((int)ErrorCode.DataAccessErr, "工号重复，请换一个工号");
-            }
+            user.IsEmailConfirmed = false;
+            //user.WorkNumber = user.WorkNumber.Trim();
+            ////验证工号是否唯一
+            //var has = _userRepository.GetAll().FirstOrDefault(ite => ite.WorkNumber == user.WorkNumber);
+            //if (has != null)
+            //{
+            //    throw new UserFriendlyException((int)ErrorCode.DataAccessErr, "工号重复，请换一个工号");
+            //}
             CheckErrors(await _userManager.CreateAsync(user));
 
             //改为由岗位继承角色
@@ -291,37 +291,7 @@ namespace ZCYX.FRMSCore.Users
             }
 
 
-            #region  创建IM账号
-            try
-            {
 
-                var im_Service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IM_UserManager>();
-                var exit_UserCount = _userRepository.GetAll().Count();
-                if (exit_UserCount == 0)
-                {
-                    var firesOrg = _workflowOrganizationUnitsRepository.FirstOrDefault(r => !r.ParentId.HasValue);
-                    var companyName = "公司全体";
-                    if (firesOrg != null)
-                        companyName = firesOrg.DisplayName;
-                    im_Service.CreateIMUsers(new List<CreateIMUserInput>()
-                    {
-                        new CreateIMUserInput() { nickname= input.Name, password = input.Password, username = user.Id.ToString() }
-                    }, true, companyName);
-                }
-                else
-                {
-                    im_Service.CreateIMUsers(new List<CreateIMUserInput>()
-                                            {
-                                                new CreateIMUserInput() { nickname= input.Name, password = input.Password, username = user.Id.ToString() }
-                                            });
-                }
-            }
-            catch (Exception ex)
-            {
-                //处理im报错
-            }
-
-            #endregion
 
             CurrentUnitOfWork.SaveChanges();
 

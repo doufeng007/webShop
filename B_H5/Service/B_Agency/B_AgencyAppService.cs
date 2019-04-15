@@ -22,6 +22,8 @@ using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using Abp.WorkFlowDictionary;
 using Abp.Domain.Uow;
+using Abp;
+using ZCYX.FRMSCore.Users;
 
 namespace B_H5
 {
@@ -31,10 +33,13 @@ namespace B_H5
         private readonly IRepository<AbpDictionary, Guid> _abpDictionaryrepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
+        private readonly IRepository<B_AgencyLevel, Guid> _b_AgencyLevelepository;
+        private readonly IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> _userRepository;
 
 
         public B_AgencyAppService(IRepository<B_Agency, Guid> repository, IRepository<AbpDictionary, Guid> abpDictionaryrepository
-            , IUnitOfWorkManager unitOfWorkManager, IAbpFileRelationAppService abpFileRelationAppService
+            , IUnitOfWorkManager unitOfWorkManager, IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_AgencyLevel, Guid> b_AgencyLevelepository
+            , IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> userRepository
 
         )
         {
@@ -42,30 +47,48 @@ namespace B_H5
             _abpDictionaryrepository = abpDictionaryrepository;
             _unitOfWorkManager = unitOfWorkManager;
             _abpFileRelationAppService = abpFileRelationAppService;
+            _b_AgencyLevelepository = b_AgencyLevelepository;
+            _userRepository = userRepository;
 
         }
 
         /// <summary>
-        /// 代理人列表
+        /// 微信端-渠道列表
         /// </summary>
-        /// <param name="page">查询实体</param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public async Task<PagedResultDto<B_AgencyListOutputDto>> GetList(GetB_AgencyListInput input)
         {
+            var b_AgencyId = Guid.Empty;
+            if (input.UserId.HasValue)
+            {
+                var model = _repository.FirstOrDefault(r => r.UserId == input.UserId);
+                if (model == null)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "查询用户不存在");
+                else
+                {
+                    b_AgencyId = model.Id;
+                }
+            }
+
             using (_unitOfWorkManager.Current.DisableFilter(AbpDataFilters.SoftDelete))
             {
                 var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                             join u in UserManager.Users on a.UserId equals u.Id
-                            join b in _abpDictionaryrepository.GetAll() on a.AgencyLevelId equals b.Id
+                            join b in _b_AgencyLevelepository.GetAll() on a.AgencyLevelId equals b.Id
+                            where (!input.UserId.HasValue || a.P_Id == b_AgencyId)
+                            && a.Type == input.Type
+                            && (!input.AgencyLevelId.HasValue || a.AgencyLevelId == input.AgencyLevelId.Value)
                             select new B_AgencyListOutputDto()
                             {
                                 Id = a.Id,
                                 UserId = a.UserId,
                                 UserName = u.Name,
-                                AgencyLevelName = b.Title,
+                                AgencyLevelName = b.Name,
                                 AgenCyCode = a.AgenCyCode,
                                 CreationTime = a.CreationTime,
                             };
+
                 var toalCount = await query.CountAsync();
                 var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
                 var businessIds = ret.Select(r => r.Id.ToString()).ToList();
@@ -83,6 +106,13 @@ namespace B_H5
 
         }
 
+
+
+
+
+
+
+
         /// <summary>
         /// 获取代理人详情
         /// </summary>
@@ -93,13 +123,13 @@ namespace B_H5
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                         join u in UserManager.Users on a.UserId equals u.Id
-                        join b in _abpDictionaryrepository.GetAll() on a.AgencyLevelId equals b.Id
+                        join b in _b_AgencyLevelepository.GetAll() on a.AgencyLevelId equals b.Id
                         where a.Id == input.Id
                         select new B_AgencyOutputDto()
                         {
                             Address = a.Address,
                             AgenCyCode = a.AgenCyCode,
-                            AgencyLevelName = b.Title,
+                            AgencyLevelName = b.Name,
                             City = a.City,
                             County = a.County,
                             Id = a.Id,
@@ -114,23 +144,52 @@ namespace B_H5
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
+            var fielRet = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = input.Id.ToString(),
+                BusinessType = (int)AbpFileBusinessType.代理头像
+            });
+            if (fielRet.Count() > 0)
+                model.File = fielRet.FirstOrDefault();
             return model;
         }
 
 
         /// <summary>
-        /// 添加一个代理
+        /// 后台管理员添加一级代理
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
 
         public async Task Create(CreateB_AgencyInput input)
         {
+            var level1Query = _b_AgencyLevelepository.GetAll().Where(r => r.Level == 1);
+            if (level1Query.Count() == 0)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理级别未添加，请先添加代理级别");
+            else if (level1Query.Count() > 1)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理级别错误");
+            var level1Model = level1Query.FirstOrDefault();
+            var userService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IUserAppService>();
+            var userCreateInput = new ZCYX.FRMSCore.Users.Dto.CreateUserDto()
+            {
+                MainPostId = new Guid("4D5EAEC5-EADB-427F-B4B6-BA08DA2F9527"),
+                Name = input.Name,
+                OrganizationUnitId = 40147,
+                OrgPostIds = new List<Guid>() { new Guid("4D5EAEC5-EADB-427F-B4B6-BA08DA2F9527"), },
+                Password = "123qwe",
+                PhoneNumber = input.Tel,
+                UserName = input.Tel,
+                Surname = input.Name,
+                Sex = null,
+                EmailAddress = "admin@abp.com",
+            };
+
+            var ret = await userService.Create(userCreateInput);
             var newmodel = new B_Agency()
             {
-                UserId = 1,
-                AgencyLevel = input.AgencyLevel,
-                AgencyLevelId = input.AgencyLevelId,
+                UserId = ret.Id,
+                AgencyLevel = level1Model.Level,
+                AgencyLevelId = level1Model.Id,
                 AgenCyCode = input.AgenCyCode,
                 Provinces = input.Provinces,
                 County = input.County,
@@ -139,7 +198,7 @@ namespace B_H5
                 Type = input.Type,
                 SignData = input.SignData,
                 Agreement = input.Agreement,
-                Status = input.Status,
+                WxId = input.WxId,
                 P_Id = input.P_Id,
                 OriginalPid = input.P_Id
             };
@@ -163,8 +222,11 @@ namespace B_H5
                 {
                     throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
                 }
-                dbmodel.AgencyLevel = input.AgencyLevel;
-                dbmodel.AgencyLevelId = input.AgencyLevelId;
+                var user = _userRepository.FirstOrDefault(r => r.Id == dbmodel.UserId);
+                user.Name = input.Name;
+                user.PhoneNumber = input.Tel;
+                await _userRepository.UpdateAsync(user);
+
                 dbmodel.AgenCyCode = input.AgenCyCode;
                 dbmodel.Provinces = input.Provinces;
                 dbmodel.County = input.County;
@@ -173,7 +235,7 @@ namespace B_H5
                 dbmodel.Type = input.Type;
                 dbmodel.SignData = input.SignData;
                 dbmodel.Agreement = input.Agreement;
-                dbmodel.Status = input.Status;
+                //dbmodel.Status = input.Status;
                 await _repository.UpdateAsync(dbmodel);
 
             }
@@ -190,7 +252,19 @@ namespace B_H5
         /// <returns></returns>
         public async Task Delete(EntityDto<Guid> input)
         {
-            await _repository.DeleteAsync(x => x.Id == input.Id);
+            var model = _repository.Get(input.Id);
+            await _repository.DeleteAsync(model);
+            await _userRepository.DeleteAsync(r => r.Id == model.UserId);
         }
+
+        public async Task Disable(EntityDto<Guid> input)
+        {
+            var model = await _repository.GetAsync(input.Id);
+            model.Status = (int)B_AgencyAcountStatusEnum.封号;
+            var user = await _userRepository.GetAsync(model.UserId);
+            user.IsActive = false;
+
+        }
+
     }
 }

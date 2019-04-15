@@ -9,35 +9,35 @@ using Abp.WorkFlow;
 
 namespace B_H5
 {
-    public interface IB_InviteUrlAppService : IApplicationService
+    public interface IB_AgencyLevelAppService : IApplicationService
     {	
 	    /// <summary>
         /// 根据条件分页获取列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
-		Task<PagedResultDto<B_InviteUrlListOutputDto>> GetList(GetB_InviteUrlListInput input);
+		Task<PagedResultDto<B_AgencyLevelListOutputDto>> GetListAsync(GetB_AgencyLevelListInput input);
 
 		/// <summary>
-        /// 获取推广链接详情
+        /// 根据主键获取实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		Task<B_InviteUrlOutputDto> Get(EntityDto<Guid> input);
+		Task<B_AgencyLevelOutputDto> Get(NullableIdDto<Guid> input);
 
 		/// <summary>
-        /// 添加一个B_InviteUrl
+        /// 添加一个B_AgencyLevel
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		Task Create(CreateB_InviteUrlInput input);
+		Task Create(CreateB_AgencyLevelInput input);
 
 		/// <summary>
-        /// 修改一个B_InviteUrl
+        /// 修改一个B_AgencyLevel
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		Task Update(UpdateB_InviteUrlInput input);
+		Task Update(UpdateB_AgencyLevelInput input);
 
 		/// <summary>
         /// 逻辑删除实体
@@ -45,5 +45,12 @@ namespace B_H5
         /// <param name="input">主键</param>
         /// <returns></returns>
 		Task Delete(EntityDto<Guid> input);
+
+        /// <summary>
+        /// 获取代理级别
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        B_AgencyLevelListOutputDto GetAgencyLevelFromCache(Guid id);
     }
 }

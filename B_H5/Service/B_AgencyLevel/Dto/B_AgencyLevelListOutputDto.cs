@@ -10,8 +10,8 @@ using Abp.WorkFlow;
 
 namespace B_H5
 {
-    [AutoMapFrom(typeof(B_InviteUrl))]
-    public class B_InviteUrlListOutputDto
+    [AutoMapFrom(typeof(B_AgencyLevel))]
+    public class B_AgencyLevelListOutputDto 
     {
         /// <summary>
         /// Id
@@ -19,27 +19,19 @@ namespace B_H5
         public Guid Id { get; set; }
 
         /// <summary>
-        /// AgencyLevel
+        /// Name
         /// </summary>
-        public Guid AgencyLevel { get; set; }
-
-
-        public string AgencyLevelName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// ValidityDataType
+        /// Level
         /// </summary>
-        public int ValidityDataType { get; set; }
+        public int Level { get; set; }
 
         /// <summary>
-        /// AvailableCount
+        /// IsDefault
         /// </summary>
-        public int AvailableCount { get; set; }
-
-        /// <summary>
-        /// Url
-        /// </summary>
-        public string Url { get; set; }
+        public bool IsDefault { get; set; }
 
         /// <summary>
         /// CreationTime

@@ -8,33 +8,35 @@ using ZCYX.FRMSCore.Application.Dto;
 
 namespace B_H5
 {
-    /// <summary>
-    /// 代理列表参数
-    /// </summary>
-    public class GetB_AgencyListInput : PagedAndSortedInputDto, IShouldNormalize
+    public class GetB_AgencyApplyListInput : PagedAndSortedInputDto, IShouldNormalize
     {
         /// <summary>
-        /// 获取该用户的代理数据 为空则获取所有
+        /// 1 支付宝 2银行转账
         /// </summary>
-        public long? UserId { get; set; }
+        public int? PayType { get; set; }
 
         /// <summary>
-        /// 代理级别-数据字典对应id 为空则全部
+        /// 代理等级
         /// </summary>
         public Guid? AgencyLevelId { get; set; }
 
-
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public B_AgencyApplyStatusEnum? Status { get; set; }
 
         /// <summary>
-        /// 代理类别
+        /// 打款日期-开始日期
         /// </summary>
-        public B_AgencyTypeEnum Type { get; set; }
-
+        public DateTime? PayDateStart { get; set; }
 
         /// <summary>
-        /// Status
+        /// 打款日期-结束日期
         /// </summary>
-        public int? Status { get; set; }
+        public DateTime? PayDateEnd { get; set; }
+
+      
+
 
 
         public void Normalize()

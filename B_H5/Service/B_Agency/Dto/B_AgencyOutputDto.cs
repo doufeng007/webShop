@@ -71,5 +71,10 @@ namespace B_H5
         /// </summary>
         public DateTime SignData { get; set; }
 
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
+
     }
 }
