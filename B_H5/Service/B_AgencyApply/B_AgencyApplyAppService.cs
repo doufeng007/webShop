@@ -167,6 +167,28 @@ namespace B_H5
             var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_AgencyLevelAppService>();
             model.AgencyLevelName = service.GetAgencyLevelFromCache(model.AgencyLevelId).Name;
 
+
+            model.CredentFiles = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = input.Id.ToString(),
+                BusinessType = (int)AbpFileBusinessType.申请代理打款凭证
+            });
+
+
+            model.HandleCredentFiles = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = input.Id.ToString(),
+                BusinessType = (int)AbpFileBusinessType.申请代理手持证件
+            });
+
+            var fileRet = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = input.Id.ToString(),
+                BusinessType = (int)AbpFileBusinessType.代理头像
+            });
+
+            model.TouxiangFile = fileRet.FirstOrDefault();
+
             return model;
         }
 
@@ -251,7 +273,7 @@ namespace B_H5
         }
 
         /// <summary>
-        /// 修改一个B_AgencyApply
+        /// 审核代理申请
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>

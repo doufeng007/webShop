@@ -181,7 +181,7 @@ namespace B_H5
                 UserName = input.Tel,
                 Surname = input.Name,
                 Sex = null,
-                EmailAddress = "admin@abp.com",
+                EmailAddress = $"{input.Tel}@abp.com",
             };
 
             var ret = await userService.Create(userCreateInput);

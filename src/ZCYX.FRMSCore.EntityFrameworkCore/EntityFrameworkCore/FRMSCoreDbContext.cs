@@ -274,8 +274,11 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
         public virtual DbSet<B_AgencyApply> B_AgencyApply { get; set; }
 
-        
 
+        public virtual DbSet<B_PaymentPrepay> B_PaymentPrepay { get; set; }
+
+
+        
 
 
 

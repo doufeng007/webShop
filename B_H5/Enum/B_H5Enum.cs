@@ -65,4 +65,13 @@ namespace B_H5
         未通过 = 2
     }
 
+
+    public enum B_PrePayStatusEnum
+    {
+        待审核 = 0,
+        已通过 = 1,
+        未通过 = 2
+    }
+
+
 }
