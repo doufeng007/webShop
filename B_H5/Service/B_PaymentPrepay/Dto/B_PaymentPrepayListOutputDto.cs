@@ -19,70 +19,112 @@ namespace B_H5
         public Guid Id { get; set; }
 
         /// <summary>
-        /// UserId
+        /// 姓名
         /// </summary>
-        public long UserId { get; set; }
+        public string UserName { get; set; }
+
 
         /// <summary>
-        /// Code
+        /// 单号
         /// </summary>
         public string Code { get; set; }
 
         /// <summary>
-        /// PayType
+        /// 等级
+        /// </summary>
+        public string AgencyLevelName { get; set; }
+
+        public Guid AgencyLevelId { get; set; }
+
+        /// <summary>
+        /// 联系电话
+        /// </summary>
+        public string Tel { get; set; }
+
+        /// <summary>
+        /// 打款方式
         /// </summary>
         public int PayType { get; set; }
 
         /// <summary>
-        /// PayAmout
+        /// 打款金额
         /// </summary>
         public decimal PayAmout { get; set; }
 
-        /// <summary>
-        /// BankName
-        /// </summary>
-        public string BankName { get; set; }
+        
 
         /// <summary>
-        /// BankUserName
-        /// </summary>
-        public string BankUserName { get; set; }
-
-        /// <summary>
-        /// PayAcount
-        /// </summary>
-        public string PayAcount { get; set; }
-
-        /// <summary>
-        /// PayDate
+        /// 打款时间
         /// </summary>
         public DateTime PayDate { get; set; }
 
         /// <summary>
-        /// Status
+        /// 状态
         /// </summary>
-        public int Status { get; set; }
+        public B_PrePayStatusEnum Status { get; set; }
+
+        
 
         /// <summary>
-        /// Reason
-        /// </summary>
-        public string Reason { get; set; }
-
-        /// <summary>
-        /// Remark
+        /// 备注
         /// </summary>
         public string Remark { get; set; }
 
-        /// <summary>
-        /// AuditRemark
-        /// </summary>
-        public string AuditRemark { get; set; }
+        
 
         /// <summary>
-        /// CreationTime
+        /// 充值时间
         /// </summary>
         public DateTime CreationTime { get; set; }
 
 
+    }
+
+
+    public class B_PaymentPrepayListForWxOutputDto
+    {
+
+        public Guid Id { get; set; }
+
+
+
+        /// <summary>
+        /// 单号
+        /// </summary>
+        public string Code { get; set; }
+
+        
+
+        /// <summary>
+        /// 打款方式
+        /// </summary>
+        public int PayType { get; set; }
+
+        /// <summary>
+        /// 支付账户
+        /// </summary>
+        public string PayAcount { get; set; }
+
+        /// <summary>
+        /// 打款金额
+        /// </summary>
+        public decimal PayAmout { get; set; }
+
+
+
+        /// <summary>
+        /// 打款时间
+        /// </summary>
+        public DateTime PayDate { get; set; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public B_PrePayStatusEnum Status { get; set; }
+
+        /// <summary>
+        /// 充值时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
 }

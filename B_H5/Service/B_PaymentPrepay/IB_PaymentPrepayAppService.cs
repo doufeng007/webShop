@@ -18,12 +18,15 @@ namespace B_H5
         /// <returns></returns>
 		Task<PagedResultDto<B_PaymentPrepayListOutputDto>> GetList(GetB_PaymentPrepayListInput input);
 
-		/// <summary>
+
+        Task<PagedResultDto<B_PaymentPrepayListForWxOutputDto>> GetListForWx(GetB_PaymentPrepayListInput input);
+
+        /// <summary>
         /// 根据主键获取实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		Task<B_PaymentPrepayOutputDto> Get(EntityDto<Guid> input);
+        Task<B_PaymentPrepayOutputDto> Get(EntityDto<Guid> input);
 
 		/// <summary>
         /// 添加一个B_PaymentPrepay

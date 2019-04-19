@@ -69,7 +69,7 @@ namespace B_H5
         }
 
         /// <summary>
-        /// 根据主键获取实体
+        /// 获取代理邀请详情
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>

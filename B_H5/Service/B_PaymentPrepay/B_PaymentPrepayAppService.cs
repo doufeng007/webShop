@@ -28,47 +28,87 @@ namespace B_H5
     {
         private readonly IRepository<B_PaymentPrepay, Guid> _repository;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
+        private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
 
         public B_PaymentPrepayAppService(IRepository<B_PaymentPrepay, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
+            , IRepository<B_Agency, Guid> b_AgencyRepository
 
         )
         {
             this._repository = repository;
             _abpFileRelationAppService = abpFileRelationAppService;
+            _b_AgencyRepository = b_AgencyRepository;
 
         }
 
         /// <summary>
-        /// 根据条件分页获取列表
+        /// 管理后台充值审核列表
         /// </summary>
-        /// <param name="page">查询实体</param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public async Task<PagedResultDto<B_PaymentPrepayListOutputDto>> GetList(GetB_PaymentPrepayListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-
+                        join b in _b_AgencyRepository.GetAll() on a.CreatorUserId.Value equals b.UserId
+                        join u in UserManager.Users on b.UserId equals u.Id
                         select new B_PaymentPrepayListOutputDto()
                         {
                             Id = a.Id,
-                            UserId = a.UserId,
+                            UserName = u.Name,
+                            AgencyLevelId = b.AgencyLevelId,
+                            Status = a.Status,
+                            Tel = u.PhoneNumber,
                             Code = a.Code,
                             PayType = a.PayType,
                             PayAmout = a.PayAmout,
-                            BankName = a.BankName,
-                            BankUserName = a.BankUserName,
-                            PayAcount = a.PayAcount,
                             PayDate = a.PayDate,
-                            //Status = a.Status,
-                            Reason = a.Reason,
                             Remark = a.Remark,
-                            AuditRemark = a.AuditRemark,
                             CreationTime = a.CreationTime
 
                         };
+            query = query.WhereIf(input.PayType.HasValue, r => r.PayType == input.PayType.Value).WhereIf(input.AgencyLevelId.HasValue, r => r.AgencyLevelId == input.AgencyLevelId.Value)
+                .WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
+                .WhereIf(input.PayDateStart.HasValue, r => r.PayDate >= input.PayDateStart.Value)
+                .WhereIf(input.PayDateEnd.HasValue, r => r.PayDate <= input.PayDateEnd.Value)
+                .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.Code.Contains(input.SearchKey) ||
+                      r.UserName.Contains(input.SearchKey) || r.Tel.Contains(input.SearchKey));
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
 
             return new PagedResultDto<B_PaymentPrepayListOutputDto>(toalCount, ret);
+        }
+
+
+
+        /// <summary>
+        /// wx货款充值记录-公众号查看
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task<PagedResultDto<B_PaymentPrepayListForWxOutputDto>> GetListForWx(GetB_PaymentPrepayListInput input)
+        {
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                        where a.CreatorUserId == AbpSession.UserId
+                        select new B_PaymentPrepayListForWxOutputDto()
+                        {
+                            Id = a.Id,
+                            Status = a.Status,
+                            Code = a.Code,
+                            PayType = a.PayType,
+                            PayAmout = a.PayAmout,
+                            PayDate = a.PayDate,
+                            CreationTime = a.CreationTime
+                        };
+            query = query.WhereIf(input.PayType.HasValue, r => r.PayType == input.PayType.Value)
+                .WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
+                .WhereIf(input.PayDateStart.HasValue, r => r.PayDate >= input.PayDateStart.Value)
+                .WhereIf(input.PayDateEnd.HasValue, r => r.PayDate <= input.PayDateEnd.Value)
+                .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.Code.Contains(input.SearchKey));
+            var toalCount = await query.CountAsync();
+            var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+
+            return new PagedResultDto<B_PaymentPrepayListForWxOutputDto>(toalCount, ret);
         }
 
 
@@ -201,6 +241,14 @@ namespace B_H5
             if (input.IsPass)
             {
                 model.Status = B_PrePayStatusEnum.已通过;
+                var _agencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == model.CreatorUserId.Value);
+                if (_agencyModel == null)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理数据不存在！");
+                else
+                {
+                    _agencyModel.GoodsPayment = _agencyModel.GoodsPayment + model.PayAmout;
+                    await _b_AgencyRepository.UpdateAsync(_agencyModel);
+                }
 
             }
             else

@@ -11,64 +11,29 @@ namespace B_H5
     public class GetB_PaymentPrepayListInput : PagedAndSortedInputDto, IShouldNormalize
     {
         /// <summary>
-        /// UserId
+        /// 1 支付宝 2银行转账
         /// </summary>
-        public long UserId { get; set; }
+        public int? PayType { get; set; }
 
         /// <summary>
-        /// Code
+        /// 代理等级
         /// </summary>
-        public string Code { get; set; }
+        public Guid? AgencyLevelId { get; set; }
 
         /// <summary>
-        /// PayType
+        /// 状态
         /// </summary>
-        public int PayType { get; set; }
+        public B_PrePayStatusEnum? Status { get; set; }
 
         /// <summary>
-        /// PayAmout
+        /// 打款日期-开始日期
         /// </summary>
-        public decimal PayAmout { get; set; }
+        public DateTime? PayDateStart { get; set; }
 
         /// <summary>
-        /// BankName
+        /// 打款日期-结束日期
         /// </summary>
-        public string BankName { get; set; }
-
-        /// <summary>
-        /// BankUserName
-        /// </summary>
-        public string BankUserName { get; set; }
-
-        /// <summary>
-        /// PayAcount
-        /// </summary>
-        public string PayAcount { get; set; }
-
-        /// <summary>
-        /// PayDate
-        /// </summary>
-        public DateTime PayDate { get; set; }
-
-        /// <summary>
-        /// Status
-        /// </summary>
-        public int Status { get; set; }
-
-        /// <summary>
-        /// Reason
-        /// </summary>
-        public string Reason { get; set; }
-
-        /// <summary>
-        /// Remark
-        /// </summary>
-        public string Remark { get; set; }
-
-        /// <summary>
-        /// AuditRemark
-        /// </summary>
-        public string AuditRemark { get; set; }
+        public DateTime? PayDateEnd { get; set; }
 
 
 
