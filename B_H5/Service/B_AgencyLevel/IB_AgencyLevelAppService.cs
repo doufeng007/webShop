@@ -52,5 +52,9 @@ namespace B_H5
         /// <param name="id"></param>
         /// <returns></returns>
         B_AgencyLevelListOutputDto GetAgencyLevelFromCache(Guid id);
+
+
+
+        B_AgencyLevelListOutputDto GetAgencyLevelOneFromCache();
     }
 }

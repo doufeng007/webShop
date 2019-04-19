@@ -21,6 +21,10 @@ using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using Abp;
+using ZCYX.FRMSCore.Users;
+using Microsoft.Extensions.Configuration;
+using Abp.Reflection.Extensions;
+using ZCYX.FRMSCore.Configuration;
 
 namespace B_H5
 {
@@ -30,9 +34,11 @@ namespace B_H5
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
         private readonly IRepository<B_InviteUrl, Guid> _b_InviteUrlRepository;
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
+        private readonly IB_AgencyLevelAppService _b_AgencyLevelService;
+        private readonly IConfigurationRoot _appConfiguration;
 
         public B_AgencyApplyAppService(IRepository<B_AgencyApply, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
-            , IRepository<B_InviteUrl, Guid> b_InviteUrlRepository, IRepository<B_Agency, Guid> b_AgencyRepository
+            , IRepository<B_InviteUrl, Guid> b_InviteUrlRepository, IRepository<B_Agency, Guid> b_AgencyRepository, IB_AgencyLevelAppService b_AgencyLevelService
 
         )
         {
@@ -40,6 +46,9 @@ namespace B_H5
             _abpFileRelationAppService = abpFileRelationAppService;
             _b_InviteUrlRepository = b_InviteUrlRepository;
             _b_AgencyRepository = b_AgencyRepository;
+            _b_AgencyLevelService = b_AgencyLevelService;
+            var coreAssemblyDirectoryPath = typeof(B_AgencyAppService).GetAssembly().GetDirectoryPathOrNull();
+            _appConfiguration = AppConfigurations.Get(coreAssemblyDirectoryPath);
 
         }
 
@@ -283,6 +292,55 @@ namespace B_H5
             if (input.IsPass)
             {
                 model.Status = B_AgencyApplyStatusEnum.已通过;
+
+                var invitaUrlModel = _b_InviteUrlRepository.Get(model.InviteUrlId);
+                var p_AgencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == invitaUrlModel.CreatorUserId.Value);
+                var agencyLeavelOne = _b_AgencyLevelService.GetAgencyLevelOneFromCache();
+                if (model.AgencyLevelId == agencyLeavelOne.Id)
+                {
+                    var userService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IUserAppService>();
+                    var userCreateInput = new ZCYX.FRMSCore.Users.Dto.CreateUserDto()
+                    {
+                        MainPostId = model.AgencyLevelId == agencyLeavelOne.Id ? new Guid(_appConfiguration["App:PrimaryAgencyOrgPostId"]) : new Guid(_appConfiguration["App:AgencyOrgPostId"]),
+                        Name = model.Name,
+                        OrganizationUnitId = model.AgencyLevelId == agencyLeavelOne.Id ? _appConfiguration["App:PrimaryAgencyOrgId"].ToLong() : _appConfiguration["App:AgencyOrgId"].ToLong(),
+                        OrgPostIds = new List<Guid>()
+                        {
+                            model.AgencyLevelId == agencyLeavelOne.Id ? new Guid(_appConfiguration["App:PrimaryAgencyOrgPostId"])
+                            : new Guid(_appConfiguration["App:AgencyOrgPostId"]), },
+                        Password = model.Pwd,
+                        PhoneNumber = model.Tel,
+                        UserName = model.Tel,
+                        Surname = model.Name,
+                        Sex = null,
+                        IsActive = true,
+                        EmailAddress = $"{model.Tel}@abp.com",
+                    };
+
+                    var ret = await userService.Create(userCreateInput);
+                    var newmodel = new B_Agency()
+                    {
+                        UserId = ret.Id,
+                        AgencyLevel = model.AgencyLevel,
+                        AgencyLevelId = model.AgencyLevelId,
+                        //AgenCyCode = input.AgenCyCode,
+                        Provinces = model.Provinces,
+                        County = model.County,
+                        City = model.City,
+                        Address = model.Address,
+                        Type = B_AgencyTypeEnum.直属代理,
+                        SignData = model.CreationTime,
+                        //Agreement = input.Agreement,
+                        WxId = model.WxId,
+                        P_Id = p_AgencyModel.Id,
+                        OriginalPid = p_AgencyModel.Id
+                    };
+
+                    await _b_AgencyRepository.InsertAsync(newmodel);
+                }
+
+
+
 
             }
             else

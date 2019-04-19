@@ -50,7 +50,7 @@ namespace ZCYX.FRMSCore.Users.Dto
         /// <summary>
         /// 用户所在部门
         /// </summary>
-        public int OrganizationUnitId { get; set; }
+        public long OrganizationUnitId { get; set; }
 
         public void Normalize()
         {

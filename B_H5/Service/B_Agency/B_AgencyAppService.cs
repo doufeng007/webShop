@@ -24,6 +24,9 @@ using Abp.WorkFlowDictionary;
 using Abp.Domain.Uow;
 using Abp;
 using ZCYX.FRMSCore.Users;
+using Microsoft.Extensions.Configuration;
+using ZCYX.FRMSCore.Configuration;
+using Abp.Reflection.Extensions;
 
 namespace B_H5
 {
@@ -35,6 +38,7 @@ namespace B_H5
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
         private readonly IRepository<B_AgencyLevel, Guid> _b_AgencyLevelepository;
         private readonly IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> _userRepository;
+        private readonly IConfigurationRoot _appConfiguration;
 
 
         public B_AgencyAppService(IRepository<B_Agency, Guid> repository, IRepository<AbpDictionary, Guid> abpDictionaryrepository
@@ -49,6 +53,8 @@ namespace B_H5
             _abpFileRelationAppService = abpFileRelationAppService;
             _b_AgencyLevelepository = b_AgencyLevelepository;
             _userRepository = userRepository;
+            var coreAssemblyDirectoryPath = typeof(B_AgencyAppService).GetAssembly().GetDirectoryPathOrNull();
+            _appConfiguration = AppConfigurations.Get(coreAssemblyDirectoryPath);
 
         }
 
@@ -172,15 +178,16 @@ namespace B_H5
             var userService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IUserAppService>();
             var userCreateInput = new ZCYX.FRMSCore.Users.Dto.CreateUserDto()
             {
-                MainPostId = new Guid("4D5EAEC5-EADB-427F-B4B6-BA08DA2F9527"),
+                MainPostId = new Guid(_appConfiguration["App:PrimaryAgencyOrgPostId"]),
                 Name = input.Name,
-                OrganizationUnitId = 40147,
-                OrgPostIds = new List<Guid>() { new Guid("4D5EAEC5-EADB-427F-B4B6-BA08DA2F9527"), },
+                OrganizationUnitId = _appConfiguration["App:PrimaryAgencyOrgId"].ToLong(),
+                OrgPostIds = new List<Guid>() { new Guid(_appConfiguration["App:PrimaryAgencyOrgPostId"]), },
                 Password = "123qwe",
                 PhoneNumber = input.Tel,
                 UserName = input.Tel,
                 Surname = input.Name,
                 Sex = null,
+                IsActive = true,
                 EmailAddress = $"{input.Tel}@abp.com",
             };
 

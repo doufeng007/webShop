@@ -182,5 +182,16 @@ namespace B_H5
             return ret;
 
         }
+
+        public B_AgencyLevelListOutputDto GetAgencyLevelOneFromCache()
+        {
+            var list = GetAgencyLevelFromCache();
+            var ret = list.FirstOrDefault(r => r.Level == 1);
+            if (ret == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "获取代理级别失败");
+            return ret;
+        }
+
+
     }
 }
