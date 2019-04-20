@@ -73,5 +73,13 @@ namespace B_H5
         未通过 = 2
     }
 
+    public enum B_WithdrawalStatusEnum
+    {
+        待审核 = 0,
+        待打款 = 1,
+        已打款 = 2,
+        未通过 = 3
+    }
+
 
 }

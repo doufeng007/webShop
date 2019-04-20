@@ -278,7 +278,7 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
         public virtual DbSet<B_PaymentPrepay> B_PaymentPrepay { get; set; }
 
 
-        
+        public virtual DbSet<B_Withdrawal> B_Withdrawal { get; set; }
 
 
 
