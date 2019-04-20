@@ -46,24 +46,66 @@ namespace B_H5
         public async Task<PagedResultDto<B_WithdrawalListOutputDto>> GetList(GetB_WithdrawalListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-
+                        join b in _b_AgencyRepository.GetAll() on a.CreatorUserId.Value equals b.UserId
+                        join u in UserManager.Users on b.UserId equals u.Id
                         select new B_WithdrawalListOutputDto()
                         {
                             Id = a.Id,
+                            Code = a.Code,
+                            PayTime = a.PayTime,
+                            Tel = u.PhoneNumber,
+                            UserName = u.Name,
                             BankName = a.BankName,
                             BankBranchName = a.BankBranchName,
                             BankUserName = a.BankUserName,
                             BankNumber = a.BankNumber,
                             Amout = a.Amout,
-                            Reason = a.Reason,
-                            Remark = a.Remark,
-                            CreationTime = a.CreationTime
+                            CreationTime = a.CreationTime,
+                            AgencyLevelId = b.AgencyLevelId,
+
 
                         };
+            query = query
+                //.WhereIf(input.PayType.HasValue, r => r.PayType == input.PayType.Value)
+                .WhereIf(input.AgencyLevelId.HasValue, r => r.AgencyLevelId == input.AgencyLevelId.Value)
+                .WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
+                .WhereIf(input.PayDateStart.HasValue, r => r.PayTime >= input.PayDateStart.Value)
+                .WhereIf(input.PayDateEnd.HasValue, r => r.PayTime <= input.PayDateEnd.Value)
+                .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.Code.Contains(input.SearchKey) ||
+                      r.UserName.Contains(input.SearchKey) || r.Tel.Contains(input.SearchKey));
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
 
             return new PagedResultDto<B_WithdrawalListOutputDto>(toalCount, ret);
+        }
+
+
+        /// <summary>
+        /// 管理-提现审核列表 数量统计
+        /// </summary>
+        /// <returns></returns>
+        public async Task<B_AgencyApplyCount> GetAuditCount()
+        {
+            var ret = new B_AgencyApplyCount();
+            ret.WaitAuditCount = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.待审核).CountAsync();
+            ret.PassCount = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.待打款).CountAsync();
+            ret.NoPassCount = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.未通过).CountAsync();
+            return ret;
+        }
+
+        /// <summary>
+        /// 管理-提现打款列表 数量统计
+        /// </summary>
+        /// <returns></returns>
+        public async Task<B_WithdrawalCount> GetCount()
+        {
+            var ret = new B_WithdrawalCount();
+            ret.WaitAuditCount = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.待打款).CountAsync();
+            ret.PassCount = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.已打款).CountAsync();
+            ret.NoPassCount = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.打款异常).CountAsync();
+            ret.PassAmout = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.已打款).SumAsync(r => r.Amout);
+            ret.WaitAmout = await _repository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.待打款).SumAsync(r => r.Amout);
+            return ret;
         }
 
         /// <summary>
@@ -147,6 +189,11 @@ namespace B_H5
             //}
         }
 
+        /// <summary>
+        /// 审核打款申请
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task Audit(AuditB_WithdrawalInput input)
         {
             var model = await _repository.GetAsync(input.Id);
@@ -169,6 +216,12 @@ namespace B_H5
             await _repository.UpdateAsync(model);
         }
 
+
+        /// <summary>
+        /// 完成打款
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task Remit(RemitInput input)
         {
             var model = await _repository.GetAsync(input.Id);
@@ -180,7 +233,18 @@ namespace B_H5
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "还未审核完成，不能打款！");
             else
             {
-                model.Status = B_WithdrawalStatusEnum.已打款;
+                if (input.IsSucce)
+                {
+                    model.Status = B_WithdrawalStatusEnum.已打款;
+                    model.PayTime = DateTime.Now;
+                    model.Remark = input.Remark;
+                }
+                else
+                {
+                    model.Status = B_WithdrawalStatusEnum.打款异常;
+                    model.Remark = input.Remark;
+                }
+
                 await _repository.UpdateAsync(model);
             }
 

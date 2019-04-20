@@ -18,12 +18,18 @@ namespace B_H5
         /// <returns></returns>
 		Task<PagedResultDto<B_WithdrawalListOutputDto>> GetList(GetB_WithdrawalListInput input);
 
-		/// <summary>
+
+        Task<B_WithdrawalCount> GetCount();
+
+
+        Task<B_AgencyApplyCount> GetAuditCount();
+
+        /// <summary>
         /// 根据主键获取实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		Task<B_WithdrawalOutputDto> Get(EntityDto<Guid> input);
+        Task<B_WithdrawalOutputDto> Get(EntityDto<Guid> input);
 
 		/// <summary>
         /// 添加一个B_Withdrawal

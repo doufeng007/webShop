@@ -19,6 +19,15 @@ namespace B_H5
         public int? TenantId { get; set; }
         #region 表字段
 
+
+        /// <summary>
+        /// Code
+        /// </summary>
+        [DisplayName(@"Code")]
+        [MaxLength(100)]
+        [Required]
+        public string Code { get; set; }
+
         /// <summary>
         /// BankName
         /// </summary>
@@ -76,6 +85,8 @@ namespace B_H5
 
 
         public string AuditRemark { get; set; }
+
+        public DateTime? PayTime { get; set; }
 
 
         #endregion

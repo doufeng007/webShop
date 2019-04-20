@@ -79,6 +79,20 @@ namespace B_H5
         }
 
 
+        /// <summary>
+        /// 管理-充值审核列表 数量统计
+        /// </summary>
+        /// <returns></returns>
+        public async Task<B_AgencyApplyCount> GetCount()
+        {
+            var ret = new B_AgencyApplyCount();
+            ret.WaitAuditCount = await _repository.GetAll().Where(r => r.Status ==  B_PrePayStatusEnum.待审核).CountAsync();
+            ret.PassCount = await _repository.GetAll().Where(r => r.Status == B_PrePayStatusEnum.已通过).CountAsync();
+            ret.NoPassCount = await _repository.GetAll().Where(r => r.Status == B_PrePayStatusEnum.待审核).CountAsync();
+            return ret;
+        }
+
+
 
         /// <summary>
         /// wx货款充值记录-公众号查看

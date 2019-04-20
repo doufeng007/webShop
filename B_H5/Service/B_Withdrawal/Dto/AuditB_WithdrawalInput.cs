@@ -36,6 +36,8 @@ namespace B_H5
         /// </summary>
         public string Remark { get; set; }
 
+        public bool IsSucce { get; set; }
+
 
     }
 }

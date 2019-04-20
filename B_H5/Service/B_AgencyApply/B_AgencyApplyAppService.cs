@@ -123,7 +123,7 @@ namespace B_H5
             var ret = new B_AgencyApplyCount();
             ret.WaitAuditCount = await _repository.GetAll().Where(r => r.Status == B_AgencyApplyStatusEnum.待审核).CountAsync();
             ret.PassCount = await _repository.GetAll().Where(r => r.Status == B_AgencyApplyStatusEnum.已通过).CountAsync();
-            ret.NoPassCount = await _repository.GetAll().Where(r => r.Status == B_AgencyApplyStatusEnum.待审核).CountAsync();
+            ret.NoPassCount = await _repository.GetAll().Where(r => r.Status == B_AgencyApplyStatusEnum.未通过).CountAsync();
             return ret;
         }
 

@@ -11,39 +11,29 @@ namespace B_H5
     public class GetB_WithdrawalListInput : PagedAndSortedInputDto, IShouldNormalize
     {
         /// <summary>
-        /// BankName
+        /// 1 支付宝 2银行转账
         /// </summary>
-        public string BankName { get; set; }
+        public int? PayType { get; set; }
 
         /// <summary>
-        /// BankBranchName
+        /// 代理等级
         /// </summary>
-        public string BankBranchName { get; set; }
+        public Guid? AgencyLevelId { get; set; }
 
         /// <summary>
-        /// BankUserName
+        /// 状态
         /// </summary>
-        public string BankUserName { get; set; }
+        public B_WithdrawalStatusEnum? Status { get; set; }
 
         /// <summary>
-        /// BankNumber
+        /// 打款日期-开始日期
         /// </summary>
-        public string BankNumber { get; set; }
+        public DateTime? PayDateStart { get; set; }
 
         /// <summary>
-        /// Amout
+        /// 打款日期-结束日期
         /// </summary>
-        public decimal Amout { get; set; }
-
-        /// <summary>
-        /// Reason
-        /// </summary>
-        public string Reason { get; set; }
-
-        /// <summary>
-        /// Remark
-        /// </summary>
-        public string Remark { get; set; }
+        public DateTime? PayDateEnd { get; set; }
 
 
 
