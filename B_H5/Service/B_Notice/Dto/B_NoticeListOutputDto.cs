@@ -27,7 +27,7 @@ namespace B_H5
         /// <summary>
         /// Status
         /// </summary>
-        public int Status { get; set; }
+        public NoticeStatusEnum Status { get; set; }
 
         /// <summary>
         /// CreationTime

@@ -18,7 +18,10 @@ namespace B_H5
     {
         public int? TenantId { get; set; }
         #region 表字段
-        
+
+
+        public string OrderNo { get; set; }
+
         /// <summary>
         /// UserId
         /// </summary>
@@ -36,6 +39,12 @@ namespace B_H5
         /// </summary>
         [DisplayName(@"Stauts")]
         public int Stauts { get; set; }
+
+        public OrderAmoutEnum InOrOut { get; set; }
+
+        public Guid BusinessId { get; set; }
+
+        public OrderAmoutBusinessTypeEnum BusinessType { get; set; }
 
 
         #endregion

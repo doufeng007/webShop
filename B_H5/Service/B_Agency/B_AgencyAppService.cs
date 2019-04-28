@@ -33,6 +33,7 @@ namespace B_H5
     public class B_AgencyAppService : FRMSCoreAppServiceBase, IB_AgencyAppService
     {
         private readonly IRepository<B_Agency, Guid> _repository;
+        private readonly IRepository<B_AgencyApply, Guid> _b_AgencyApplyRepository;
         private readonly IRepository<AbpDictionary, Guid> _abpDictionaryrepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
@@ -43,7 +44,7 @@ namespace B_H5
 
         public B_AgencyAppService(IRepository<B_Agency, Guid> repository, IRepository<AbpDictionary, Guid> abpDictionaryrepository
             , IUnitOfWorkManager unitOfWorkManager, IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_AgencyLevel, Guid> b_AgencyLevelepository
-            , IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> userRepository
+            , IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> userRepository, IRepository<B_AgencyApply, Guid> b_AgencyApplyRepository
 
         )
         {
@@ -55,6 +56,7 @@ namespace B_H5
             _userRepository = userRepository;
             var coreAssemblyDirectoryPath = typeof(B_AgencyAppService).GetAssembly().GetDirectoryPathOrNull();
             _appConfiguration = AppConfigurations.Get(coreAssemblyDirectoryPath);
+            _b_AgencyApplyRepository = b_AgencyApplyRepository;
 
         }
 
@@ -105,12 +107,71 @@ namespace B_H5
                 });
                 foreach (var item in ret)
                     if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
-                        item.File = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString()).Files.FirstOrDefault();
+                    {
+                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                        if (fileModel != null)
+                        {
+                            var files = fileModel.Files;
+                            if (files.Count > 0)
+                                item.File = files.FirstOrDefault();
+                        }
+
+                    }
                 return new PagedResultDto<B_AgencyListOutputDto>(toalCount, ret);
             }
 
 
         }
+
+
+        /// <summary>
+        /// 后台查看所有代理
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<B_AgencyManagerListOutputDto>> GetManagerList(GetB_AgencyManagerListInput input)
+        {
+            using (_unitOfWorkManager.Current.DisableFilter(AbpDataFilters.SoftDelete))
+            {
+                var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                            join u in UserManager.Users on a.UserId equals u.Id
+                            join b in _b_AgencyLevelepository.GetAll() on a.AgencyLevelId equals b.Id
+                            select new B_AgencyManagerListOutputDto()
+                            {
+                                Id = a.Id,
+                                AgenCyCode = a.AgenCyCode,
+                                UserName = u.Name,
+                                AgencyLevelName = b.Name,
+                                AgencyLevelId = b.Id,
+                                WxId = a.WxId,
+                                Tel = u.PhoneNumber,
+                                Status = a.Status,
+                                CreationTime = a.CreationTime,
+                            };
+
+                query = query.WhereIf(input.AgencyLevelId.HasValue, r => r.AgencyLevelId == input.AgencyLevelId.Value)
+                    .WhereIf(input.Status.HasValue, r => r.Status == input.Status)
+                    .WhereIf(input.StartDate.HasValue, r => r.CreationTime >= input.StartDate.Value)
+                    .WhereIf(input.EndDate.HasValue, r => r.CreationTime <= input.EndDate.Value)
+                    .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.AgenCyCode.Contains(input.SearchKey) || r.UserName.Contains(input.SearchKey));
+
+                var toalCount = await query.CountAsync();
+                var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+                return new PagedResultDto<B_AgencyManagerListOutputDto>(toalCount, ret);
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -264,12 +325,17 @@ namespace B_H5
             await _userRepository.DeleteAsync(r => r.Id == model.UserId);
         }
 
-        public async Task Disable(EntityDto<Guid> input)
+        /// <summary>
+        /// 解封
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task Enable(EntityDto<Guid> input)
         {
             var model = await _repository.GetAsync(input.Id);
-            model.Status = (int)B_AgencyAcountStatusEnum.封号;
+            model.Status = B_AgencyAcountStatusEnum.正常;
             var user = await _userRepository.GetAsync(model.UserId);
-            user.IsActive = false;
+            user.IsActive = true;
 
         }
 

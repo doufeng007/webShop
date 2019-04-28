@@ -26,12 +26,13 @@ namespace B_H5
     public class B_CategroyAppService : FRMSCoreAppServiceBase, IB_CategroyAppService
     {
         private readonly IRepository<B_Categroy, Guid> _repository;
-
-        public B_CategroyAppService(IRepository<B_Categroy, Guid> repository
+        private readonly IAbpFileRelationAppService _abpFileRelationAppService;
+        public B_CategroyAppService(IRepository<B_Categroy, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
 
         )
         {
             this._repository = repository;
+            _abpFileRelationAppService = abpFileRelationAppService;
 
         }
 
@@ -102,11 +103,10 @@ namespace B_H5
             return model.MapTo<B_CategroyOutputDto>();
         }
         /// <summary>
-        /// 添加一个B_Categroy
+        /// 添加一个商品类别
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-
         public async Task Create(CreateB_CategroyInput input)
         {
             if (!input.P_Id.HasValue)
@@ -127,6 +127,17 @@ namespace B_H5
 
 
             await _repository.InsertAsync(newmodel);
+
+            var fileList3 = new List<AbpFileListInput>();
+
+            fileList3.Add(new AbpFileListInput() { Id = input.File.Id, Sort = input.File.Sort });
+
+            await _abpFileRelationAppService.CreateAsync(new CreateFileRelationsInput()
+            {
+                BusinessId = newmodel.Id.ToString(),
+                BusinessType = (int)AbpFileBusinessType.商品类别图,
+                Files = fileList3
+            });
 
         }
 

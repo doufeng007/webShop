@@ -80,7 +80,16 @@ namespace B_H5
             });
             foreach (var item in ret)
                 if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
-                    item.File = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString()).Files.FirstOrDefault();
+                {
+                    var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                    if (fileModel != null)
+                    {
+                        var files = fileModel.Files;
+                        if (files.Count > 0)
+                            item.File = files.FirstOrDefault();
+                    }
+
+                }
 
             return ret;
         }

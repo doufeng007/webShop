@@ -29,7 +29,14 @@ namespace B_H5
         public int Stauts { get; set; }
 
 
-		
+        public OrderAmoutEnum InOrOut { get; set; }
+
+        public Guid BusinessId { get; set; }
+
+        public OrderAmoutBusinessTypeEnum BusinessType { get; set; }
+
+        public string OrderNo { get; set; }
+
         #endregion
     }
 }

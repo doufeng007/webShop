@@ -281,6 +281,14 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
         public virtual DbSet<B_Withdrawal> B_Withdrawal { get; set; }
 
 
+        public virtual DbSet<B_InventoryAddRecord> B_InventoryAddRecord { get; set; }
+
+        public virtual DbSet<B_AgencyDisableRecord> B_AgencyDisableRecord { get; set; }
+
+        public virtual DbSet<B_ManagerPayAccount> B_ManagerPayAccount { get; set; }
+
+        
+
 
         #endregion
 

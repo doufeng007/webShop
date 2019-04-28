@@ -27,7 +27,7 @@ namespace B_H5
         /// Status
         /// </summary>
         [Range(0, int.MaxValue,ErrorMessage="")]
-        public int Status { get; set; }
+        public NoticeStatusEnum Status { get; set; }
 
 
 		

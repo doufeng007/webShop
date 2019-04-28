@@ -33,6 +33,9 @@ namespace B_H5
         [DisplayName(@"CategroyId")]
         public Guid? CategroyId { get; set; }
 
+
+        public Guid CategroyIdP { get; set; }
+
         /// <summary>
         /// Price
         /// </summary>
@@ -51,6 +54,28 @@ namespace B_H5
         [DisplayName(@"Price2")]
         public decimal Price2 { get; set; }
 
+
+        public string Code { get; set; }
+
+
+        public string ModeType { get; set; }
+
+
+
+        public string Spe { get; set; }
+
+        public Guid UnitId { get; set; }
+
+
+        public string UnitName { get; set; }
+
+
+        public GoodStatusEnum Status { get; set; }
+
+        /// <summary>
+        /// 库存
+        /// </summary>
+        public int Inventory { get; set; }
 
         #endregion
     }

@@ -86,7 +86,7 @@ namespace B_H5
             {
                 Title = input.Title,
                 Content = input.Content,
-                Status = input.Status
+                Status = NoticeStatusEnum.草稿
             };
             await _repository.InsertAsync(newmodel);
         }
@@ -98,35 +98,64 @@ namespace B_H5
         /// <returns></returns>
         public async Task Update(UpdateB_NoticeInput input)
         {
-            if (input.Id != Guid.Empty)
-            {
-                var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
-                if (dbmodel == null)
-                {
-                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
-                }
+            //if (input.Id != Guid.Empty)
+            //{
+            //    var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            //    if (dbmodel == null)
+            //    {
+            //        throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            //    }
 
-                dbmodel.Title = input.Title;
-                dbmodel.Content = input.Content;
-                dbmodel.Status = input.Status;
+            //    dbmodel.Title = input.Title;
+            //    dbmodel.Content = input.Content;
+            //    dbmodel.Status = input.Status;
 
-                await _repository.UpdateAsync(dbmodel);
+            //    await _repository.UpdateAsync(dbmodel);
 
-            }
-            else
-            {
-                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
-            }
+            //}
+            //else
+            //{
+            //    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            //}
         }
 
         /// <summary>
-        /// 逻辑删除实体
+        /// 删除公告
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
         public async Task Delete(EntityDto<Guid> input)
         {
-            await _repository.DeleteAsync(x => x.Id == input.Id);
+            var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            if (dbmodel == null)
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            }
+            if (dbmodel.Status != NoticeStatusEnum.正常)
+                await _repository.DeleteAsync(x => x.Id == input.Id);
+        }
+
+
+
+        /// <summary>
+        /// 发送、撤销公告
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task SendOrCancle(EntityDto<Guid> input)
+        {
+            var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            if (dbmodel == null)
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            }
+            if (dbmodel.Status == NoticeStatusEnum.草稿)
+                dbmodel.Status = NoticeStatusEnum.正常;
+            else if (dbmodel.Status == NoticeStatusEnum.正常)
+                dbmodel.Status = NoticeStatusEnum.撤销;
+            else { }
+
+            await _repository.UpdateAsync(dbmodel);
         }
     }
 }

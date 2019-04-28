@@ -132,13 +132,15 @@ namespace B_H5
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-
         public async Task<B_AgencyApplyOutputDto> Get(EntityDto<Guid> input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-                        join b in _b_InviteUrlRepository.GetAll() on a.InviteUrlId equals b.Id
-                        join u in UserManager.Users on b.CreatorUserId.Value equals u.Id
-                        join b_a in _b_AgencyRepository.GetAll() on u.Id equals b_a.UserId
+                        join b in _b_InviteUrlRepository.GetAll() on a.InviteUrlId equals b.Id into g
+                        from b in g.DefaultIfEmpty()
+                        join u in UserManager.Users on b.CreatorUserId.Value equals u.Id into m
+                        from u in m.DefaultIfEmpty()
+                        join b_a in _b_AgencyRepository.GetAll() on u.Id equals b_a.UserId into n
+                        from b_a in n.DefaultIfEmpty()
                         where a.Id == input.Id
                         select new B_AgencyApplyOutputDto
                         {
@@ -153,9 +155,9 @@ namespace B_H5
                             Country = a.Country,
                             County = a.County,
                             CreationTime = a.CreationTime,
-                            InvitUserAddress = b_a.Address,
-                            InvitUserName = u.Name,
-                            InvitUserTel = u.PhoneNumber,
+                            InvitUserAddress = b_a == null ? "" : b_a.Address,
+                            InvitUserName = u == null ? "" : u.Name,
+                            InvitUserTel = u == null ? "" : u.PhoneNumber,
                             Name = a.Name,
                             PayAcount = a.PayAcount,
                             PayAmout = a.PayAmout,
@@ -205,7 +207,7 @@ namespace B_H5
 
 
         /// <summary>
-        /// 添加一个B_AgencyApply
+        /// 新增一个代理申请
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
@@ -293,9 +295,13 @@ namespace B_H5
             if (input.IsPass)
             {
                 model.Status = B_AgencyApplyStatusEnum.已通过;
+                B_Agency invite_AgencyModel = null;
+                if (model.InviteUrlId.HasValue)
+                {
+                    var invitaUrlModel = _b_InviteUrlRepository.Get(model.InviteUrlId.Value);
+                    invite_AgencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == invitaUrlModel.CreatorUserId.Value);
+                }
 
-                var invitaUrlModel = _b_InviteUrlRepository.Get(model.InviteUrlId);
-                var p_AgencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == invitaUrlModel.CreatorUserId.Value);
                 var agencyLeavelOne = _b_AgencyLevelService.GetAgencyLevelOneFromCache();
                 if (model.AgencyLevelId == agencyLeavelOne.Id)
                 {
@@ -333,9 +339,13 @@ namespace B_H5
                         SignData = model.CreationTime,
                         //Agreement = input.Agreement,
                         WxId = model.WxId,
-                        P_Id = p_AgencyModel.Id,
-                        OriginalPid = p_AgencyModel.Id
+                        ApplyId = model.Id
                     };
+                    if (invite_AgencyModel != null)
+                    {
+                        newmodel.P_Id = invite_AgencyModel.Id;
+                        newmodel.OriginalPid = invite_AgencyModel.Id;
+                    }
 
                     await _b_AgencyRepository.InsertAsync(newmodel);
                 }

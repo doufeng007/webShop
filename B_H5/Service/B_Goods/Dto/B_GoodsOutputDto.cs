@@ -30,6 +30,11 @@ namespace B_H5
         public Guid? CategroyId { get; set; }
 
         /// <summary>
+        /// 商品大类
+        /// </summary>
+        public Guid CategroyIdP { get; set; }
+
+        /// <summary>
         /// Price
         /// </summary>
         public decimal Price { get; set; }
@@ -49,7 +54,27 @@ namespace B_H5
         /// </summary>
         public DateTime CreationTime { get; set; }
 
+        public string Code { get; set; }
 
-		
+
+        public string ModeType { get; set; }
+
+
+
+        public string Spe { get; set; }
+
+        public Guid UnitId { get; set; }
+
+
+        public string UnitName { get; set; }
+
+
+        public GoodStatusEnum Status { get; set; }
+
+
+        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
+
+
+
     }
 }

@@ -25,6 +25,12 @@ namespace B_H5
 
     }
 
+    public enum GoodStatusEnum
+    {
+        上架 = 0,
+        下架 = 1,
+    }
+
     /// <summary>
     /// 代理类别
     /// </summary>
@@ -83,4 +89,46 @@ namespace B_H5
     }
 
 
+    public enum B_InventoryAddConfigEnum
+    {
+        否 = 0,
+        是 = 1
+    }
+
+
+    public enum PayAccountType
+    {
+        支付宝 = 0,
+        银行卡 = 1,
+
+    }
+
+
+    public enum PayAccountStatus
+    {
+        上线 = 0,
+        下线 = 1
+    }
+
+    public enum NoticeStatusEnum
+    {
+        草稿 = 0,
+        正常 = 1,
+        撤销 = 2
+    }
+
+    public enum OrderAmoutEnum
+    {
+        出账 = 0,
+        入账 = 1
+    }
+
+    public enum OrderAmoutBusinessTypeEnum
+    {
+        进货 = 1,
+        提现 = 2,
+        充值 = 3,
+        奖励 = 4,
+        保证金 = 5
+    }
 }

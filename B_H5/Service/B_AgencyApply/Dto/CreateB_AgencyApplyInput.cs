@@ -25,7 +25,7 @@ namespace B_H5
         /// <summary>
         /// 邀请链接id
         /// </summary>
-        public Guid InviteUrlId { get; set; }
+        public Guid? InviteUrlId { get; set; }
 
         /// <summary>
         /// 姓名

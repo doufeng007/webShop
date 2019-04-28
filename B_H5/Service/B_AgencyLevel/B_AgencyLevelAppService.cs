@@ -26,40 +26,69 @@ namespace B_H5
 {
     public class B_AgencyLevelAppService : FRMSCoreAppServiceBase, IB_AgencyLevelAppService
     {
+        private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
         private readonly IRepository<B_AgencyLevel, Guid> _repository;
         private readonly ICacheManager _cacheManager;
 
-        public B_AgencyLevelAppService(IRepository<B_AgencyLevel, Guid> repository, ICacheManager cacheManager
+        public B_AgencyLevelAppService(IRepository<B_AgencyLevel, Guid> repository, ICacheManager cacheManager, IRepository<B_Agency, Guid> b_AgencyRepository
 
         )
         {
             this._repository = repository;
             _cacheManager = cacheManager;
+            _b_AgencyRepository = b_AgencyRepository;
 
         }
 
         /// <summary>
-        /// 根据条件分页获取列表
+        /// 后台-等级管理
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
         public async Task<PagedResultDto<B_AgencyLevelListOutputDto>> GetListAsync(GetB_AgencyLevelListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-
+                        join b in _b_AgencyRepository.GetAll() on a.Id equals b.AgencyLevelId into g
                         select new B_AgencyLevelListOutputDto()
                         {
                             Id = a.Id,
                             Name = a.Name,
                             Level = a.Level,
                             IsDefault = a.IsDefault,
-                            CreationTime = a.CreationTime
+                            CreationTime = a.CreationTime,
+                            AgencyCount = g.Count(),
 
                         };
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
 
             return new PagedResultDto<B_AgencyLevelListOutputDto>(toalCount, ret);
+        }
+
+        /// <summary>
+        /// 后台-等级金额
+        /// </summary>
+        /// <param name="page">查询实体</param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<B_AgencyLevelAmoutListOutputDto>> GetAmoutListAsync(GetB_AgencyLevelListInput input)
+        {
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                        select new B_AgencyLevelAmoutListOutputDto()
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            Level = a.Level,
+                            CreationTime = a.CreationTime,
+                            Deposit = a.Deposit,
+                            Discount = a.Discount,
+                            FirstRechargeAmout = a.FirstRechargeAmout,
+                            RecommendAmout = a.RecommendAmout
+
+                        };
+            var toalCount = await query.CountAsync();
+            var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+
+            return new PagedResultDto<B_AgencyLevelAmoutListOutputDto>(toalCount, ret);
         }
 
 
@@ -98,33 +127,43 @@ namespace B_H5
             return model.MapTo<B_AgencyLevelOutputDto>();
         }
         /// <summary>
-        /// 添加一个B_AgencyLevel
+        /// 新增代理级别
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
 
         public async Task Create(CreateB_AgencyLevelInput input)
         {
-            var query = _repository.GetAll();
-            if (query.Count() == 0)
-                input.Level = 1;
-            else
-                input.Level = query.Max(r => r.Level) + 1;
-            var newmodel = new B_AgencyLevel()
+            if (_repository.GetAll().Any(r => r.Level == input.Level))
             {
-                Name = input.Name,
-                Level = input.Level,
-            };
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, $"已存在{input.Level}级代理名称");
+            }
 
-            await _repository.InsertAsync(newmodel);
+
+            if (input.Level != 1)
+            {
+                if (!_repository.GetAll().Any(r => r.Level == 1))
+                {
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, $"请先创建一级代理名称");
+                }
+            }
+
+
+
+            await _repository.InsertAsync(new B_AgencyLevel()
+            {
+                Id = Guid.NewGuid(),
+                Level = input.Level,
+                Name = input.Name,
+
+            });
 
             _cacheManager.GetCache("B_AgencyLevelList").Remove("B_AgencyLevelList");
-            //_cacheManager.GetCache(cacheName).SetAsync(flowVersionNumStr, data);
 
         }
 
         /// <summary>
-        /// 修改一个B_AgencyLevel
+        /// 修改代理等级 -设置等级金额
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
@@ -141,6 +180,10 @@ namespace B_H5
                 dbmodel.Name = input.Name;
                 //dbmodel.Level = input.Level;
                 //dbmodel.IsDefault = input.IsDefault;
+                dbmodel.RecommendAmout = input.RecommendAmout;
+                dbmodel.Deposit = input.Deposit;
+                dbmodel.Discount = input.Discount;
+                dbmodel.FirstRechargeAmout = input.FirstRechargeAmout;
 
                 await _repository.UpdateAsync(dbmodel);
 
@@ -152,13 +195,16 @@ namespace B_H5
         }
 
         /// <summary>
-        /// 逻辑删除实体
+        /// 逻辑代理等级
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
         public async Task Delete(EntityDto<Guid> input)
         {
-            //await _repository.DeleteAsync(x => x.Id == input.Id);
+            if (_b_AgencyRepository.GetAll().Any(r => r.AgencyLevelId == input.Id))
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "不能删除有代理的代理等级");
+            else
+                await _repository.DeleteAsync(x => x.Id == input.Id);
         }
 
         private List<B_AgencyLevelListOutputDto> GetAgencyLevelFromCache()
@@ -178,7 +224,7 @@ namespace B_H5
             var list = GetAgencyLevelFromCache();
             var ret = list.FirstOrDefault(r => r.Id == id);
             if (ret == null)
-                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "获取代理级别失败");
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "获取代理等级失败");
             return ret;
 
         }
@@ -188,7 +234,7 @@ namespace B_H5
             var list = GetAgencyLevelFromCache();
             var ret = list.FirstOrDefault(r => r.Level == 1);
             if (ret == null)
-                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "获取代理级别失败");
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "获取代理等级失败");
             return ret;
         }
 

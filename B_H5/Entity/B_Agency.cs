@@ -100,7 +100,7 @@ namespace B_H5
         /// Status
         /// </summary>
         [DisplayName(@"Status")]
-        public int Status { get; set; }
+        public B_AgencyAcountStatusEnum Status { get; set; }
 
         /// <summary>
         /// OpenId
@@ -140,6 +140,9 @@ namespace B_H5
         /// 微信号
         /// </summary>
         public string WxId { get; set; }
+
+
+        public Guid ApplyId { get; set; }
 
 
         #endregion

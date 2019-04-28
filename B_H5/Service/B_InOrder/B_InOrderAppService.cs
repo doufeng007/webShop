@@ -15,6 +15,11 @@ using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using ZCYX.FRMSCore.Model;
 using Abp.WorkFlowDictionary;
+using Abp;
+using Abp.File;
+using Abp.Application.Services.Dto;
+using Abp.Linq.Extensions;
+using Abp.Extensions;
 
 namespace B_H5
 {
@@ -29,26 +34,121 @@ namespace B_H5
         private readonly IRepository<B_CWUserInventory, Guid> _b_CWUserInventoryRepository;
         private readonly IRepository<AbpDictionary, Guid> _abpDictionaryRepository;
         private readonly IRepository<B_OrderIn, Guid> _repository;
+        private readonly IRepository<B_Order, Guid> _b_OrderRepository;
+        private readonly IRepository<B_Categroy, Guid> _b_CategroyRepository;
+        private readonly IAbpFileRelationAppService _abpFileRelationAppService;
 
 
         public B_InOrderAppService(IRepository<B_Agency, Guid> b_AgencyRepository, B_CategroyManager b_CategroyManager
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<AbpDictionary, Guid> abpDictionaryRepository
-            , IRepository<B_OrderIn, Guid> repository)
+            , IRepository<B_OrderIn, Guid> repository, IRepository<B_Order, Guid> b_OrderRepository, IRepository<B_Categroy, Guid> b_CategroyRepository
+            , IAbpFileRelationAppService abpFileRelationAppService)
         {
             _b_AgencyRepository = b_AgencyRepository;
             _b_CategroyManager = b_CategroyManager;
             _b_CWUserInventoryRepository = b_CWUserInventoryRepository;
             _abpDictionaryRepository = abpDictionaryRepository;
             _repository = repository;
+            _b_OrderRepository = b_OrderRepository;
+            _b_CategroyRepository = b_CategroyRepository;
+            _abpFileRelationAppService = abpFileRelationAppService;
         }
         /// <summary>
         /// 获取进货单列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input)
+        public async Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input)
         {
-            throw new NotImplementedException();
+            var query = from a in _repository.GetAll()
+                        join u in UserManager.Users on a.UserId equals u.Id
+                        join b in _b_OrderRepository.GetAll() on a.Id equals b.BusinessId
+                        join c in _b_CategroyRepository.GetAll() on a.CategroyId equals c.Id
+                        select new B_InOrderListOutputDto
+                        {
+                            Id = a.Id,
+                            Amout = a.Amout,
+                            Balance = a.Balance,
+                            CreationTime = a.CreationTime,
+                            GoodsPayment = a.GoodsPayment,
+                            Number = a.Number,
+                            OrderNo = b.OrderNo,
+                            CategroyId = a.CategroyId,
+                            CategroyTitle = c.Name,
+                            UserName = u.Name,
+                            UserId = a.UserId,
+                            Status = a.Status,
+
+                        };
+
+            query = query.WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
+                .WhereIf(input.UserId.HasValue, r => r.UserId == input.UserId.Value)
+                .WhereIf(input.StartDate.HasValue, r => r.CreationTime >= input.StartDate.Value)
+                .WhereIf(input.EndDate.HasValue, r => r.CreationTime <= input.EndDate.Value)
+              .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.OrderNo.Contains(input.SearchKey) || r.UserName.Contains(input.SearchKey));
+            var toalCount = await query.CountAsync();
+            var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+
+            var businessIds = ret.Select(r => r.Id.ToString()).ToList();
+            var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
+            {
+                BusinessIds = businessIds,
+                BusinessType = AbpFileBusinessType.商品类别图
+            });
+            foreach (var item in ret)
+                if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
+                {
+                    var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                    if (fileModel != null)
+                    {
+                        var files = fileModel.Files;
+                        if (files.Count > 0)
+                            item.File = files.FirstOrDefault();
+                    }
+
+                }
+
+            return ret;
+        }
+
+
+        public async Task<OrderInDto> Get(EntityDto<Guid> input)
+        {
+            var query = from a in _repository.GetAll()
+                        join b in _b_OrderRepository.GetAll() on a.Id equals b.BusinessId
+                        join c in _b_CategroyRepository.GetAll() on a.CategroyId equals c.Id
+                        where a.Id == input.Id
+                        select new OrderInDto
+                        {
+                            Id = a.Id,
+                            Amout = a.Amout,
+                            Balance = a.Balance,
+                            CreationTime = a.CreationTime,
+                            GoodsPayment = a.GoodsPayment,
+                            Number = a.Number,
+                            OrderNo = b.OrderNo,
+                            Price = c.Price,
+                            CategroyId = a.CategroyId,
+                            CategroyTitle = c.Name
+
+
+
+                        };
+            var ret = await query.FirstOrDefaultAsync();
+            if (ret == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            var files = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = ret.CategroyId.ToString(),
+                BusinessType = (int)AbpFileBusinessType.商品类别图
+            });
+
+            if (files.Count() > 0)
+                ret.File = files.FirstOrDefault();
+
+
+            return ret;
+
         }
 
         /// <summary>
@@ -67,21 +167,6 @@ namespace B_H5
             var categroyPrice = _b_CategroyManager.GetCategroyPriceForUser(AbpSession.UserId.Value, input.CategroyId);
             var totalAmout = categroyPrice * input.Number;
 
-            if ((bModel.GoodsPayment + bModel.Balance) < totalAmout)
-                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "余额不足，无法支付");
-            else
-            {
-                if (bModel.GoodsPayment < totalAmout)
-                {
-                    bModel.GoodsPayment = 0;
-                    bModel.Balance = bModel.Balance - (totalAmout - bModel.GoodsPayment);
-                }
-                else
-                {
-                    bModel.GoodsPayment = bModel.GoodsPayment - totalAmout;
-                }
-            }
-
 
             var orderInmodel = new B_OrderIn()
             {
@@ -91,6 +176,28 @@ namespace B_H5
                 Number = input.Number,
                 UserId = AbpSession.UserId.Value,
             };
+
+
+            if ((bModel.GoodsPayment + bModel.Balance) < totalAmout)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "余额不足，无法支付");
+            else
+            {
+                if (bModel.GoodsPayment < totalAmout)
+                {
+                    bModel.GoodsPayment = 0;
+                    bModel.Balance = bModel.Balance - (totalAmout - bModel.GoodsPayment);
+                    orderInmodel.GoodsPayment = bModel.GoodsPayment;
+                    orderInmodel.Balance = totalAmout - bModel.GoodsPayment;
+                }
+                else
+                {
+                    bModel.GoodsPayment = bModel.GoodsPayment - totalAmout;
+                    orderInmodel.GoodsPayment = totalAmout;
+                }
+            }
+
+
+
 
             var userInventory = await _b_CWUserInventoryRepository.FirstOrDefaultAsync(r => r.UserId == AbpSession.UserId.Value && r.CategroyId == input.CategroyId);
 
@@ -206,6 +313,19 @@ namespace B_H5
 
 
             await _repository.InsertAsync(orderInmodel);
+
+
+
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+            await service.Create(new CreateB_OrderInput()
+            {
+                Amout = orderInmodel.Amout,
+                BusinessId = orderInmodel.Id,
+                BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                InOrOut = OrderAmoutEnum.入账,
+                OrderNo = "",
+                UserId = AbpSession.UserId.Value
+            });
 
 
 

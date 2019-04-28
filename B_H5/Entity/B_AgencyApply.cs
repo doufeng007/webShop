@@ -20,7 +20,7 @@ namespace B_H5
         #region 表字段
 
 
-        public Guid InviteUrlId { get; set; }
+        public Guid? InviteUrlId { get; set; }
 
 
         public string Name { get; set; }

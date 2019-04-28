@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,14 @@ namespace B_H5
         /// <param name="input"></param>
         /// <returns></returns>
         Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<OrderInDto> Get(EntityDto<Guid> input);
 
 
         /// <summary>

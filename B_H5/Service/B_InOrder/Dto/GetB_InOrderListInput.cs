@@ -15,6 +15,14 @@ namespace B_H5
         /// </summary>
         public InOrderStatusEnum? Status { get; set; }
 
+        public DateTime? StartDate { get; set; }
+
+
+        public DateTime? EndDate { get; set; }
+
+
+        public long? UserId { get; set; }
+
 
         public void Normalize()
         {

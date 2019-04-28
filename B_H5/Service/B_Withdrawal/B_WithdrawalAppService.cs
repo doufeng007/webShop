@@ -39,7 +39,7 @@ namespace B_H5
         }
 
         /// <summary>
-        /// 根据条件分页获取列表
+        /// 提现审核/打款-列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>

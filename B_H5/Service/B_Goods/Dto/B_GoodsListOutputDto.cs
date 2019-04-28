@@ -20,29 +20,77 @@ namespace B_H5
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Name
+        /// 商品编号
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 型号
+        /// </summary>
+        public string ModeType { get; set; }
+
+
+        /// <summary>
+        /// 规格
+        /// </summary>
+        public string Spe { get; set; }
+
+        
+        /// <summary>
+        /// 单位
+        /// </summary>
+
+        public string UnitName { get; set; }
+
+
+
+
+        public GoodStatusEnum Status { get; set; }
+
+        /// <summary>
+        /// 商品名称
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 商品小类
+        /// </summary>
+        public string CategroyIdName { get; set; }
+
+        /// <summary>
+        /// 商品大类
+        /// </summary>
+        public string CategroyIdPName { get; set; }
+
+
+
+        /// <summary>
+        /// 商品大类
+        /// </summary>
+        public Guid CategroyIdP { get; set; }
+
 
         /// <summary>
         /// CategroyId
         /// </summary>
         public Guid? CategroyId { get; set; }
 
+
+
+
+
+
+
         /// <summary>
-        /// Price
+        /// 原价
         /// </summary>
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Pirce1
+        /// 优惠价
         /// </summary>
         public decimal Pirce1 { get; set; }
 
-        /// <summary>
-        /// Price2
-        /// </summary>
-        public decimal Price2 { get; set; }
 
         /// <summary>
         /// CreationTime
@@ -53,5 +101,86 @@ namespace B_H5
         /// 图片
         /// </summary>
         public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
+    }
+
+    public class B_GoodsInventoryListOutputDto
+    {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// 商品编号
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 型号
+        /// </summary>
+        public string ModeType { get; set; }
+
+
+        /// <summary>
+        /// 规格
+        /// </summary>
+        public string Spe { get; set; }
+
+
+        /// <summary>
+        /// 单位
+        /// </summary>
+
+        public string UnitName { get; set; }
+
+
+
+
+        /// <summary>
+        /// 商品名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 商品小类
+        /// </summary>
+        public string CategroyIdName { get; set; }
+
+        /// <summary>
+        /// 商品大类
+        /// </summary>
+        public string CategroyIdPName { get; set; }
+
+
+
+        /// <summary>
+        /// 商品大类
+        /// </summary>
+        public Guid CategroyIdP { get; set; }
+
+
+        /// <summary>
+        /// CategroyId
+        /// </summary>
+        public Guid? CategroyId { get; set; }
+
+
+
+
+
+
+        /// <summary>
+        /// 当前库存
+        /// </summary>
+        public int Inventory { get; set; }
+
+
+
+        /// <summary>
+        /// CreationTime
+        /// </summary>
+        public DateTime CreationTime { get; set; }
+
+
     }
 }

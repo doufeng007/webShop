@@ -20,15 +20,15 @@ namespace B_H5
         /// </summary>
         public int Number { get; set; }
 
-        ///// <summary>
-        ///// 货款
-        ///// </summary>
-        //public decimal GoodsPayment { get; set; }
+        /// <summary>
+        /// 货款
+        /// </summary>
+        public decimal GoodsPayment { get; set; }
 
-        ///// <summary>
-        ///// 余额
-        ///// </summary>
-        //public decimal Balance { get; set; }
+        /// <summary>
+        /// 余额
+        /// </summary>
+        public decimal Balance { get; set; }
     }
 
 

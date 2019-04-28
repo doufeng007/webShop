@@ -10,30 +10,44 @@ namespace B_H5
 {
     public class GetB_GoodsListInput : PagedAndSortedInputDto, IShouldNormalize
     {
-        /// <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; }
+       
 
         /// <summary>
-        /// CategroyId
+        /// 商品大类
+        /// </summary>
+        public Guid? CategroyIdP { get; set; }
+
+        /// <summary>
+        /// 商品小类
         /// </summary>
         public Guid? CategroyId { get; set; }
 
-        /// <summary>
-        /// Price
-        /// </summary>
-        public decimal Price { get; set; }
+       
+
+
+        public void Normalize()
+        {
+            if (string.IsNullOrEmpty(Sorting))
+            {
+                Sorting = " CreationTime desc";
+            }
+        }
+    }
+
+    public class GetB_GoodsInventoryListInput : PagedAndSortedInputDto, IShouldNormalize
+    {
+
 
         /// <summary>
-        /// Pirce1
+        /// 商品大类
         /// </summary>
-        public decimal Pirce1 { get; set; }
+        public Guid? CategroyIdP { get; set; }
 
         /// <summary>
-        /// Price2
+        /// 商品小类
         /// </summary>
-        public decimal Price2 { get; set; }
+        public Guid? CategroyId { get; set; }
+
 
 
 

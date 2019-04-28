@@ -21,42 +21,54 @@ namespace B_H5
         /// <summary>
         /// 编号
         /// </summary>
-        public string OrderCode { get; set; }
+        public string OrderNo { get; set; }
 
 
-        public int Status { get; set; }
+        public DateTime CreationTime { get; set; }
+
+        public InOrderStatusEnum Status { get; set; }
 
 
         /// <summary>
-        /// 状态
+        /// 代理名称
         /// </summary>
-        public string StatusTitle { get; set; }
+        public string UserName { get; set; }
+
+
+        public long UserId { get; set; }
+
+
 
         /// <summary>
-        /// 时间
+        /// 进货数量
         /// </summary>
-        public DateTime LastTime { get; set; }
+        public int Number { get; set; }
 
         /// <summary>
-        /// 商品名称
+        /// Amout
         /// </summary>
-        public string GoodsName { get; set; }
+        public decimal Amout { get; set; }
 
         /// <summary>
-        /// 商品缩略图
+        /// 货款
+        /// </summary>
+        public decimal GoodsPayment { get; set; }
+
+        /// <summary>
+        /// 余额
+        /// </summary>
+        public decimal Balance { get; set; }
+
+
+        public Guid CategroyId { get; set; }
+
+        public string CategroyTitle { get; set; }
+
+
+        /// <summary>
+        /// 进货商品类别缩略图
         /// </summary>
         public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
-
-        /// <summary>
-        /// 商品单价
-        /// </summary>
-        public decimal GoodsPrice { get; set; }
-
-
-        /// <summary>
-        /// 商品数量
-        /// </summary>
-        public int GoodsNumber { get; set; }
 
     }
 }

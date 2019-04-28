@@ -40,7 +40,7 @@ namespace B_H5
         /// Status
         /// </summary>
         [DisplayName(@"Status")]
-        public int Status { get; set; }
+        public NoticeStatusEnum Status { get; set; }
 
 
         #endregion
