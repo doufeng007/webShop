@@ -241,6 +241,12 @@ namespace B_H5
 
             await _repository.InsertAsync(newmodel);
 
+            if (input.CredentFiles == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "未上传打款凭证！");
+
+            if (input.HandleCredentFiles == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "未上传手持证件！");
+
             var fileList1 = new List<AbpFileListInput>();
             foreach (var item in input.CredentFiles)
             {
