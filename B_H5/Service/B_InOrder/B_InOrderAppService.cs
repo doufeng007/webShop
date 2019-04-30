@@ -37,12 +37,13 @@ namespace B_H5
         private readonly IRepository<B_Order, Guid> _b_OrderRepository;
         private readonly IRepository<B_Categroy, Guid> _b_CategroyRepository;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
+        private readonly IB_CWDetailAppService _b_CWDetailAppService;
 
 
         public B_InOrderAppService(IRepository<B_Agency, Guid> b_AgencyRepository, B_CategroyManager b_CategroyManager
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<AbpDictionary, Guid> abpDictionaryRepository
             , IRepository<B_OrderIn, Guid> repository, IRepository<B_Order, Guid> b_OrderRepository, IRepository<B_Categroy, Guid> b_CategroyRepository
-            , IAbpFileRelationAppService abpFileRelationAppService)
+            , IAbpFileRelationAppService abpFileRelationAppService, IB_CWDetailAppService b_CWDetailAppService)
         {
             _b_AgencyRepository = b_AgencyRepository;
             _b_CategroyManager = b_CategroyManager;
@@ -52,6 +53,7 @@ namespace B_H5
             _b_OrderRepository = b_OrderRepository;
             _b_CategroyRepository = b_CategroyRepository;
             _abpFileRelationAppService = abpFileRelationAppService;
+            _b_CWDetailAppService = b_CWDetailAppService;
         }
         /// <summary>
         /// 获取进货单列表
@@ -243,13 +245,22 @@ namespace B_H5
 
                     if (userInventory.LessCount > 0)
                     {
-
+                        OrderInForChildeAgency(bModel.UserId, input.CategroyId, input.Number, userInventory);
                     }
                     else
                     {
                         userInventory.Count = userInventory.Count + input.Number;
                         await _b_CWUserInventoryRepository.UpdateAsync(userInventory);
                         orderInmodel.Status = InOrderStatusEnum.已完成;
+
+                        await _b_CWDetailAppService.Create(new CreateB_CWDetailInput()
+                        {
+                            BusinessType = CWDetailBusinessTypeEnum.自身进货入仓,
+                            CategroyId = input.CategroyId,
+                            Number = input.Number,
+                            Type = CWDetailTypeEnum.入仓,
+                            UserId = bModel.UserId
+                        });
                     }
                 }
             }
@@ -318,12 +329,48 @@ namespace B_H5
                             else
                             {
                                 if (userInventory.LessCount <= 0)
+                                {
                                     userInventory.Count = userInventory.Count + input.Number;
+
+
+                                }
                                 else  //递归往下级发货 修改下级的count和lessCount
                                     OrderInForChildeAgency(bModel.UserId, input.CategroyId, input.Number, userInventory);
                             }
 
+                            await _b_CWDetailAppService.Create(new CreateB_CWDetailInput()
+                            {
+                                BusinessType = CWDetailBusinessTypeEnum.自身进货入仓,
+                                CategroyId = input.CategroyId,
+                                Number = input.Number,
+                                Type = CWDetailTypeEnum.入仓,
+                                UserId = bModel.UserId
+                            });
+
+                            await _b_CWDetailAppService.Create(new CreateB_CWDetailInput()
+                            {
+                                BusinessType = CWDetailBusinessTypeEnum.下级进货自身出仓,
+                                CategroyId = input.CategroyId,
+                                Number = input.Number,
+                                Type = CWDetailTypeEnum.出仓,
+                                UserId = parent_AgencyModel.UserId,
+                                RelationUserId = bModel.UserId,
+                            });
+
+
+
+
+
+
+
+
                         }
+                        else
+                        {
+                            parent_Agency_Inventory.LessCount = parent_Agency_Inventory.LessCount + input.Number;
+                            orderInmodel.Status = InOrderStatusEnum.上级缺货;
+                        }
+                        await _b_CWUserInventoryRepository.UpdateAsync(parent_Agency_Inventory);
                     }
 
                 }
@@ -361,6 +408,7 @@ namespace B_H5
         private void OrderInForChildeAgency(long userId, Guid categroyId, int number, B_CWUserInventory agencyInventoryModel = null)
         {
             var agencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == userId);
+            var org_AgencyBlance = agencyModel.Balance;
             if (agencyInventoryModel == null)
                 agencyInventoryModel = _b_CWUserInventoryRepository.FirstOrDefault(r => r.UserId == agencyModel.UserId && r.CategroyId == categroyId);
             if (agencyInventoryModel == null)
@@ -392,12 +440,17 @@ namespace B_H5
                             if (item.Number > (currentAgencyInventoryCount + currentNumber))
                             {
                                 agencyInventoryModel.Count = currentAgencyInventoryCount + currentNumber;
-                                break;
                             }
                             else if (item.Number == (currentAgencyInventoryCount + currentNumber))
                             {
                                 agencyInventoryModel.Count = 0;
                                 agencyInventoryModel.LessCount = agencyInventoryModel.LessCount - (item.Number - currentAgencyInventoryCount);
+                                item.Status = InOrderStatusEnum.已完成;
+                                _repository.Update(item);
+                                ///上级往下发货成功 余额往下
+                                org_AgencyBlance = org_AgencyBlance + item.Amout;
+
+                                OrderInForChildDetail(categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
                                 OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
                                 break;
                             }
@@ -409,12 +462,25 @@ namespace B_H5
                                     currentNumber = currentNumber - (item.Number - currentAgencyInventoryCount);
                                     agencyInventoryModel.LessCount = agencyInventoryModel.LessCount - (item.Number - currentAgencyInventoryCount);
                                     currentAgencyInventoryCount = 0;
+
+                                    item.Status = InOrderStatusEnum.已完成;
+                                    _repository.Update(item);
+                                    ///上级往下发货成功 余额往下
+                                    org_AgencyBlance = org_AgencyBlance + item.Amout;
+                                    OrderInForChildDetail(categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
                                     OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
                                 }
                                 else
                                 {
                                     agencyInventoryModel.LessCount = agencyInventoryModel.LessCount - item.Number;
                                     currentNumber = currentNumber - item.Number;
+
+                                    item.Status = InOrderStatusEnum.已完成;
+                                    _repository.Update(item);
+                                    ///上级往下发货成功 余额往下
+                                    org_AgencyBlance = org_AgencyBlance + item.Amout;
+
+                                    OrderInForChildDetail(categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
                                     OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
                                 }
 
@@ -428,6 +494,35 @@ namespace B_H5
                 }
             }
 
+            if (agencyModel.Balance != org_AgencyBlance)
+            {
+                agencyModel.Balance = org_AgencyBlance;
+                _b_AgencyRepository.Update(agencyModel);
+            }
+
+        }
+
+
+        private void OrderInForChildDetail(Guid categroyId, int number, long userId, long p_UserId)
+        {
+            _b_CWDetailAppService.Create(new CreateB_CWDetailInput()
+            {
+                BusinessType = CWDetailBusinessTypeEnum.自身进货入仓,
+                CategroyId = categroyId,
+                Number = number,
+                Type = CWDetailTypeEnum.入仓,
+                UserId = userId
+            });
+
+            _b_CWDetailAppService.Create(new CreateB_CWDetailInput()
+            {
+                BusinessType = CWDetailBusinessTypeEnum.下级进货自身出仓,
+                CategroyId = categroyId,
+                Number = number,
+                Type = CWDetailTypeEnum.出仓,
+                UserId = p_UserId,
+                RelationUserId = userId,
+            });
         }
 
         /// <summary>

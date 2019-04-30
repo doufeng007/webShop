@@ -147,4 +147,19 @@ namespace B_H5
         直购 = 2,
         试装 = 3
     }
+
+
+    public enum CWDetailTypeEnum
+    {
+        入仓 = 1,
+        出仓 = 2
+    }
+
+    public enum CWDetailBusinessTypeEnum
+    {
+        自身进货入仓 = 1,
+        下级进货自身出仓 = 2,
+        自身提货出仓 = 3,
+
+    }
 }

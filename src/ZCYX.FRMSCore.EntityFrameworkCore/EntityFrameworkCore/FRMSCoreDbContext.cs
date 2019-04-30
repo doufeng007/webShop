@@ -292,7 +292,13 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
         public virtual DbSet<B_OrderCourier> B_OrderCourier { get; set; }
 
+
+        public virtual DbSet<B_CWDetail> B_CWDetail { get; set; }
+
+
         
+
+
 
         #endregion
 
