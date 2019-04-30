@@ -47,13 +47,13 @@ namespace B_H5
         /// GoodsId
         /// </summary>
         [DisplayName(@"GoodsId")]
-        public Guid? GoodsId { get; set; }
+        public Guid GoodsId { get; set; }
 
         /// <summary>
         /// Amout
         /// </summary>
         [DisplayName(@"Amout")]
-        public decimal? Amout { get; set; }
+        public decimal Amout { get; set; }
 
 
         public long UserId { get; set; }

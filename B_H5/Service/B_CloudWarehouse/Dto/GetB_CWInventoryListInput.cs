@@ -11,7 +11,7 @@ namespace B_H5
     {
 
 
-        public Guid CategroyPropertyId { get; set; }
+        public FirestLevelCategroyProperty CategroyPropertyId { get; set; }
         /// <summary>
         /// IsActive
         /// </summary>

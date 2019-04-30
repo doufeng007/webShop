@@ -57,7 +57,7 @@ namespace B_H5
         /// <summary>
         /// 一级商品类别属性  来源于数据字典，  进提货、 直购、试装
         /// </summary>
-        public Guid? FirestLevelCategroyPropertyId { get; set; }
+        public FirestLevelCategroyProperty FirestLevelCategroyPropertyId { get; set; }
 
 
         public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();

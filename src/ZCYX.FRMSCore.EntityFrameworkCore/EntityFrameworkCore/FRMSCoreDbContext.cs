@@ -287,8 +287,12 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
         public virtual DbSet<B_ManagerPayAccount> B_ManagerPayAccount { get; set; }
 
-        
+        public virtual DbSet<B_OrderOut> B_OrderOut { get; set; }
 
+
+        public virtual DbSet<B_OrderCourier> B_OrderCourier { get; set; }
+
+        
 
         #endregion
 

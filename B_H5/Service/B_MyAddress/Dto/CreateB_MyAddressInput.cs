@@ -61,6 +61,9 @@ namespace B_H5
         public bool IsDefault { get; set; }
 
 
+        public string Name { get; set; }
+
+
 		
         #endregion
     }

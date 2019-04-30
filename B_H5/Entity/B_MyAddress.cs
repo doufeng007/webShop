@@ -28,6 +28,9 @@ namespace B_H5
         [DisplayName(@"UserId")]
         public long UserId { get; set; }
 
+
+        public string Name { get; set; }
+
         /// <summary>
         /// Provinces
         /// </summary>

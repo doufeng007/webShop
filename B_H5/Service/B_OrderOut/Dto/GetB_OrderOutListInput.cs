@@ -1,32 +1,28 @@
 ﻿using Abp.Runtime.Validation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using ZCYX.FRMSCore.Application.Dto;
 
 namespace B_H5
 {
-   
-    public class GetB_InOrderListInput : PagedAndSortedInputDto, IShouldNormalize
+    public class GetB_OrderOutListInput : PagedAndSortedInputDto, IShouldNormalize
     {
 
+
+
         /// <summary>
-        /// 状态 为空为全部
+        /// Stauts
         /// </summary>
-        public InOrderStatusEnum? Status { get; set; }
+        public OrderOutStauts? Status { get; set; }
 
         public DateTime? StartDate { get; set; }
 
 
         public DateTime? EndDate { get; set; }
 
-
-        public long? UserId { get; set; }
-
-        /// <summary>
-        /// 是否获取下级进货单
-        /// </summary>
-        public bool LowerUsers { get; set; }
 
 
         public void Normalize()

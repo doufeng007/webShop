@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Abp.File;
 using Abp.WorkFlow;
 
 namespace B_H5
 {
-    [AutoMapFrom(typeof(B_OrderDetail))]
-    public class B_OrderDetailOutputDto 
+    [AutoMapFrom(typeof(B_OrderCourier))]
+    public class B_OrderCourierListOutputDto 
     {
         /// <summary>
         /// Id
@@ -20,39 +19,29 @@ namespace B_H5
         public Guid Id { get; set; }
 
         /// <summary>
-        /// BId
+        /// OrderId
         /// </summary>
-        public Guid BId { get; set; }
-
+        public Guid OrderId { get; set; }
 
         /// <summary>
-        /// Number
+        /// CourierNum
         /// </summary>
-        public int Number { get; set; }
+        public string CourierNum { get; set; }
 
         /// <summary>
-        /// CategroyId
+        /// CourierName
         /// </summary>
-        public Guid CategroyId { get; set; }
+        public string CourierName { get; set; }
 
         /// <summary>
-        /// GoodsId
+        /// DeliveryFee
         /// </summary>
-        public Guid GoodsId { get; set; }
-
-
-        public string GoodsTitle { get; set; }
+        public decimal DeliveryFee { get; set; }
 
         /// <summary>
-        /// 商品图片
+        /// Status
         /// </summary>
-        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
-
-
-        /// <summary>
-        /// Amout
-        /// </summary>
-        public decimal Amout { get; set; }
+        public int Status { get; set; }
 
         /// <summary>
         /// CreationTime
@@ -60,6 +49,5 @@ namespace B_H5
         public DateTime CreationTime { get; set; }
 
 
-		
     }
 }

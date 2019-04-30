@@ -24,26 +24,26 @@ using ZCYX.FRMSCore.Model;
 namespace B_H5
 {
     public class B_MyAddressAppService : FRMSCoreAppServiceBase, IB_MyAddressAppService
-    { 
+    {
         private readonly IRepository<B_MyAddress, Guid> _repository;
-		
+
         public B_MyAddressAppService(IRepository<B_MyAddress, Guid> repository
-		
-		)
+
+        )
         {
             this._repository = repository;
-			
+
         }
-		
-	    /// <summary>
+
+        /// <summary>
         /// 根据条件分页获取列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
-		public async Task<PagedResultDto<B_MyAddressListOutputDto>> GetList(GetB_MyAddressListInput input)
+        public async Task<PagedResultDto<B_MyAddressListOutputDto>> GetList(GetB_MyAddressListInput input)
         {
-			var query = from a in _repository.GetAll().Where(x=>!x.IsDeleted)
-						
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+
                         select new B_MyAddressListOutputDto()
                         {
                             Id = a.Id,
@@ -56,95 +56,98 @@ namespace B_H5
                             Tel = a.Tel,
                             IsDefault = a.IsDefault,
                             CreationTime = a.CreationTime
-							
+
                         };
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
-			
+
             return new PagedResultDto<B_MyAddressListOutputDto>(toalCount, ret);
         }
 
-		/// <summary>
+        /// <summary>
         /// 根据主键获取实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		
-		public async Task<B_MyAddressOutputDto> Get(NullableIdDto<Guid> input)
-		{
-			
-		    var model = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id.Value);
+
+        public async Task<B_MyAddressOutputDto> Get(NullableIdDto<Guid> input)
+        {
+
+            var model = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id.Value);
             if (model == null)
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
             return model.MapTo<B_MyAddressOutputDto>();
-		}
-		/// <summary>
+        }
+        /// <summary>
         /// 添加一个B_MyAddress
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		
-		public async Task Create(CreateB_MyAddressInput input)
+
+        public async Task Create(CreateB_MyAddressInput input)
         {
-                var newmodel = new B_MyAddress()
-                {
-                    UserId = input.UserId,
-                    Provinces = input.Provinces,
-                    County = input.County,
-                    City = input.City,
-                    Addres = input.Addres,
-                    Consignee = input.Consignee,
-                    Tel = input.Tel,
-                    IsDefault = input.IsDefault
-		        };
-				
-                await _repository.InsertAsync(newmodel);
-				
+            var newmodel = new B_MyAddress()
+            {
+                UserId = input.UserId,
+                Provinces = input.Provinces,
+                County = input.County,
+                City = input.City,
+                Addres = input.Addres,
+                Consignee = input.Consignee,
+                Tel = input.Tel,
+                IsDefault = input.IsDefault,
+                Name = input.Name,
+
+            };
+
+            await _repository.InsertAsync(newmodel);
+
         }
 
-		/// <summary>
+        /// <summary>
         /// 修改一个B_MyAddress
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		public async Task Update(UpdateB_MyAddressInput input)
+        public async Task Update(UpdateB_MyAddressInput input)
         {
-		    if (input.Id != Guid.Empty)
+            if (input.Id != Guid.Empty)
             {
-               var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
-               if (dbmodel == null)
-               {
-                   throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
-               }
-			   
-			   dbmodel.UserId = input.UserId;
-			   dbmodel.Provinces = input.Provinces;
-			   dbmodel.County = input.County;
-			   dbmodel.City = input.City;
-			   dbmodel.Addres = input.Addres;
-			   dbmodel.Consignee = input.Consignee;
-			   dbmodel.Tel = input.Tel;
-			   dbmodel.IsDefault = input.IsDefault;
+                var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
+                if (dbmodel == null)
+                {
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+                }
 
-               await _repository.UpdateAsync(dbmodel);
-			   
+                dbmodel.UserId = input.UserId;
+                dbmodel.Provinces = input.Provinces;
+                dbmodel.County = input.County;
+                dbmodel.City = input.City;
+                dbmodel.Addres = input.Addres;
+                dbmodel.Consignee = input.Consignee;
+                dbmodel.Tel = input.Tel;
+                dbmodel.IsDefault = input.IsDefault;
+                dbmodel.Name = input.Name;
+
+                await _repository.UpdateAsync(dbmodel);
+
             }
             else
             {
-               throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// 逻辑删除实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		public async Task Delete(EntityDto<Guid> input)
+        public async Task Delete(EntityDto<Guid> input)
         {
-            await _repository.DeleteAsync(x=>x.Id == input.Id);
+            await _repository.DeleteAsync(x => x.Id == input.Id);
         }
     }
 }

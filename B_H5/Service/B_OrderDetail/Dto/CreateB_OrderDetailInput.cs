@@ -8,43 +8,30 @@ using System;
 namespace B_H5
 {
     [AutoMapTo(typeof(B_OrderDetail))]
-    public class CreateB_OrderDetailInput 
+    public class CreateB_OrderDetailInput
     {
         #region 表字段
-        /// <summary>
-        /// BId
-        /// </summary>
-        public Guid BId { get; set; }
 
         /// <summary>
-        /// BType
+        /// 数量
         /// </summary>
-        [Range(0, int.MaxValue,ErrorMessage="")]
-        public int BType { get; set; }
-
-        /// <summary>
-        /// Number
-        /// </summary>
-        [Range(0, int.MaxValue,ErrorMessage="")]
+        [Range(0, int.MaxValue, ErrorMessage = "")]
         public int Number { get; set; }
 
         /// <summary>
-        /// CategroyId
+        /// 商品
+        /// </summary>
+        public Guid GoodsId { get; set; }
+
+        /// <summary>
+        /// 商品的一级类别
         /// </summary>
         public Guid CategroyId { get; set; }
 
-        /// <summary>
-        /// GoodsId
-        /// </summary>
-        public Guid? GoodsId { get; set; }
 
-        /// <summary>
-        /// Amout
-        /// </summary>
-        public decimal? Amout { get; set; }
+        public decimal Amout { get; set; }
 
 
-		
         #endregion
     }
 }

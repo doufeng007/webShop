@@ -126,9 +126,25 @@ namespace B_H5
     public enum OrderAmoutBusinessTypeEnum
     {
         进货 = 1,
-        提现 = 2,
-        充值 = 3,
-        奖励 = 4,
-        保证金 = 5
+        提货 = 2,
+        提现 = 3,
+        充值 = 4,
+        奖励 = 5,
+        保证金 = 6
+    }
+
+    public enum OrderOutStauts
+    {
+        待发货 = 0,
+        已发货 = 1,
+        已完成 = 2
+    }
+
+
+    public enum FirestLevelCategroyProperty
+    {
+        进提货 = 1,
+        直购 = 2,
+        试装 = 3
     }
 }

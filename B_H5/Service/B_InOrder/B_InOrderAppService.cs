@@ -60,6 +60,23 @@ namespace B_H5
         /// <returns></returns>
         public async Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input)
         {
+            var userIdList = new List<long>();
+            if (input.LowerUsers)
+            {
+                if (!AbpSession.UserId.HasValue)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "获取下级进货订单请先登录！");
+                else
+                {
+                    var currentAgencyModel = await _b_AgencyRepository.FirstOrDefaultAsync(r => r.UserId == AbpSession.UserId.Value);
+                    if (currentAgencyModel == null)
+                        throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理人数据不存在！");
+                    else
+                    {
+                        //userIdList = _b_AgencyRepository.GetAll().Where(r=>r.P_Id)
+                    }
+                }
+            }
+
             var query = from a in _repository.GetAll()
                         join u in UserManager.Users on a.UserId equals u.Id
                         join b in _b_OrderRepository.GetAll() on a.Id equals b.BusinessId
@@ -80,6 +97,8 @@ namespace B_H5
                             Status = a.Status,
 
                         };
+
+
 
             query = query.WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
                 .WhereIf(input.UserId.HasValue, r => r.UserId == input.UserId.Value)

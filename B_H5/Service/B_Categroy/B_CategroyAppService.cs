@@ -111,8 +111,8 @@ namespace B_H5
         {
             if (!input.P_Id.HasValue)
             {
-                if (!input.FirestLevelCategroyPropertyId.HasValue)
-                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "一级商品类别必须设置属性值！");
+                //if (!(int)input.FirestLevelCategroyPropertyId <= 0)
+                //    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "一级商品类别必须设置属性值！");
             }
             var newmodel = new B_Categroy()
             {
@@ -122,7 +122,8 @@ namespace B_H5
                 Unit = input.Unit,
                 Tag = input.Tag,
                 Remark = input.Remark,
-                Status = input.Status
+                Status = input.Status,
+                FirestLevelCategroyPropertyId = input.FirestLevelCategroyPropertyId,
             };
 
 
