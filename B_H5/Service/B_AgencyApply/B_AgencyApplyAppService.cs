@@ -237,6 +237,8 @@ namespace B_H5
                 InviteUrlId = input.InviteUrlId,
                 BankName = input.BankName,
                 BankUserName = input.BankUserName,
+                Name = input.Name
+
             };
 
             await _repository.InsertAsync(newmodel);
