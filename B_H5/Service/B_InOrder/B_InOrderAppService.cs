@@ -111,23 +111,26 @@ namespace B_H5
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
 
             var businessIds = ret.Select(r => r.Id.ToString()).ToList();
-            var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
+            if (businessIds.Count > 0)
             {
-                BusinessIds = businessIds,
-                BusinessType = AbpFileBusinessType.商品类别图
-            });
-            foreach (var item in ret)
-                if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
+                var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
                 {
-                    var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
-                    if (fileModel != null)
+                    BusinessIds = businessIds,
+                    BusinessType = AbpFileBusinessType.商品类别图
+                });
+                foreach (var item in ret)
+                    if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
                     {
-                        var files = fileModel.Files;
-                        if (files.Count > 0)
-                            item.File = files.FirstOrDefault();
-                    }
+                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                        if (fileModel != null)
+                        {
+                            var files = fileModel.Files;
+                            if (files.Count > 0)
+                                item.File = files.FirstOrDefault();
+                        }
 
-                }
+                    }
+            }
 
             return ret;
         }

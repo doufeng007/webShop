@@ -150,23 +150,26 @@ namespace B_H5
             var orderDetailList = orderDetailQuery.ToList();
 
             var businessIds = orderDetailList.Select(r => r.GoodsId.ToString()).ToList();
-            var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
+            if (businessIds.Count > 0)
             {
-                BusinessIds = businessIds,
-                BusinessType = AbpFileBusinessType.商品缩略图
-            });
-            foreach (var item in orderDetailList)
-                if (fileGroups.Any(r => r.BusinessId == item.GoodsId.ToString()))
+                var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
                 {
-                    var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
-                    if (fileModel != null)
+                    BusinessIds = businessIds,
+                    BusinessType = AbpFileBusinessType.商品缩略图
+                });
+                foreach (var item in orderDetailList)
+                    if (fileGroups.Any(r => r.BusinessId == item.GoodsId.ToString()))
                     {
-                        var files = fileModel.Files;
-                        if (files.Count > 0)
-                            item.File = files.FirstOrDefault();
-                    }
+                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                        if (fileModel != null)
+                        {
+                            var files = fileModel.Files;
+                            if (files.Count > 0)
+                                item.File = files.FirstOrDefault();
+                        }
 
-                }
+                    }
+            }
 
             foreach (var item in ret)
             {
@@ -230,24 +233,26 @@ namespace B_H5
             ret.GoodsList = await orderDetailQuery.ToListAsync();
 
             var businessIds = ret.GoodsList.Select(r => r.GoodsId.ToString()).ToList();
-            var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
+            if (businessIds.Count > 0)
             {
-                BusinessIds = businessIds,
-                BusinessType = AbpFileBusinessType.商品缩略图
-            });
-            foreach (var item in ret.GoodsList)
-                if (fileGroups.Any(r => r.BusinessId == item.GoodsId.ToString()))
+                var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
                 {
-                    var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
-                    if (fileModel != null)
+                    BusinessIds = businessIds,
+                    BusinessType = AbpFileBusinessType.商品缩略图
+                });
+                foreach (var item in ret.GoodsList)
+                    if (fileGroups.Any(r => r.BusinessId == item.GoodsId.ToString()))
                     {
-                        var files = fileModel.Files;
-                        if (files.Count > 0)
-                            item.File = files.FirstOrDefault();
+                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                        if (fileModel != null)
+                        {
+                            var files = fileModel.Files;
+                            if (files.Count > 0)
+                                item.File = files.FirstOrDefault();
+                        }
+
                     }
-
-                }
-
+            }
 
             ret.GoodsNumber = ret.GoodsList.Sum(r => r.Number);
 
