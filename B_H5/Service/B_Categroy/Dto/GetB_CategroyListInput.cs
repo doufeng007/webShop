@@ -20,30 +20,7 @@ namespace B_H5
         /// </summary>
         public Guid? P_Id { get; set; }
 
-        /// <summary>
-        /// Price
-        /// </summary>
-        public decimal Price { get; set; }
-
-        /// <summary>
-        /// Unit
-        /// </summary>
-        public string Unit { get; set; }
-
-        /// <summary>
-        /// Tag
-        /// </summary>
-        public string Tag { get; set; }
-
-        /// <summary>
-        /// Remark
-        /// </summary>
-        public string Remark { get; set; }
-
-        /// <summary>
-        /// Status
-        /// </summary>
-        public int Status { get; set; }
+      
 
 
 

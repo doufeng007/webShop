@@ -60,14 +60,16 @@ namespace B_H5
         public async Task<List<B_CWInventoryListOutputDto>> GetCWInventoryListAsync(GetB_CWInventoryListInput input)
         {
             var query = from a in _b_CategroyRepository.GetAll()
-                        join b in _b_CWUserInventoryRepository.GetAll() on a.Id equals b.CategroyId
-                        where a.FirestLevelCategroyPropertyId == input.CategroyPropertyId && b.UserId == AbpSession.UserId.Value
+                        join bg in _b_CWUserInventoryRepository.GetAll() on new { Id = a.Id, UserId = AbpSession.UserId.Value }
+                        equals new { Id = bg.CategroyId, UserId = bg.UserId } into g
+                        from b in g.DefaultIfEmpty()
+                        where a.FirestLevelCategroyPropertyId == input.CategroyPropertyId
                         select new B_CWInventoryListOutputDto
                         {
                             Id = a.Id,
                             Title = a.Name,
-                            CanExtractCount = b.Count,
-                            TakeLessCount = b.LessCount,
+                            CanExtractCount = b == null ? 0 : b.Count,
+                            TakeLessCount = b == null ? 0 : b.LessCount,
                             CreationTime = a.CreationTime
                         };
             var toalCount = await query.CountAsync();
