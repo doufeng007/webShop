@@ -93,7 +93,7 @@ namespace B_H5
         /// <param name="input">实体</param>
         /// <returns></returns>
 
-        public async Task Create(CreateB_CWDetailInput input)
+        public async Task CreateAsync(CreateB_CWDetailInput input)
         {
             var newmodel = new B_CWDetail()
             {
@@ -108,6 +108,22 @@ namespace B_H5
 
             await _repository.InsertAsync(newmodel);
 
+        }
+
+
+        public void Create(CreateB_CWDetailInput input)
+        {
+            var newmodel = new B_CWDetail()
+            {
+                UserId = input.UserId,
+                RelationUserId = input.RelationUserId,
+                Type = input.Type,
+                BusinessType = input.BusinessType,
+                CategroyId = input.CategroyId,
+                Number = input.Number,
+                IsDefault = input.IsDefault
+            };
+            _repository.Insert(newmodel);
         }
 
         /// <summary>

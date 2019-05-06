@@ -27,6 +27,7 @@ using ZCYX.FRMSCore.Users;
 using Microsoft.Extensions.Configuration;
 using ZCYX.FRMSCore.Configuration;
 using Abp.Reflection.Extensions;
+using Abp.Authorization;
 
 namespace B_H5
 {
@@ -340,6 +341,31 @@ namespace B_H5
             var user = await _userRepository.GetAsync(model.UserId);
             user.IsActive = true;
 
+        }
+
+
+
+        /// <summary>
+        /// 绑定openId
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task RegistWxOpenId(string openId)
+        {
+            if (string.IsNullOrWhiteSpace(openId))
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "用户openId不能为空！");
+            var model = await _repository.GetAll().FirstOrDefaultAsync(r => r.UserId == AbpSession.UserId.Value);
+            if (model == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该代理不存在！");
+            else
+            {
+                if (model.OpenId != openId)
+                {
+                    model.OpenId = openId;
+                    await _repository.UpdateAsync(model);
+                }
+            }
         }
 
     }

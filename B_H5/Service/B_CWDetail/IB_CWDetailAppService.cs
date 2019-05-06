@@ -30,7 +30,10 @@ namespace B_H5
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		Task Create(CreateB_CWDetailInput input);
+		Task CreateAsync(CreateB_CWDetailInput input);
+
+
+        void Create(CreateB_CWDetailInput input);
 
 		/// <summary>
         /// 修改一个B_CWDetail

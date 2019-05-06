@@ -14,6 +14,7 @@ using ZCYX.FRMSCore.Entity;
 using IMLib;
 using EmailServer;
 using B_H5;
+using Abp.WeChat.Entity;
 
 namespace ZCYX.FRMSCore.EntityFrameworkCore
 {
@@ -240,6 +241,13 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
 
         public virtual DbSet<EmailLog> EmailLog { get; set; }
+
+        public virtual DbSet<AbpWxMessage> AbpWxMessage { get; set; }
+
+
+        public virtual DbSet<AbpWxTemplate> AbpWxTemplate { get; set; }
+
+        
 
         #region  B_H5
 

@@ -56,6 +56,9 @@ namespace B_H5
         public decimal Balance { get; set; }
 
 
+        public string OrderNo { get; set; }
+
+
         #endregion
     }
 }

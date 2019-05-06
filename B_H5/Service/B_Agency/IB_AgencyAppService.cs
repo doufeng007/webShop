@@ -54,5 +54,13 @@ namespace B_H5
         /// </summary>
         /// <param name="input"></param>
         Task Enable(EntityDto<Guid> input);
+
+
+        /// <summary>
+        /// 绑定openId
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        Task RegistWxOpenId(string openId);
     }
 }

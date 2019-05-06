@@ -9,6 +9,7 @@ using Abp.SignalR.Core;
 using Abp.AspNetCore.SignalR;
 using IMLib;
 using Abp.Excel;
+using Abp.WeChat;
 
 namespace ZCYX.FRMSCore.Web.Host.Startup
 {
@@ -18,6 +19,7 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
         , typeof(AbpAspNetCoreSignalRModule)
         , typeof(AbpFileModule)
         , typeof(AbpSignalRCoreModule)
+        , typeof(AbpWeChatModule)
         , typeof(HR.HRModule)
         , typeof(SearchAll.SearchAllModule)
         , typeof(IMLib.IMLibModule)
@@ -76,6 +78,11 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
             Configuration.Modules.AbpAspNetCore()
                 .CreateControllersForAppServices(
                     typeof(IMLibModule).GetAssembly()
+                );
+
+            Configuration.Modules.AbpAspNetCore()
+                .CreateControllersForAppServices(
+                    typeof(AbpWeChatModule).GetAssembly()
                 );
 
             Configuration.Modules.AbpAspNetCore()
