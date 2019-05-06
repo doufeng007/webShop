@@ -100,7 +100,7 @@ namespace B_H5
         /// <summary>
         /// PayType
         /// </summary>
-        public int PayType { get; set; }
+        public PayAccountType PayType { get; set; }
 
         /// <summary>
         /// PayAmout

@@ -33,7 +33,7 @@ namespace B_H5
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
 
-        
+
 
 
         public B_AgencyManager(IRepository<B_Agency, Guid> repository, IRepository<AbpDictionary, Guid> abpDictionaryrepository
@@ -48,7 +48,34 @@ namespace B_H5
 
         }
 
-     
+
+
+        public Guid? GetParentAgencyId(Guid agencyId, int leavl)
+        {
+            var model = _repository.Get(agencyId);
+            if (model.AgencyLevel <= leavl)
+                return null;
+            else
+            {
+                if (!model.P_Id.HasValue)
+                    return null;
+                else
+                {
+                    var parentModel = _repository.Get(model.P_Id.Value);
+                    if (parentModel.AgencyLevel > leavl)
+                    {
+                        return GetParentAgencyId(parentModel.Id, leavl);
+                    }
+                    else if (parentModel.AgencyLevel == leavl)
+                        return parentModel.Id;
+                    else
+                        return null;
+                }
+
+            }
+        }
+
+
     }
 
     public class B_AgencyUserManager

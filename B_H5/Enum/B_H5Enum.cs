@@ -98,8 +98,8 @@ namespace B_H5
 
     public enum PayAccountType
     {
-        支付宝 = 0,
-        银行卡 = 1,
+        支付宝 = 1,
+        银行卡 = 2,
 
     }
 
@@ -161,5 +161,11 @@ namespace B_H5
         下级进货自身出仓 = 2,
         自身提货出仓 = 3,
 
+    }
+
+    public enum AgencyApplyEnum
+    {
+        代理邀请 = 0,
+        代理升级 = 1
     }
 }

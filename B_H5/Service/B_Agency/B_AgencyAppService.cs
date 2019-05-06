@@ -35,6 +35,9 @@ namespace B_H5
     {
         private readonly IRepository<B_Agency, Guid> _repository;
         private readonly IRepository<B_AgencyApply, Guid> _b_AgencyApplyRepository;
+        private readonly IRepository<B_AgencyGroup, Guid> _b_AgencyGroupRepository;
+        private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
+
         private readonly IRepository<AbpDictionary, Guid> _abpDictionaryrepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
@@ -46,6 +49,7 @@ namespace B_H5
         public B_AgencyAppService(IRepository<B_Agency, Guid> repository, IRepository<AbpDictionary, Guid> abpDictionaryrepository
             , IUnitOfWorkManager unitOfWorkManager, IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_AgencyLevel, Guid> b_AgencyLevelepository
             , IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> userRepository, IRepository<B_AgencyApply, Guid> b_AgencyApplyRepository
+            , IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository, IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository
 
         )
         {
@@ -58,6 +62,8 @@ namespace B_H5
             var coreAssemblyDirectoryPath = typeof(B_AgencyAppService).GetAssembly().GetDirectoryPathOrNull();
             _appConfiguration = AppConfigurations.Get(coreAssemblyDirectoryPath);
             _b_AgencyApplyRepository = b_AgencyApplyRepository;
+            _b_AgencyGroupRepository = b_AgencyGroupRepository;
+            _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
 
         }
 
@@ -259,10 +265,11 @@ namespace B_H5
             var ret = await userService.Create(userCreateInput);
             var newmodel = new B_Agency()
             {
+                Id = Guid.NewGuid(),
                 UserId = ret.Id,
                 AgencyLevel = level1Model.Level,
                 AgencyLevelId = level1Model.Id,
-                AgenCyCode = input.AgenCyCode,
+                AgenCyCode = DateTime.Now.DateTimeToStamp().ToString(),
                 Provinces = input.Provinces,
                 County = input.County,
                 City = input.City,
@@ -272,10 +279,31 @@ namespace B_H5
                 Agreement = input.Agreement,
                 WxId = input.WxId,
                 P_Id = input.P_Id,
-                OriginalPid = input.P_Id
+                OriginalPid = input.P_Id,
+                PNumber = input.PNumber
             };
 
+
+
             await _repository.InsertAsync(newmodel);
+
+            var group = new B_AgencyGroup()
+            {
+                Id = Guid.NewGuid(),
+                LeaderAgencyId = newmodel.Id,
+            };
+            await _b_AgencyGroupRepository.InsertAsync(group);
+
+            var groupRelation = new B_AgencyGroupRelation()
+            {
+                Id = Guid.NewGuid(),
+                AgencyId = newmodel.Id,
+                GroupId = group.Id,
+                IsGroupLeader = true,
+
+            };
+            await _b_AgencyGroupRelationRepository.InsertAsync(groupRelation);
+
 
         }
 
@@ -307,6 +335,7 @@ namespace B_H5
                 dbmodel.Type = input.Type;
                 dbmodel.SignData = input.SignData;
                 dbmodel.Agreement = input.Agreement;
+                dbmodel.PNumber = input.PNumber;
                 //dbmodel.Status = input.Status;
                 await _repository.UpdateAsync(dbmodel);
 

@@ -145,6 +145,15 @@ namespace B_H5
         public Guid ApplyId { get; set; }
 
 
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string PNumber { get; set; }
+
+
+
+
+
         #endregion
     }
 }

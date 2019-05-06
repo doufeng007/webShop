@@ -38,10 +38,13 @@ namespace B_H5
         private readonly IB_AgencyLevelAppService _b_AgencyLevelService;
         private readonly IConfigurationRoot _appConfiguration;
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
+        private readonly IRepository<B_AgencyGroup, Guid> _b_AgencyGroupRepository;
+        private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
 
         public B_AgencyApplyAppService(IRepository<B_AgencyApply, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
             , IRepository<B_InviteUrl, Guid> b_InviteUrlRepository, IRepository<B_Agency, Guid> b_AgencyRepository, IB_AgencyLevelAppService b_AgencyLevelService
-            , WxTemplateMessageManager wxTemplateMessageManager
+            , WxTemplateMessageManager wxTemplateMessageManager, IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository
+            , IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository
 
         )
         {
@@ -53,6 +56,8 @@ namespace B_H5
             var coreAssemblyDirectoryPath = typeof(B_AgencyAppService).GetAssembly().GetDirectoryPathOrNull();
             _appConfiguration = AppConfigurations.Get(coreAssemblyDirectoryPath);
             _wxTemplateMessageManager = wxTemplateMessageManager;
+            _b_AgencyGroupRepository = b_AgencyGroupRepository;
+            _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
 
         }
 
@@ -114,6 +119,9 @@ namespace B_H5
 
             return new PagedResultDto<B_AgencyApplyListOutputDto>(toalCount, ret);
         }
+
+
+        
 
 
 
@@ -241,8 +249,8 @@ namespace B_H5
                 InviteUrlId = input.InviteUrlId,
                 BankName = input.BankName,
                 BankUserName = input.BankUserName,
-                Name = input.Name
-
+                Name = input.Name,
+                AgencyApplyType = AgencyApplyEnum.代理邀请,
             };
 
             await _repository.InsertAsync(newmodel);
@@ -252,6 +260,8 @@ namespace B_H5
 
             if (input.HandleCredentFiles == null)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "未上传手持证件！");
+
+
 
             var fileList1 = new List<AbpFileListInput>();
             foreach (var item in input.CredentFiles)
@@ -265,6 +275,8 @@ namespace B_H5
                 Files = fileList1
             });
 
+
+
             var fileList2 = new List<AbpFileListInput>();
             foreach (var item in input.HandleCredentFiles)
             {
@@ -276,6 +288,8 @@ namespace B_H5
                 BusinessType = (int)AbpFileBusinessType.申请代理手持证件,
                 Files = fileList2
             });
+
+
             if (input.TouxiangFile != null)
             {
                 var fileList3 = new List<AbpFileListInput>();
@@ -295,6 +309,9 @@ namespace B_H5
             }
 
         }
+
+
+
 
         /// <summary>
         /// 审核代理申请
@@ -342,7 +359,7 @@ namespace B_H5
                     UserId = ret.Id,
                     AgencyLevel = model.AgencyLevel,
                     AgencyLevelId = model.AgencyLevelId,
-                    //AgenCyCode = input.AgenCyCode,
+                    AgenCyCode = DateTime.Now.DateTimeToStamp().ToString(),
                     Provinces = model.Provinces,
                     County = model.County,
                     City = model.City,
@@ -353,6 +370,7 @@ namespace B_H5
                     WxId = model.WxId,
                     ApplyId = model.Id,
                     OpenId = model.OpenId,
+                    PNumber = model.PNumber,
                 };
                 if (invite_AgencyModel != null)
                 {
@@ -361,6 +379,48 @@ namespace B_H5
                 }
 
                 await _b_AgencyRepository.InsertAsync(newmodel);
+
+                var groupId = Guid.Empty;
+                var isGroupLeader = false;
+                if (model.AgencyLevelId == agencyLeavelOne.Id)   //邀请一级代理
+                {
+                    var group = new B_AgencyGroup()
+                    {
+                        Id = Guid.NewGuid(),
+                        LeaderAgencyId = newmodel.Id,
+                    };
+                    await _b_AgencyGroupRepository.InsertAsync(group);
+                    groupId = group.Id;
+                    isGroupLeader = true;
+                }
+                else
+                {
+                    var groupRs = _b_AgencyGroupRelationRepository.GetAll().Where(r => r.AgencyId == invite_AgencyModel.Id);
+                    if (groupRs.Any(r => r.IsGroupLeader))
+                    {
+                        groupId = groupRs.FirstOrDefault(r => r.IsGroupLeader).GroupId;
+                    }
+                    else
+                    {
+                        if (groupRs.Count() == 0)
+                            throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理团队不存在");
+                        else
+                        {
+                            groupId = groupRs.FirstOrDefault().GroupId;
+                        }
+                    }
+
+                }
+
+                var groupRelation = new B_AgencyGroupRelation()
+                {
+                    Id = Guid.NewGuid(),
+                    AgencyId = newmodel.Id,
+                    GroupId = groupId,
+                    IsGroupLeader = isGroupLeader,
+
+                };
+                await _b_AgencyGroupRelationRepository.InsertAsync(groupRelation);
 
 
 

@@ -48,6 +48,31 @@ namespace ZCYX.FRMSCore.Extensions
             TimeSpan ts = new TimeSpan(i, 0, 0, 0);
             return someDate.Add(ts);
         }
+
+        /// <summary>
+        /// 时间转换为时间戳
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static int DateTimeToStamp(this System.DateTime time)
+        {
+            System.DateTime startTime = (new DateTime(1970, 1, 1)).ToLocalTime();
+            return (int)(time - startTime).TotalSeconds;
+        }
+
+        /// <summary>
+        /// 时间戳转换为时间
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        public static DateTime StampToDateTime(this string timeStamp)
+        {
+            DateTime dateTimeStart = (new DateTime(1970, 1, 1)).ToLocalTime();
+            long lTime = long.Parse(timeStamp + "0000000");
+            TimeSpan toNow = new TimeSpan(lTime);
+            return dateTimeStart.Add(toNow);
+        }
+
         #endregion
     }
 }

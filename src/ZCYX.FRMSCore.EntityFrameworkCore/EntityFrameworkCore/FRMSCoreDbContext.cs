@@ -304,8 +304,14 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
         public virtual DbSet<B_CWDetail> B_CWDetail { get; set; }
 
 
-        
+        public virtual DbSet<B_AgencyGroup> B_AgencyGroup { get; set; }
 
+
+        public virtual DbSet<B_AgencyGroupRelation> B_AgencyGroupRelation { get; set; }
+
+        public virtual DbSet<B_AgencyUpgrade> B_AgencyUpgrade { get; set; }
+
+        
 
 
         #endregion

@@ -10,8 +10,8 @@ using Abp.WorkFlow;
 
 namespace B_H5
 {
-    [AutoMapFrom(typeof(B_AgencyApply))]
-    public class B_AgencyApplyListOutputDto 
+    [AutoMapFrom(typeof(B_AgencyUpgrade))]
+    public class B_AgencyUpgradeListOutputDto 
     {
         /// <summary>
         /// Id
@@ -19,33 +19,33 @@ namespace B_H5
         public Guid Id { get; set; }
 
         /// <summary>
-        /// 邀请代理
+        /// AgencyId
         /// </summary>
-        public string InvitUserName { get; set; }
+        public string AgencyName { get; set; }
+
 
         /// <summary>
-        /// 邀请代理电话
+        /// ToAgencyLevelId
         /// </summary>
-        public string InvitUserTel { get; set; }
+        public Guid OldAgencyLevelId { get; set; }
+
+        public string OldAgencyLevelName { get; set; }
 
         /// <summary>
-        /// 代理姓名
+        /// ToAgencyLevelId
         /// </summary>
-        public string Name { get; set; }
+        public Guid ToAgencyLevelId { get; set; }
 
-        /// <summary>
-        /// 等级
-        /// </summary>
-        public string AgencyLevelName { get; set; }
 
-        public Guid AgencyLevelId { get; set; }
+        public string ToAgencyLevelName { get; set; }
+
 
         /// <summary>
         /// 联系电话
         /// </summary>
         public string Tel { get; set; }
 
-        
+
 
         /// <summary>
         /// 身份证号码
@@ -55,7 +55,18 @@ namespace B_H5
         /// <summary>
         /// 微信号
         /// </summary>
-       public string WxId { get; set; }
+        public string WxId { get; set; }
+
+
+        /// <summary>
+        /// NeedPrePayAmout
+        /// </summary>
+        public decimal NeedPrePayAmout { get; set; }
+
+        /// <summary>
+        /// NeedDeposit
+        /// </summary>
+        public decimal NeedDeposit { get; set; }
 
         /// <summary>
         /// 打款方式
@@ -73,15 +84,11 @@ namespace B_H5
         /// </summary>
         public DateTime PayDate { get; set; }
 
-        /// <summary>
-        /// 状态
-        /// </summary>
-        public B_AgencyApplyStatusEnum Status { get; set; }
 
         /// <summary>
-        /// 状态
+        /// Status
         /// </summary>
-        public string StatusTitle { get; set; }
+        public B_AgencyApplyStatusEnum Status { get; set; }
 
         /// <summary>
         /// CreationTime
@@ -89,25 +96,5 @@ namespace B_H5
         public DateTime CreationTime { get; set; }
 
 
-    }
-
-
-
-    public class B_AgencyApplyCount
-    {
-        /// <summary>
-        /// 待审核人数
-        /// </summary>
-        public int WaitAuditCount { get; set; }
-
-        /// <summary>
-        /// 通过人数
-        /// </summary>
-        public int PassCount { get; set; }
-
-        /// <summary>
-        /// 未通过人数
-        /// </summary>
-        public int NoPassCount { get; set; }
     }
 }

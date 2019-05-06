@@ -114,7 +114,7 @@ namespace B_H5
         /// PayType
         /// </summary>
         [DisplayName(@"PayType")]
-        public int PayType { get; set; }
+        public PayAccountType PayType { get; set; }
 
         /// <summary>
         /// PayAmout
@@ -165,8 +165,18 @@ namespace B_H5
 
         public string OpenId { get; set; }
 
-        
+        public AgencyApplyEnum AgencyApplyType { get; set; }
 
+        public Guid? AgencyId { get; set; }
+
+
+        public Guid? ToAgencyLevelId { get; set; }
+
+
+        public decimal? NeedPrePayAmout { get; set; }
+
+
+        public decimal? NeedDeposit { get; set; }
 
         #endregion
     }

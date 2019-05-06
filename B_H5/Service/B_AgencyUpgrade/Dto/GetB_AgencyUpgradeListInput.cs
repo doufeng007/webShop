@@ -8,34 +8,32 @@ using ZCYX.FRMSCore.Application.Dto;
 
 namespace B_H5
 {
-    public class GetB_AgencyApplyListInput : PagedAndSortedInputDto, IShouldNormalize
+    public class GetB_AgencyUpgradeListInput : PagedAndSortedInputDto, IShouldNormalize
     {
         /// <summary>
-        /// 1 支付宝 2银行转账
+        /// AgencyId
         /// </summary>
-        public PayAccountType? PayType { get; set; }
+        public Guid AgencyId { get; set; }
 
         /// <summary>
-        /// 代理等级
+        /// ToAgencyLevelId
         /// </summary>
-        public Guid? AgencyLevelId { get; set; }
+        public Guid ToAgencyLevelId { get; set; }
 
         /// <summary>
-        /// 状态
+        /// NeedPrePayAmout
         /// </summary>
-        public B_AgencyApplyStatusEnum? Status { get; set; }
+        public decimal NeedPrePayAmout { get; set; }
 
         /// <summary>
-        /// 打款日期-开始日期
+        /// NeedDeposit
         /// </summary>
-        public DateTime? PayDateStart { get; set; }
+        public decimal NeedDeposit { get; set; }
 
         /// <summary>
-        /// 打款日期-结束日期
+        /// Status
         /// </summary>
-        public DateTime? PayDateEnd { get; set; }
-
-      
+        public int Status { get; set; }
 
 
 

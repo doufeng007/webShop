@@ -90,6 +90,10 @@ namespace B_H5
         public string WxId { get; set; }
 
 
+        [MaxLength(100, ErrorMessage = "Address长度必须小于200")]
+        public string PNumber { get; set; }
+
+
         #endregion
     }
 }
