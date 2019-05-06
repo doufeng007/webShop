@@ -21,6 +21,8 @@ using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using Abp.Authorization;
+using Abp.WeChat;
+using Abp;
 
 namespace B_H5
 {
@@ -28,13 +30,15 @@ namespace B_H5
     {
         private readonly IRepository<B_Withdrawal, Guid> _repository;
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
+        private readonly WxTemplateMessageManager _wxTemplateMessageManager;
 
-        public B_WithdrawalAppService(IRepository<B_Withdrawal, Guid> repository, IRepository<B_Agency, Guid> b_AgencyRepository
+        public B_WithdrawalAppService(IRepository<B_Withdrawal, Guid> repository, IRepository<B_Agency, Guid> b_AgencyRepository, WxTemplateMessageManager wxTemplateMessageManager
 
         )
         {
             this._repository = repository;
             _b_AgencyRepository = b_AgencyRepository;
+            _wxTemplateMessageManager = wxTemplateMessageManager;
 
         }
 
@@ -151,6 +155,7 @@ namespace B_H5
                 BankUserName = input.BankUserName,
                 BankNumber = input.BankNumber,
                 Amout = input.Amout,
+                Code = DateTime.Now.ToString("yyyyMMddHHmmSS"),
                 //Reason = input.Reason,
                 //Remark = input.Remark
                 Status = B_WithdrawalStatusEnum.待审核
@@ -200,11 +205,23 @@ namespace B_H5
             var agencyModel = await _b_AgencyRepository.FirstOrDefaultAsync(r => r.UserId == model.CreatorUserId.Value);
             if (agencyModel == null)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理数据不存在！");
+            var dic = new Dictionary<string, string>();
+            dic.Add("keyword1", model.Code);
+            dic.Add("keyword2", model.Amout.ToString());
+            dic.Add("keyword3", model.CreationTime.ToString());
+            var title = "";
+            var remark = "";
+            var btype = Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.提现申请审核通过;
+
             if (input.IsPass)
             {
 
                 model.Status = B_WithdrawalStatusEnum.待打款;
                 model.AuditRemark = input.Remark;
+
+                title = "您的提现申请已审核通过";
+                remark = "提现金额7个工作日内到账（节假日顺延），请知晓并耐心等待！";
+
             }
             else
             {
@@ -212,8 +229,17 @@ namespace B_H5
                 model.Reason = input.Reason;
                 model.AuditRemark = input.Remark;
                 agencyModel.Balance = agencyModel.Balance + model.Amout;
+
+                title = "您的提现申请审核未通过";
+                remark = $"审核不通过原因{model.Reason}";
+                btype = Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.提现申请审核不通过;
             }
             await _repository.UpdateAsync(model);
+
+            _wxTemplateMessageManager.SendWeChatMsg(model.Id.ToString(), btype,
+                agencyModel.OpenId, title, dic, remark);
+
+
         }
 
 
@@ -238,6 +264,18 @@ namespace B_H5
                     model.Status = B_WithdrawalStatusEnum.已打款;
                     model.PayTime = DateTime.Now;
                     model.Remark = input.Remark;
+
+
+                    var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+                    await service.Create(new CreateB_OrderInput()
+                    {
+                        Amout = model.Amout,
+                        BusinessId = model.Id,
+                        BusinessType = OrderAmoutBusinessTypeEnum.提现,
+                        InOrOut = OrderAmoutEnum.出账,
+                        OrderNo = model.Code,
+                        UserId = model.CreatorUserId.Value,
+                    });
                 }
                 else
                 {

@@ -73,6 +73,9 @@ namespace B_H5
         public string Remark { get; set; }
 
 
+        public string OrderNo { get; set; }
+
+
         #endregion
     }
 }

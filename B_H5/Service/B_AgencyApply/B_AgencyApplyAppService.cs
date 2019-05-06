@@ -25,6 +25,7 @@ using ZCYX.FRMSCore.Users;
 using Microsoft.Extensions.Configuration;
 using Abp.Reflection.Extensions;
 using ZCYX.FRMSCore.Configuration;
+using Abp.WeChat;
 
 namespace B_H5
 {
@@ -36,9 +37,11 @@ namespace B_H5
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
         private readonly IB_AgencyLevelAppService _b_AgencyLevelService;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly WxTemplateMessageManager _wxTemplateMessageManager;
 
         public B_AgencyApplyAppService(IRepository<B_AgencyApply, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
             , IRepository<B_InviteUrl, Guid> b_InviteUrlRepository, IRepository<B_Agency, Guid> b_AgencyRepository, IB_AgencyLevelAppService b_AgencyLevelService
+            , WxTemplateMessageManager wxTemplateMessageManager
 
         )
         {
@@ -49,6 +52,7 @@ namespace B_H5
             _b_AgencyLevelService = b_AgencyLevelService;
             var coreAssemblyDirectoryPath = typeof(B_AgencyAppService).GetAssembly().GetDirectoryPathOrNull();
             _appConfiguration = AppConfigurations.Get(coreAssemblyDirectoryPath);
+            _wxTemplateMessageManager = wxTemplateMessageManager;
 
         }
 
@@ -300,63 +304,66 @@ namespace B_H5
         public async Task Audit(AuditB_AgencyApplyInput input)
         {
             var model = _repository.Get(input.Id);
+            B_Agency invite_AgencyModel = null;
+            if (model.InviteUrlId.HasValue)
+            {
+                var invitaUrlModel = _b_InviteUrlRepository.Get(model.InviteUrlId.Value);
+                invite_AgencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == invitaUrlModel.CreatorUserId.Value);
+            }
             if (input.IsPass)
             {
                 model.Status = B_AgencyApplyStatusEnum.已通过;
-                B_Agency invite_AgencyModel = null;
-                if (model.InviteUrlId.HasValue)
-                {
-                    var invitaUrlModel = _b_InviteUrlRepository.Get(model.InviteUrlId.Value);
-                    invite_AgencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == invitaUrlModel.CreatorUserId.Value);
-                }
+
 
                 var agencyLeavelOne = _b_AgencyLevelService.GetAgencyLevelOneFromCache();
-                if (model.AgencyLevelId == agencyLeavelOne.Id)
+
+                var userService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IUserAppService>();
+                var userCreateInput = new ZCYX.FRMSCore.Users.Dto.CreateUserDto()
                 {
-                    var userService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IUserAppService>();
-                    var userCreateInput = new ZCYX.FRMSCore.Users.Dto.CreateUserDto()
-                    {
-                        MainPostId = model.AgencyLevelId == agencyLeavelOne.Id ? new Guid(_appConfiguration["App:PrimaryAgencyOrgPostId"]) : new Guid(_appConfiguration["App:AgencyOrgPostId"]),
-                        Name = model.Name,
-                        OrganizationUnitId = model.AgencyLevelId == agencyLeavelOne.Id ? _appConfiguration["App:PrimaryAgencyOrgId"].ToLong() : _appConfiguration["App:AgencyOrgId"].ToLong(),
-                        OrgPostIds = new List<Guid>()
+                    MainPostId = model.AgencyLevelId == agencyLeavelOne.Id ? new Guid(_appConfiguration["App:PrimaryAgencyOrgPostId"]) : new Guid(_appConfiguration["App:AgencyOrgPostId"]),
+                    Name = model.Name,
+                    OrganizationUnitId = model.AgencyLevelId == agencyLeavelOne.Id ? _appConfiguration["App:PrimaryAgencyOrgId"].ToLong() : _appConfiguration["App:AgencyOrgId"].ToLong(),
+                    OrgPostIds = new List<Guid>()
                         {
                             model.AgencyLevelId == agencyLeavelOne.Id ? new Guid(_appConfiguration["App:PrimaryAgencyOrgPostId"])
                             : new Guid(_appConfiguration["App:AgencyOrgPostId"]), },
-                        Password = model.Pwd,
-                        PhoneNumber = model.Tel,
-                        UserName = model.Tel,
-                        Surname = model.Name,
-                        Sex = null,
-                        IsActive = true,
-                        EmailAddress = $"{model.Tel}@abp.com",
-                    };
+                    Password = model.Pwd,
+                    PhoneNumber = model.Tel,
+                    UserName = model.Tel,
+                    Surname = model.Name,
+                    Sex = null,
+                    IsActive = true,
+                    EmailAddress = $"{model.Tel}@abp.com",
+                };
 
-                    var ret = await userService.Create(userCreateInput);
-                    var newmodel = new B_Agency()
-                    {
-                        UserId = ret.Id,
-                        AgencyLevel = model.AgencyLevel,
-                        AgencyLevelId = model.AgencyLevelId,
-                        //AgenCyCode = input.AgenCyCode,
-                        Provinces = model.Provinces,
-                        County = model.County,
-                        City = model.City,
-                        Address = model.Address,
-                        Type = B_AgencyTypeEnum.直属代理,
-                        SignData = model.CreationTime,
-                        //Agreement = input.Agreement,
-                        WxId = model.WxId,
-                        ApplyId = model.Id
-                    };
-                    if (invite_AgencyModel != null)
-                    {
-                        newmodel.P_Id = invite_AgencyModel.Id;
-                        newmodel.OriginalPid = invite_AgencyModel.Id;
-                    }
-
-                    await _b_AgencyRepository.InsertAsync(newmodel);
+                var ret = await userService.Create(userCreateInput);
+                var newmodel = new B_Agency()
+                {
+                    UserId = ret.Id,
+                    AgencyLevel = model.AgencyLevel,
+                    AgencyLevelId = model.AgencyLevelId,
+                    //AgenCyCode = input.AgenCyCode,
+                    Provinces = model.Provinces,
+                    County = model.County,
+                    City = model.City,
+                    Address = model.Address,
+                    Type = B_AgencyTypeEnum.直属代理,
+                    SignData = model.CreationTime,
+                    //Agreement = input.Agreement,
+                    WxId = model.WxId,
+                    ApplyId = model.Id,
+                    OpenId = model.OpenId,
+                };
+                if (invite_AgencyModel != null)
+                {
+                    newmodel.P_Id = invite_AgencyModel.Id;
+                    newmodel.OriginalPid = invite_AgencyModel.Id;
                 }
+
+                await _b_AgencyRepository.InsertAsync(newmodel);
+
+
+
 
 
 
@@ -368,6 +375,22 @@ namespace B_H5
             }
             model.Reason = input.Reason;
             model.Remark = input.Remark;
+
+            var dic = new Dictionary<string, string>();
+            dic.Add("keyword1", model.Name);
+            dic.Add("keyword2", model.Status == B_AgencyApplyStatusEnum.已通过 ? "通过" : "不通过");
+            _wxTemplateMessageManager.SendWeChatMsg(model.Id.ToString(), model.Status == B_AgencyApplyStatusEnum.已通过 ?
+                Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.当前用户申请代理审核通过 :
+                Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.当前用户申请代理审核不通过,
+                model.OpenId, "代理审核通知", dic, model.Status == B_AgencyApplyStatusEnum.已通过 ? "欢迎加入" : $"审核不通过原因:{model.Reason}");
+
+            if (invite_AgencyModel != null)
+            {
+                _wxTemplateMessageManager.SendWeChatMsg(model.Id.ToString(), model.Status == B_AgencyApplyStatusEnum.已通过 ?
+                Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.邀请下级代理审核通过 :
+                Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.邀请下级代理审核不通过,
+                invite_AgencyModel.OpenId, "下级代理审核通知", dic, model.Status == B_AgencyApplyStatusEnum.已通过 ? "欢迎加入" : $"审核不通过原因:{model.Reason}");
+            }
 
         }
 

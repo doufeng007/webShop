@@ -22,6 +22,7 @@ using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using Abp.Authorization;
 using Abp;
+using Abp.WeChat;
 
 namespace B_H5
 {
@@ -36,12 +37,16 @@ namespace B_H5
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
         private readonly IRepository<B_MyAddress, Guid> _b_MyAddressRepository;
         private readonly IRepository<B_Order, Guid> _b_OrderRepository;
+        private readonly IB_CWDetailAppService _b_CWDetailAppService;
+        private readonly WxTemplateMessageManager _wxTemplateMessageManager;
+        private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
 
         public B_OrderOutAppService(IRepository<B_OrderOut, Guid> repository, IRepository<B_Categroy, Guid> b_CategroyRepository
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<B_OrderDetail, Guid> b_OrderDetailRepository
             , IRepository<B_OrderCourier, Guid> b_OrderCourierRepository, IRepository<B_Goods, Guid> b_GoodsRepository
             , IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_MyAddress, Guid> b_MyAddressRepository
-            , IRepository<B_Order, Guid> b_OrderRepository
+            , IRepository<B_Order, Guid> b_OrderRepository, IB_CWDetailAppService b_CWDetailAppService, WxTemplateMessageManager wxTemplateMessageManager
+            , IRepository<B_Agency, Guid> b_AgencyRepository
         )
         {
             this._repository = repository;
@@ -53,7 +58,9 @@ namespace B_H5
             _abpFileRelationAppService = abpFileRelationAppService;
             _b_MyAddressRepository = b_MyAddressRepository;
             _b_OrderRepository = b_OrderRepository;
-
+            _b_CWDetailAppService = b_CWDetailAppService;
+            _wxTemplateMessageManager = wxTemplateMessageManager;
+            _b_AgencyRepository = b_AgencyRepository;
         }
 
         /// <summary>
@@ -295,11 +302,17 @@ namespace B_H5
                 GoodsPayment = input.GoodsPayment,
                 Balance = input.Balance,
                 AddressId = input.AddressId,
-                Stauts = OrderOutStauts.待发货
+                Stauts = OrderOutStauts.待发货,
+                OrderNo = DateTime.Now.ToString("yyyyMMddHHmmSS"),
             };
 
 
             await _repository.InsertAsync(newmodel);
+
+            var userModel = await UserManager.GetUserByIdAsync(AbpSession.UserId.Value);
+            var b_AgencyModel = await _b_AgencyRepository.FirstOrDefaultAsync(r => r.UserId == userModel.Id);
+            if (b_AgencyModel == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理人数据不存在！");
 
             foreach (var item in input.Goods)
             {
@@ -318,6 +331,24 @@ namespace B_H5
                             if (cwUserInventory.LessCount > 0)
                                 cwUserInventory.LessCount = cwUserInventory.LessCount + item.Number;
                             await _b_CWUserInventoryRepository.UpdateAsync(cwUserInventory);
+
+                            _b_CWDetailAppService.Create(new CreateB_CWDetailInput()
+                            {
+                                BusinessType = CWDetailBusinessTypeEnum.自身提货出仓,
+                                CategroyId = cwUserInventory.CategroyId,
+                                Number = item.Number,
+                                Type = CWDetailTypeEnum.出仓,
+                                UserId = AbpSession.UserId.Value
+                            });
+
+
+                            var dic = new Dictionary<string, string>();
+                            dic.Add("keyword1", userModel.Name);
+                            dic.Add("keyword2", userModel.PhoneNumber);
+                            dic.Add("keyword3", DateTime.Now.ToString());
+                            _wxTemplateMessageManager.SendWeChatMsg(newmodel.ToString(), Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.当前用户生成提货订单,
+                                b_AgencyModel.OpenId, "您在系统下了新的提货订单", dic, $"订单编号：{newmodel.OrderNo}");
+
                         }
                     }
                 }
@@ -348,6 +379,9 @@ namespace B_H5
                 OrderNo = "",
                 UserId = AbpSession.UserId.Value
             });
+
+
+
         }
 
         /// <summary>

@@ -21,6 +21,8 @@ using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using Abp.Authorization;
+using Abp.WeChat;
+using Abp;
 
 namespace B_H5
 {
@@ -29,15 +31,17 @@ namespace B_H5
         private readonly IRepository<B_PaymentPrepay, Guid> _repository;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
+        private readonly WxTemplateMessageManager _wxTemplateMessageManager;
 
         public B_PaymentPrepayAppService(IRepository<B_PaymentPrepay, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
-            , IRepository<B_Agency, Guid> b_AgencyRepository
+            , IRepository<B_Agency, Guid> b_AgencyRepository, WxTemplateMessageManager wxTemplateMessageManager
 
         )
         {
             this._repository = repository;
             _abpFileRelationAppService = abpFileRelationAppService;
             _b_AgencyRepository = b_AgencyRepository;
+            _wxTemplateMessageManager = wxTemplateMessageManager;
 
         }
 
@@ -86,7 +90,7 @@ namespace B_H5
         public async Task<B_AgencyApplyCount> GetCount()
         {
             var ret = new B_AgencyApplyCount();
-            ret.WaitAuditCount = await _repository.GetAll().Where(r => r.Status ==  B_PrePayStatusEnum.待审核).CountAsync();
+            ret.WaitAuditCount = await _repository.GetAll().Where(r => r.Status == B_PrePayStatusEnum.待审核).CountAsync();
             ret.PassCount = await _repository.GetAll().Where(r => r.Status == B_PrePayStatusEnum.已通过).CountAsync();
             ret.NoPassCount = await _repository.GetAll().Where(r => r.Status == B_PrePayStatusEnum.待审核).CountAsync();
             return ret;
@@ -165,7 +169,7 @@ namespace B_H5
             var newmodel = new B_PaymentPrepay()
             {
                 UserId = AbpSession.UserId.Value,
-                //Code = input.Code,
+                Code = DateTime.Now.ToString("yyyyMMddHHmmSS"),
                 PayType = input.PayType,
                 PayAmout = input.PayAmout,
                 BankName = input.BankName,
@@ -252,18 +256,35 @@ namespace B_H5
         public async Task Audit(AuditB_PrePayInput input)
         {
             var model = _repository.Get(input.Id);
+            var _agencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == model.CreatorUserId.Value);
+            var userModel = await UserManager.GetUserByIdAsync(_agencyModel.UserId);
+            if (_agencyModel == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理数据不存在！");
+            var dic = new Dictionary<string, string>();
             if (input.IsPass)
             {
                 model.Status = B_PrePayStatusEnum.已通过;
-                var _agencyModel = _b_AgencyRepository.FirstOrDefault(r => r.UserId == model.CreatorUserId.Value);
-                if (_agencyModel == null)
-                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理数据不存在！");
-                else
-                {
-                    _agencyModel.GoodsPayment = _agencyModel.GoodsPayment + model.PayAmout;
-                    await _b_AgencyRepository.UpdateAsync(_agencyModel);
-                }
 
+                _agencyModel.GoodsPayment = _agencyModel.GoodsPayment + model.PayAmout;
+                await _b_AgencyRepository.UpdateAsync(_agencyModel);
+
+                var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+                await service.Create(new CreateB_OrderInput()
+                {
+                    Amout = model.PayAmout,
+                    BusinessId = model.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.充值,
+                    InOrOut = OrderAmoutEnum.入账,
+                    OrderNo = model.Code,
+                    UserId = _agencyModel.UserId
+                });
+
+                dic.Add("keyword1", userModel.Name);
+                dic.Add("keyword2", model.PayAcount);
+                dic.Add("keyword3", model.PayAmout.ToString());
+
+                _wxTemplateMessageManager.SendWeChatMsg(model.Id.ToString(), Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.充值成功,
+                _agencyModel.OpenId, "充值成功", dic, "");
             }
             else
             {
@@ -271,6 +292,12 @@ namespace B_H5
             }
             model.Reason = input.Reason;
             model.AuditRemark = input.Remark;
+
+
+
+
+
+
         }
     }
 }

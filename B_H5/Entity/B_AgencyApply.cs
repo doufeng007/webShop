@@ -162,6 +162,9 @@ namespace B_H5
 
         public string Reason { get; set; }
 
+
+        public string OpenId { get; set; }
+
         
 
 

@@ -371,7 +371,7 @@ namespace B_H5
                 BusinessId = orderInmodel.Id,
                 BusinessType = OrderAmoutBusinessTypeEnum.进货,
                 InOrOut = OrderAmoutEnum.入账,
-                OrderNo = "",
+                OrderNo = orderInmodel.OrderNo,
                 UserId = AbpSession.UserId.Value
             });
 
