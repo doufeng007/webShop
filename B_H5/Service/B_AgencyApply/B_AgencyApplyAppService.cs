@@ -121,7 +121,7 @@ namespace B_H5
         }
 
 
-        
+
 
 
 
@@ -251,6 +251,7 @@ namespace B_H5
                 BankUserName = input.BankUserName,
                 Name = input.Name,
                 AgencyApplyType = AgencyApplyEnum.代理邀请,
+                OpenId = input.OpenId
             };
 
             await _repository.InsertAsync(newmodel);
@@ -380,8 +381,15 @@ namespace B_H5
 
                 await _b_AgencyRepository.InsertAsync(newmodel);
 
-                var groupId = Guid.Empty;
-                var isGroupLeader = false;
+
+                if (invite_AgencyModel == null)
+                {
+
+                }
+
+                
+
+
                 if (model.AgencyLevelId == agencyLeavelOne.Id)   //邀请一级代理
                 {
                     var group = new B_AgencyGroup()
@@ -390,44 +398,36 @@ namespace B_H5
                         LeaderAgencyId = newmodel.Id,
                     };
                     await _b_AgencyGroupRepository.InsertAsync(group);
-                    groupId = group.Id;
-                    isGroupLeader = true;
+
+                    var groupOneRelation = new B_AgencyGroupRelation()
+                    {
+                        Id = Guid.NewGuid(),
+                        AgencyId = newmodel.Id,
+                        GroupId = group.Id,
+                        IsGroupLeader = true,
+
+                    };
+                    await _b_AgencyGroupRelationRepository.InsertAsync(groupOneRelation);
                 }
-                else
+                var groupId = Guid.Empty;
+                if (invite_AgencyModel != null)
                 {
                     var groupRs = _b_AgencyGroupRelationRepository.GetAll().Where(r => r.AgencyId == invite_AgencyModel.Id);
+                    if (groupRs.Count() == 0)
+                        throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理团队不存在");
                     if (groupRs.Any(r => r.IsGroupLeader))
-                    {
                         groupId = groupRs.FirstOrDefault(r => r.IsGroupLeader).GroupId;
-                    }
                     else
+                        groupId = groupRs.FirstOrDefault().GroupId;
+                    var groupRelation = new B_AgencyGroupRelation()
                     {
-                        if (groupRs.Count() == 0)
-                            throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理团队不存在");
-                        else
-                        {
-                            groupId = groupRs.FirstOrDefault().GroupId;
-                        }
-                    }
-
+                        Id = Guid.NewGuid(),
+                        AgencyId = newmodel.Id,
+                        GroupId = groupId,
+                        IsGroupLeader = false,
+                    };
+                    await _b_AgencyGroupRelationRepository.InsertAsync(groupRelation);
                 }
-
-                var groupRelation = new B_AgencyGroupRelation()
-                {
-                    Id = Guid.NewGuid(),
-                    AgencyId = newmodel.Id,
-                    GroupId = groupId,
-                    IsGroupLeader = isGroupLeader,
-
-                };
-                await _b_AgencyGroupRelationRepository.InsertAsync(groupRelation);
-
-
-
-
-
-
-
             }
             else
             {

@@ -22,7 +22,7 @@ namespace Abp.WeChat
         public void SendWeChatMsg(string businessId, TemplateMessageBusinessTypeEnum bType, string wxOpenId,
             string title, Dictionary<string, string> keyword, string remark)
         {
-
+            return;
             var entity = new AbpWxMessage();
             entity.Id = Guid.NewGuid();
             entity.BusinessId = businessId;

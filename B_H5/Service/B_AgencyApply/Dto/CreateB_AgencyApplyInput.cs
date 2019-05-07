@@ -155,7 +155,7 @@ namespace B_H5
         public List<GetAbpFilesOutput> HandleCredentFiles { get; set; } = new List<GetAbpFilesOutput>();
 
 
-
+        public string OpenId { get; set; } = string.Empty;
 
 
 
@@ -165,5 +165,5 @@ namespace B_H5
 
 
 
-    
+
 }
