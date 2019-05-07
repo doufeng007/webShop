@@ -18,7 +18,7 @@ namespace Abp.WeChat
         /// </summary>
         /// <param name="grant_type">获取access_token填写client_credential</param>
         /// <param name="appid">第三方用户唯一凭证</param>
-        /// <param name="secret">第三方用户唯一凭证密钥，既appsecret</param>
+        /// <param name="secret">第三方用户唯一凭证密钥，既appsecret   6981609be49d16714f35b9036951d605</param>
         /// <returns></returns>
         public static AccessTokenResult GetToken(string appid, string secret, string grant_type = "client_credential")
         {
