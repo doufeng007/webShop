@@ -198,7 +198,7 @@ namespace B_H5
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理不存在！");
             var categroyModel = await _b_CategroyRepository.GetAsync(input.CategroyId);
             var categroyPrice = _b_CategroyManager.GetCategroyPriceForUser(AbpSession.UserId.Value, input.CategroyId);
-            var totalAmout = categroyPrice * input.Number;
+            var totalAmout = categroyModel.Price * input.Number;
 
 
             var orderInmodel = new B_OrderIn()
