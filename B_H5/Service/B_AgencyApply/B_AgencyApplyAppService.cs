@@ -179,7 +179,9 @@ namespace B_H5
                             Provinces = a.Provinces,
                             Status = a.Status,
                             Tel = a.Tel,
-                            WxId = a.WxId
+                            WxId = a.WxId,
+                            AgencyLevelId = a.AgencyLevelId,
+
 
 
                         };
