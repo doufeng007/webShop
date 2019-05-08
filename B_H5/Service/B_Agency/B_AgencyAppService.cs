@@ -157,6 +157,7 @@ namespace B_H5
                                 Tel = u.PhoneNumber,
                                 Status = a.Status,
                                 CreationTime = a.CreationTime,
+
                             };
 
                 query = query.WhereIf(input.AgencyLevelId.HasValue, r => r.AgencyLevelId == input.AgencyLevelId.Value)
@@ -215,6 +216,10 @@ namespace B_H5
                             SignData = a.SignData,
                             UserId = a.UserId,
                             UserName = u.Name,
+                            ApplyId = a.ApplyId,
+                            PNumber = a.PNumber,
+
+
                         };
             var model = await query.FirstOrDefaultAsync();
             if (model == null)
@@ -223,11 +228,25 @@ namespace B_H5
             }
             var fielRet = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
             {
-                BusinessId = input.Id.ToString(),
+                BusinessId = model.ApplyId.ToString(),
                 BusinessType = (int)AbpFileBusinessType.代理头像
             });
             if (fielRet.Count() > 0)
                 model.File = fielRet.FirstOrDefault();
+
+
+            model.CredentFiles = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = model.ApplyId.ToString(),
+                BusinessType = (int)AbpFileBusinessType.申请代理打款凭证
+            });
+
+
+            model.HandleCredentFiles = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = model.ApplyId.ToString(),
+                BusinessType = (int)AbpFileBusinessType.申请代理手持证件
+            });
             return model;
         }
 

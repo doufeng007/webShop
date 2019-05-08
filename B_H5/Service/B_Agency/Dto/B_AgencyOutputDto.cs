@@ -76,5 +76,25 @@ namespace B_H5
         /// </summary>
         public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
 
+
+        /// <summary>
+        /// 打款凭证
+        /// </summary>
+        public List<GetAbpFilesOutput> CredentFiles { get; set; } = new List<GetAbpFilesOutput>();
+
+
+        /// <summary>
+        /// 手持凭证
+        /// </summary>
+        public List<GetAbpFilesOutput> HandleCredentFiles { get; set; } = new List<GetAbpFilesOutput>();
+
+        public Guid ApplyId { get; set; }
+
+
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string PNumber { get; set; }
+
     }
 }
