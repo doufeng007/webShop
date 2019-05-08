@@ -226,11 +226,12 @@ namespace B_H5
 
         public async Task<Guid> Create(CreateB_AgencyApplyInput input)
         {
+
             var newmodel = new B_AgencyApply()
             {
                 Id = Guid.NewGuid(),
-                AgencyLevelId = input.AgencyLevelId,
-                AgencyLevel = input.AgencyLevel,
+                //AgencyLevelId = input.AgencyLevelId,
+                //AgencyLevel = input.AgencyLevel,
                 Tel = input.Tel,
                 VCode = input.VCode,
                 Pwd = input.Pwd,
@@ -253,6 +254,20 @@ namespace B_H5
                 AgencyApplyType = AgencyApplyEnum.代理邀请,
                 OpenId = input.OpenId
             };
+
+            if (input.InviteUrlId.HasValue)
+            {
+                var inviteUrlModel = await _b_InviteUrlRepository.GetAsync(input.InviteUrlId.Value);
+                newmodel.AgencyLevel = _b_AgencyLevelService.GetAgencyLevelFromCache(inviteUrlModel.AgencyLevel).Level;
+                newmodel.AgencyLevelId = inviteUrlModel.AgencyLevel;
+            }
+            else
+            {
+                var oneModel = _b_AgencyLevelService.GetAgencyLevelOneFromCache();
+                newmodel.AgencyLevel = oneModel.Level;
+                newmodel.AgencyLevelId = oneModel.Id;
+            }
+
 
             await _repository.InsertAsync(newmodel);
 

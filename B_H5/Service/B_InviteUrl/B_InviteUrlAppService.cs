@@ -47,10 +47,12 @@ namespace B_H5
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
+        [AbpAuthorize]
         public async Task<PagedResultDto<B_InviteUrlListOutputDto>> GetList(GetB_InviteUrlListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                         join b in _B_AgencyLevelRepository.GetAll() on a.AgencyLevel equals b.Id
+                        where a.CreatorUserId.Value == AbpSession.UserId.Value
                         select new B_InviteUrlListOutputDto()
                         {
                             Id = a.Id,
