@@ -29,12 +29,12 @@ namespace B_H5
         /// <returns></returns>
         Task<B_AgencyApplyOutputDto> Get(EntityDto<Guid> input);
 
-		/// <summary>
+        /// <summary>
         /// 添加一个B_AgencyApply
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		Task Create(CreateB_AgencyApplyInput input);
+        Task<Guid> Create(CreateB_AgencyApplyInput input);
 
 		/// <summary>
         /// 修改一个B_AgencyApply

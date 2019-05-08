@@ -224,7 +224,7 @@ namespace B_H5
         /// <param name="input">实体</param>
         /// <returns></returns>
 
-        public async Task Create(CreateB_AgencyApplyInput input)
+        public async Task<Guid> Create(CreateB_AgencyApplyInput input)
         {
             var newmodel = new B_AgencyApply()
             {
@@ -309,6 +309,9 @@ namespace B_H5
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "未上传代理头像！");
             }
 
+
+            return newmodel.Id;
+
         }
 
 
@@ -387,7 +390,7 @@ namespace B_H5
 
                 }
 
-                
+
 
 
                 if (model.AgencyLevelId == agencyLeavelOne.Id)   //邀请一级代理
