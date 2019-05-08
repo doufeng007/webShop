@@ -12,9 +12,9 @@ using Abp.WorkFlow;
 namespace B_H5
 {
     [AutoMapFrom(typeof(B_AgencySales))]
-    public class B_AgencySalesOutputDto 
+    public class B_AgencySalesOutputDto
     {
-        
+
         /// <summary>
         /// 总销售额
         /// </summary>
@@ -34,6 +34,9 @@ namespace B_H5
         /// 销售折扣
         /// </summary>
         public decimal Discount { get; set; }
+
+
+        public string CategroyName { get; set; }
 
 
     }

@@ -180,11 +180,18 @@ namespace B_H5
         {
             var startDate = new DateTime(input.Year, input.Month, 1, 0, 0, 0);
             var enddate = startDate.AddMonths(1);
+            var ret = new B_AgencySalesOutputDto();
+            if (input.CategroyId.HasValue)
+            {
+                var categroyModel = _b_CategroyRepository.Get(input.CategroyId.Value);
+                ret.CategroyName = categroyModel.Name;
+            }
+
             var query = from a in _repository.GetAll()
                         where a.SalesDate >= startDate && a.SalesDate < enddate && a.UserId == AbpSession.UserId.Value
                         && (!input.CategroyId.HasValue || a.CategroyId == input.CategroyId.Value)
                         select a;
-            var ret = new B_AgencySalesOutputDto();
+
             ret.Bonus = query.Sum(r => r.Bonus);
             ret.Profit = query.Sum(r => r.Profit);
             ret.TotalSales = query.Sum(r => r.Sales);
