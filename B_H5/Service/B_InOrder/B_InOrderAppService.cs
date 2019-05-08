@@ -45,13 +45,15 @@ namespace B_H5
         private readonly IRepository<User, long> _userRepository;
         private readonly IRepository<B_AgencySales, Guid> _b_AgencySalesRepository;
         private readonly IRepository<B_AgencySalesDetail, Guid> _b_AgencySalesDetailRepository;
+        private readonly IB_MessageAppService _b_MessageAppService;
 
 
         public B_InOrderAppService(IRepository<B_Agency, Guid> b_AgencyRepository, B_CategroyManager b_CategroyManager
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<AbpDictionary, Guid> abpDictionaryRepository
             , IRepository<B_OrderIn, Guid> repository, IRepository<B_Order, Guid> b_OrderRepository, IRepository<B_Categroy, Guid> b_CategroyRepository
             , IAbpFileRelationAppService abpFileRelationAppService, IB_CWDetailAppService b_CWDetailAppService, WxTemplateMessageManager wxTemplateMessageManager
-            , IRepository<User, long> userRepository, IRepository<B_AgencySales, Guid> b_AgencySalesRepository, IRepository<B_AgencySalesDetail, Guid> b_AgencySalesDetailRepository)
+            , IRepository<User, long> userRepository, IRepository<B_AgencySales, Guid> b_AgencySalesRepository, IRepository<B_AgencySalesDetail, Guid> b_AgencySalesDetailRepository
+            , IB_MessageAppService b_MessageAppService)
         {
             _b_AgencyRepository = b_AgencyRepository;
             _b_CategroyManager = b_CategroyManager;
@@ -66,6 +68,7 @@ namespace B_H5
             _userRepository = userRepository;
             _b_AgencySalesRepository = b_AgencySalesRepository;
             _b_AgencySalesDetailRepository = b_AgencySalesDetailRepository;
+            _b_MessageAppService = b_MessageAppService;
 
         }
         /// <summary>
@@ -497,6 +500,9 @@ namespace B_H5
                 RelationUserId = userId,
             });
 
+
+
+
             var categroyModel = _b_CategroyRepository.Get(orderInmodel.CategroyId);
 
             var p_Agency = _b_AgencyRepository.FirstOrDefault(r => r.UserId == p_UserId);
@@ -620,10 +626,35 @@ namespace B_H5
                             , categroyModel.Name, "货物已转入云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
 
 
-            var parent_User = _userRepository.Get(p_UserId);
+            var usermodel = _userRepository.Get(userId);
 
             SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.下级代理进货订单完成, p_UserId, $"进货订单{orderInmodel.OrderNo}"
-                            , categroyModel.Name, $"货物已转入代理（{parent_User.Name}）云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
+                            , categroyModel.Name, $"货物已转入代理（{usermodel.Name}）云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
+
+
+
+            _b_MessageAppService.Create(new CreateB_MessageInput()
+            {
+                BusinessId = orderInmodel.Id,
+                BusinessType = B_H5MesagessType.订单,
+                Code = orderInmodel.OrderNo,
+                Content = $"货物已转入云仓",
+                StatusTitle = "已完成",
+                Title = $"订单编号：{orderInmodel.OrderNo}",
+                UserId = orderInmodel.UserId,
+            });
+
+
+            _b_MessageAppService.Create(new CreateB_MessageInput()
+            {
+                BusinessId = orderInmodel.Id,
+                BusinessType = B_H5MesagessType.订单,
+                Code = orderInmodel.OrderNo,
+                Content = $"货物已转入（{usermodel.Name}）云仓",
+                StatusTitle = "已完成",
+                Title = $"下级进货订单：{orderInmodel.OrderNo}",
+                UserId = p_UserId
+            });
 
             return new_parent_Sale.Sales;
         }
@@ -635,6 +666,7 @@ namespace B_H5
         {
             var categroyModel = _b_CategroyRepository.Get(orderInmodel.CategroyId);
             var b_AgencyModel = _b_AgencyRepository.GetAll().FirstOrDefault(r => r.UserId == AbpSession.UserId.Value);
+            var userModel = _userRepository.Get(b_AgencyModel.UserId);
 
             if (orderInmodel.Status == InOrderStatusEnum.已完成)
             {
@@ -646,6 +678,18 @@ namespace B_H5
                     Number = orderInmodel.Number,
                     Type = CWDetailTypeEnum.入仓,
                     UserId = orderInmodel.UserId
+                });
+
+
+                _b_MessageAppService.Create(new CreateB_MessageInput()
+                {
+                    BusinessId = orderInmodel.Id,
+                    BusinessType = B_H5MesagessType.订单,
+                    Code = orderInmodel.OrderNo,
+                    Content = $"货物已转入云仓",
+                    StatusTitle = "已完成",
+                    Title = $"订单编号：{orderInmodel.OrderNo}",
+                    UserId = orderInmodel.UserId,
                 });
 
 
@@ -668,7 +712,16 @@ namespace B_H5
                         RelationUserId = orderInmodel.UserId,
                     });
 
-
+                    _b_MessageAppService.Create(new CreateB_MessageInput()
+                    {
+                        BusinessId = orderInmodel.Id,
+                        BusinessType = B_H5MesagessType.订单,
+                        Code = orderInmodel.OrderNo,
+                        Content = $"货物已转入（{userModel.Name}）云仓",
+                        StatusTitle = "已完成",
+                        Title = $"下级进货订单：{orderInmodel.OrderNo}",
+                        UserId = parent_AgencyModel.UserId
+                    });
 
 
 
@@ -831,6 +884,10 @@ namespace B_H5
             }
             else
             {
+
+
+
+
                 //发送微信模板消息
                 SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.当前用户进货订单上级缺货, AbpSession.UserId.Value, $"进货订单{orderInmodel.OrderNo}"
                             , categroyModel.Name, "请尽快补货！", orderInmodel.Amout, InOrderStatusEnum.上级缺货);
@@ -842,6 +899,20 @@ namespace B_H5
                     var parent_User = _userRepository.Get(parent_AgencyModel.UserId);
                     SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.下级代理进货订单上级缺货, parent_AgencyModel.UserId, $"进货订单{orderInmodel.OrderNo}"
                             , categroyModel.Name, "请尽快补货！", orderInmodel.Amout, InOrderStatusEnum.上级缺货);
+
+
+
+                    _b_MessageAppService.Create(new CreateB_MessageInput()
+                    {
+                        BusinessId = orderInmodel.Id,
+                        BusinessType = B_H5MesagessType.订单,
+                        Code = orderInmodel.OrderNo,
+                        StatusTitle = "上级缺货",
+                        Title = $"下级进货订单：{orderInmodel.OrderNo}",
+                        LessRemark = $"{categroyModel.Name}缺货，请尽快备货",
+                        UserId = parent_AgencyModel.UserId
+
+                    });
                 }
             }
 

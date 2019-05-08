@@ -21,7 +21,7 @@ namespace B_H5
     {
         public int? TenantId { get; set; }
         #region 表字段
-        
+
         /// <summary>
         /// Title
         /// </summary>
@@ -62,6 +62,17 @@ namespace B_H5
         /// </summary>
         [DisplayName(@"Status")]
         public int Status { get; set; }
+
+
+        public string StatusTitle { get; set; }
+
+        /// <summary>
+        /// 缺货描述
+        /// </summary>
+        public string LessRemark { get; set; }
+
+
+        public long UserId { get; set; }
 
 
         #endregion

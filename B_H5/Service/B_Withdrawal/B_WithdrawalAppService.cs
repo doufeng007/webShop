@@ -278,6 +278,16 @@ namespace B_H5
                         IsBlance = true,
                         IsGoodsPayment = false,
                     });
+
+                    var _b_MessageAppService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_MessageAppService>();
+                    _b_MessageAppService.Create(new CreateB_MessageInput()
+                    {
+                        BusinessId = model.Id,
+                        BusinessType = B_H5MesagessType.订单,
+                        Code = model.Code,
+                        Content = $"提现单号：{model.Code}已经审核通过，{model.Amout}元已经打入银行账户，请注意查收",
+                        UserId = AbpSession.UserId.Value,
+                    });
                 }
                 else
                 {
@@ -287,6 +297,9 @@ namespace B_H5
 
                 await _repository.UpdateAsync(model);
             }
+
+
+
 
         }
 

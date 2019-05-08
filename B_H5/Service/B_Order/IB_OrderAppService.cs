@@ -11,19 +11,15 @@ namespace B_H5
 {
     public interface IB_OrderAppService : IApplicationService
     {
-        /// <summary>
-        /// 根据条件分页获取列表
-        /// </summary>
-        /// <param name="page">查询实体</param>
-        /// <returns></returns>
-        Task<PagedResultDto<B_OrderListOutputDto>> GetList(GetB_OrderListInput input);
 
-        /// <summary>
-        /// 根据主键获取实体
-        /// </summary>
-        /// <param name="input">主键</param>
-        /// <returns></returns>
-        Task<B_OrderOutputDto> Get(NullableIdDto<Guid> input);
+        Task<PagedResultDto<GetUserBlanceListOutput>> GetBlanceList(GetB_OrderListInput input);
+
+
+        Task<PagedResultDto<GetUserGoodPaymentListOutput>> GetGoodPaymentList(GetB_OrderListInput input);
+
+
+        Task<UserBlanceListDto> Get();
+
 
         /// <summary>
         /// 添加一个B_Order

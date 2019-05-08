@@ -10,20 +10,7 @@ namespace B_H5
 {
     public class GetB_OrderListInput : PagedAndSortedInputDto, IShouldNormalize
     {
-        /// <summary>
-        /// UserId
-        /// </summary>
-        public long UserId { get; set; }
 
-        /// <summary>
-        /// Amout
-        /// </summary>
-        public decimal Amout { get; set; }
-
-        /// <summary>
-        /// Stauts
-        /// </summary>
-        public int Stauts { get; set; }
 
 
 
@@ -35,4 +22,46 @@ namespace B_H5
             }
         }
     }
+
+
+    public class GetUserBlanceListOutput
+    {
+        public Guid Id { get; set; }
+
+        public string Type { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+
+        public decimal Amout { get; set; }
+
+
+        public OrderAmoutEnum InOrOut { get; set; }
+
+        public string OrderNo { get; set; }
+
+
+        public string Status { get; set; }
+
+
+    }
+
+    public class GetUserGoodPaymentListOutput : GetUserBlanceListOutput
+    {
+
+    }
+
+
+    public class UserBlanceListDto
+    {
+
+        public decimal Blance { get; set; }
+
+        public decimal Deposit { get; set; }
+
+        public decimal GoodPayment { get; set; }
+
+        
+    }
+
 }

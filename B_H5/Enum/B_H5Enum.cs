@@ -10,9 +10,8 @@ namespace B_H5
     public enum B_H5MesagessType
     {
 
-        提货订单 = 1,
-        订单 = 2,
-        提现 = 3,
+        订单 = 1,
+        款项 = 2
     }
 
 
@@ -130,7 +129,8 @@ namespace B_H5
         提现 = 3,
         充值 = 4,
         奖励 = 5,
-        保证金 = 6
+        保证金 = 6,
+        推荐奖金 = 7
     }
 
     public enum OrderOutStauts

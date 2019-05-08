@@ -214,7 +214,7 @@ namespace B_H5
                             Provinces = a.Provinces,
                             SignData = a.SignData,
                             UserId = a.UserId,
-                            UserName = u.Name
+                            UserName = u.Name,
                         };
             var model = await query.FirstOrDefaultAsync();
             if (model == null)
@@ -396,6 +396,10 @@ namespace B_H5
                 }
             }
         }
+
+
+
+
 
     }
 }

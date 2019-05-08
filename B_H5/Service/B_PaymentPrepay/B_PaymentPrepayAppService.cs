@@ -32,9 +32,10 @@ namespace B_H5
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
+        private readonly IB_MessageAppService _b_MessageAppService;
 
         public B_PaymentPrepayAppService(IRepository<B_PaymentPrepay, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
-            , IRepository<B_Agency, Guid> b_AgencyRepository, WxTemplateMessageManager wxTemplateMessageManager
+            , IRepository<B_Agency, Guid> b_AgencyRepository, WxTemplateMessageManager wxTemplateMessageManager, IB_MessageAppService b_MessageAppService
 
         )
         {
@@ -42,6 +43,7 @@ namespace B_H5
             _abpFileRelationAppService = abpFileRelationAppService;
             _b_AgencyRepository = b_AgencyRepository;
             _wxTemplateMessageManager = wxTemplateMessageManager;
+            _b_MessageAppService = b_MessageAppService;
 
         }
 
@@ -198,6 +200,16 @@ namespace B_H5
                 Files = fileList1
             });
 
+
+            _b_MessageAppService.Create(new CreateB_MessageInput()
+            {
+                BusinessId = newmodel.Id,
+                BusinessType = B_H5MesagessType.款项,
+                Code = newmodel.Code,
+                Title = $"您发起了{newmodel.PayAcount}元的充值申请，请等待审核结果",
+                Content = $"充值单号：{newmodel.Code}",
+                UserId = AbpSession.UserId.Value,
+            });
         }
 
         /// <summary>
@@ -279,6 +291,17 @@ namespace B_H5
                     UserId = _agencyModel.UserId,
                     IsBlance = false,
                     IsGoodsPayment = true,
+                });
+
+
+                _b_MessageAppService.Create(new CreateB_MessageInput()
+                {
+                    BusinessId = model.Id,
+                    BusinessType = B_H5MesagessType.款项,
+                    Code = model.Code,
+                    Content = $"充值单号：{model.Code}已经审核通过，{model.PayAcount}元已经充入货款 ",
+                    UserId = model.CreatorUserId.Value,
+
                 });
 
                 dic.Add("keyword1", userModel.Name);

@@ -41,6 +41,7 @@ namespace B_H5
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
         private readonly IRepository<B_AgencySales, Guid> _b_AgencySalesRepository;
+        private readonly IB_MessageAppService _b_MessageAppService;
 
         public B_OrderOutAppService(IRepository<B_OrderOut, Guid> repository, IRepository<B_Categroy, Guid> b_CategroyRepository
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<B_OrderDetail, Guid> b_OrderDetailRepository
@@ -48,6 +49,7 @@ namespace B_H5
             , IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_MyAddress, Guid> b_MyAddressRepository
             , IRepository<B_Order, Guid> b_OrderRepository, IB_CWDetailAppService b_CWDetailAppService, WxTemplateMessageManager wxTemplateMessageManager
             , IRepository<B_Agency, Guid> b_AgencyRepository, IRepository<B_AgencySales, Guid> b_AgencySalesRepository
+            , IB_MessageAppService b_MessageAppService
         )
         {
             this._repository = repository;
@@ -63,6 +65,7 @@ namespace B_H5
             _wxTemplateMessageManager = wxTemplateMessageManager;
             _b_AgencyRepository = b_AgencyRepository;
             _b_AgencySalesRepository = b_AgencySalesRepository;
+            _b_MessageAppService = b_MessageAppService;
         }
 
         /// <summary>
@@ -397,12 +400,11 @@ namespace B_H5
                             #endregion
 
 
-                            var dic = new Dictionary<string, string>();
-                            dic.Add("keyword1", userModel.Name);
-                            dic.Add("keyword2", userModel.PhoneNumber);
-                            dic.Add("keyword3", DateTime.Now.ToString());
-                            _wxTemplateMessageManager.SendWeChatMsg(newmodel.ToString(), Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.当前用户生成提货订单,
-                                b_AgencyModel.OpenId, "您在系统下了新的提货订单", dic, $"订单编号：{newmodel.OrderNo}");
+
+                            
+
+
+                           
 
                         }
                     }
@@ -436,6 +438,23 @@ namespace B_H5
             });
 
 
+            _b_MessageAppService.Create(new CreateB_MessageInput()
+            {
+                BusinessId = newmodel.Id,
+                BusinessType = B_H5MesagessType.订单,
+                Code = newmodel.OrderNo,
+                Title ="您在系统下了新提货订单",
+                Content = $"订单编号：{newmodel.OrderNo}",
+                UserId = AbpSession.UserId.Value,
+            });
+
+
+            var dic = new Dictionary<string, string>();
+            dic.Add("keyword1", userModel.Name);
+            dic.Add("keyword2", userModel.PhoneNumber);
+            dic.Add("keyword3", DateTime.Now.ToString());
+            _wxTemplateMessageManager.SendWeChatMsg(newmodel.ToString(), Abp.WeChat.Enum.TemplateMessageBusinessTypeEnum.当前用户生成提货订单,
+                b_AgencyModel.OpenId, "您在系统下了新的提货订单", dic, $"订单编号：{newmodel.OrderNo}");
 
         }
 

@@ -49,7 +49,16 @@ namespace B_H5
         public int Status { get; set; }
 
 
-		
+        /// <summary>
+        /// 缺货描述
+        /// </summary>
+        public string LessRemark { get; set; }
+
+
+        public string StatusTitle { get; set; }
+
+
+        public long UserId { get; set; }
         #endregion
     }
 }
