@@ -56,5 +56,8 @@ namespace B_H5
 
 
         B_AgencyLevelListOutputDto GetAgencyLevelOneFromCache();
+
+
+        B_AgencyLevelListOutputDto GetAgencyLevelByUserId(long userId);
     }
 }

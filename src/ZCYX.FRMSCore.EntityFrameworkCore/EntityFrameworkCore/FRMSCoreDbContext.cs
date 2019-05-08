@@ -311,8 +311,16 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
         public virtual DbSet<B_AgencyUpgrade> B_AgencyUpgrade { get; set; }
 
+
+        public virtual DbSet<B_AgencySales> B_AgencySales { get; set; }
+
+
+        public virtual DbSet<B_AgencySalesDetail> B_AgencySalesDetail { get; set; }
+
         
 
+
+            
 
         #endregion
 

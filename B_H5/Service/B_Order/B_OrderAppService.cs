@@ -26,12 +26,14 @@ namespace B_H5
     public class B_OrderAppService : FRMSCoreAppServiceBase, IB_OrderAppService
     {
         private readonly IRepository<B_Order, Guid> _repository;
+        private readonly IRepository<B_OrderIn, Guid> _b_OrderInRepository;
 
-        public B_OrderAppService(IRepository<B_Order, Guid> repository
+        public B_OrderAppService(IRepository<B_Order, Guid> repository , IRepository<B_OrderIn, Guid> b_OrderInRepository
 
         )
         {
             this._repository = repository;
+            _b_OrderInRepository = b_OrderInRepository;
 
         }
 
@@ -81,7 +83,7 @@ namespace B_H5
         /// <param name="input">实体</param>
         /// <returns></returns>
 
-        public async Task Create(CreateB_OrderInput input)
+        public async Task CreateAsync(CreateB_OrderInput input)
         {
             var newmodel = new B_Order()
             {
@@ -95,6 +97,23 @@ namespace B_H5
             };
 
             await _repository.InsertAsync(newmodel);
+
+        }
+
+
+        public void Create(CreateB_OrderInput input)
+        {
+            var newmodel = new B_Order()
+            {
+                UserId = input.UserId,
+                Amout = input.Amout,
+                Stauts = input.Stauts,
+                BusinessId = input.BusinessId,
+                BusinessType = input.BusinessType,
+                InOrOut = input.InOrOut,
+                OrderNo = input.OrderNo,
+            };
+            _repository.Insert(newmodel);
 
         }
 
@@ -135,5 +154,8 @@ namespace B_H5
         {
             //await _repository.DeleteAsync(x => x.Id == input.Id);
         }
+
+
+       
     }
 }

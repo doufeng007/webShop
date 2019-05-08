@@ -267,7 +267,7 @@ namespace B_H5
 
 
                     var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
-                    await service.Create(new CreateB_OrderInput()
+                    await service.CreateAsync(new CreateB_OrderInput()
                     {
                         Amout = model.Amout,
                         BusinessId = model.Id,
@@ -275,6 +275,8 @@ namespace B_H5
                         InOrOut = OrderAmoutEnum.出账,
                         OrderNo = model.Code,
                         UserId = model.CreatorUserId.Value,
+                        IsBlance = true,
+                        IsGoodsPayment = false,
                     });
                 }
                 else

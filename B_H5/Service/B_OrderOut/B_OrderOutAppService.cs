@@ -40,13 +40,14 @@ namespace B_H5
         private readonly IB_CWDetailAppService _b_CWDetailAppService;
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
+        private readonly IRepository<B_AgencySales, Guid> _b_AgencySalesRepository;
 
         public B_OrderOutAppService(IRepository<B_OrderOut, Guid> repository, IRepository<B_Categroy, Guid> b_CategroyRepository
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<B_OrderDetail, Guid> b_OrderDetailRepository
             , IRepository<B_OrderCourier, Guid> b_OrderCourierRepository, IRepository<B_Goods, Guid> b_GoodsRepository
             , IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_MyAddress, Guid> b_MyAddressRepository
             , IRepository<B_Order, Guid> b_OrderRepository, IB_CWDetailAppService b_CWDetailAppService, WxTemplateMessageManager wxTemplateMessageManager
-            , IRepository<B_Agency, Guid> b_AgencyRepository
+            , IRepository<B_Agency, Guid> b_AgencyRepository, IRepository<B_AgencySales, Guid> b_AgencySalesRepository
         )
         {
             this._repository = repository;
@@ -61,6 +62,7 @@ namespace B_H5
             _b_CWDetailAppService = b_CWDetailAppService;
             _wxTemplateMessageManager = wxTemplateMessageManager;
             _b_AgencyRepository = b_AgencyRepository;
+            _b_AgencySalesRepository = b_AgencySalesRepository;
         }
 
         /// <summary>
@@ -277,6 +279,8 @@ namespace B_H5
 
             return ret;
         }
+
+
         /// <summary>
         /// H5创建一个提货订单
         /// </summary>
@@ -314,6 +318,8 @@ namespace B_H5
             if (b_AgencyModel == null)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理人数据不存在！");
 
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+
             foreach (var item in input.Goods)
             {
                 if (query.Any(r => r.Id == item.CategroyId))
@@ -340,6 +346,55 @@ namespace B_H5
                                 Type = CWDetailTypeEnum.出仓,
                                 UserId = AbpSession.UserId.Value
                             });
+
+
+                            #region  销售额
+                            var new_Sale = new B_AgencySales()
+                            {
+                                Id = Guid.NewGuid(),
+                                AgencyId = b_AgencyModel.Id,
+                                UserId = b_AgencyModel.UserId,
+                                CategroyId = item.CategroyId,
+                                Profit = 0,
+                                Sales = item.Amout,
+                                SalesDate = DateTime.Now,
+                                FromUserId = b_AgencyModel.UserId,
+                            };
+                            _b_AgencySalesRepository.Insert(new_Sale);
+
+                            if (b_AgencyModel.AgencyLevel != 1 && b_AgencyModel.P_Id.HasValue)
+                            {
+                                var p_AgencyModel = _b_AgencyRepository.Get(b_AgencyModel.P_Id.Value);
+                                var new_P_Sale = new B_AgencySales()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    AgencyId = p_AgencyModel.Id,
+                                    UserId = p_AgencyModel.UserId,
+                                    CategroyId = item.CategroyId,
+                                    Profit = 0,
+                                    Sales = 0,
+                                    Bonus = 2,
+                                    SalesDate = DateTime.Now
+                                };
+                                _b_AgencySalesRepository.Insert(new_P_Sale);
+                                p_AgencyModel.Balance = p_AgencyModel.Balance + 2;
+                                await _b_AgencyRepository.UpdateAsync(p_AgencyModel);
+
+                                await service.CreateAsync(new CreateB_OrderInput()
+                                {
+                                    Amout = 2,
+                                    BusinessId = newmodel.Id,
+                                    BusinessType = OrderAmoutBusinessTypeEnum.奖励,
+                                    InOrOut = OrderAmoutEnum.入账,
+                                    OrderNo = newmodel.OrderNo,
+                                    UserId = p_AgencyModel.UserId,
+                                    IsBlance = true,
+                                    IsGoodsPayment = false,
+                                });
+                            }
+
+
+                            #endregion
 
 
                             var dic = new Dictionary<string, string>();
@@ -369,14 +424,14 @@ namespace B_H5
             }
 
 
-            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
-            await service.Create(new CreateB_OrderInput()
+
+            await service.CreateAsync(new CreateB_OrderInput()
             {
                 Amout = newmodel.Amout,
                 BusinessId = newmodel.Id,
                 BusinessType = OrderAmoutBusinessTypeEnum.提货,
                 InOrOut = OrderAmoutEnum.入账,
-                OrderNo = "",
+                OrderNo = newmodel.OrderNo,
                 UserId = AbpSession.UserId.Value
             });
 

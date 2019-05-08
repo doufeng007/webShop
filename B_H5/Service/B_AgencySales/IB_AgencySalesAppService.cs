@@ -9,44 +9,49 @@ using Abp.WorkFlow;
 
 namespace B_H5
 {
-    public interface IB_OrderAppService : IApplicationService
+    public interface IB_AgencySalesAppService : IApplicationService
     {
+
         /// <summary>
-        /// 根据条件分页获取列表
+        /// 获取类别下的销售额明细
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<B_AgencySalesCategroyListOutputDto>> GetListByCategroyId(GetB_AgencyCategroySalesListInput input);
+
+        /// <summary>
+        /// 
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
-        Task<PagedResultDto<B_OrderListOutputDto>> GetList(GetB_OrderListInput input);
+        Task<PagedResultDto<B_AgencySalesListOutputDto>> GetList(GetB_AgencySalesListInput input);
 
         /// <summary>
         /// 根据主键获取实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-        Task<B_OrderOutputDto> Get(NullableIdDto<Guid> input);
+        Task<B_AgencySalesOutputDto> Get(GetB_AgencySalesInput input);
 
         /// <summary>
-        /// 添加一个B_Order
+        /// 添加一个B_AgencySales
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-        Task CreateAsync(CreateB_OrderInput input);
+        Task Create(CreateB_AgencySalesInput input);
 
-
-        void Create(CreateB_OrderInput input);
-
-        /// <summary>
-        /// 修改一个B_Order
+		/// <summary>
+        /// 修改一个B_AgencySales
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-        Task Update(UpdateB_OrderInput input);
+		Task Update(UpdateB_AgencySalesInput input);
 
-        /// <summary>
+		/// <summary>
         /// 逻辑删除实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-        Task Delete(EntityDto<Guid> input);
+		Task Delete(EntityDto<Guid> input);
     }
 }

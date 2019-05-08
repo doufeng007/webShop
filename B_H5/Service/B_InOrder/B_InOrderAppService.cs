@@ -43,13 +43,15 @@ namespace B_H5
         private readonly IB_CWDetailAppService _b_CWDetailAppService;
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
         private readonly IRepository<User, long> _userRepository;
+        private readonly IRepository<B_AgencySales, Guid> _b_AgencySalesRepository;
+        private readonly IRepository<B_AgencySalesDetail, Guid> _b_AgencySalesDetailRepository;
 
 
         public B_InOrderAppService(IRepository<B_Agency, Guid> b_AgencyRepository, B_CategroyManager b_CategroyManager
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<AbpDictionary, Guid> abpDictionaryRepository
             , IRepository<B_OrderIn, Guid> repository, IRepository<B_Order, Guid> b_OrderRepository, IRepository<B_Categroy, Guid> b_CategroyRepository
             , IAbpFileRelationAppService abpFileRelationAppService, IB_CWDetailAppService b_CWDetailAppService, WxTemplateMessageManager wxTemplateMessageManager
-            , IRepository<User, long> userRepository)
+            , IRepository<User, long> userRepository, IRepository<B_AgencySales, Guid> b_AgencySalesRepository, IRepository<B_AgencySalesDetail, Guid> b_AgencySalesDetailRepository)
         {
             _b_AgencyRepository = b_AgencyRepository;
             _b_CategroyManager = b_CategroyManager;
@@ -62,6 +64,9 @@ namespace B_H5
             _b_CWDetailAppService = b_CWDetailAppService;
             _wxTemplateMessageManager = wxTemplateMessageManager;
             _userRepository = userRepository;
+            _b_AgencySalesRepository = b_AgencySalesRepository;
+            _b_AgencySalesDetailRepository = b_AgencySalesDetailRepository;
+
         }
         /// <summary>
         /// 获取进货单列表
@@ -118,7 +123,7 @@ namespace B_H5
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
 
-            var businessIds = ret.Select(r => r.Id.ToString()).ToList();
+            var businessIds = ret.Select(r => r.CategroyId.ToString()).Distinct().ToList();
             if (businessIds.Count > 0)
             {
                 var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
@@ -127,9 +132,9 @@ namespace B_H5
                     BusinessType = AbpFileBusinessType.商品类别图
                 });
                 foreach (var item in ret)
-                    if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
+                    if (fileGroups.Any(r => r.BusinessId == item.CategroyId.ToString()))
                     {
-                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.CategroyId.ToString());
                         if (fileModel != null)
                         {
                             var files = fileModel.Files;
@@ -197,8 +202,8 @@ namespace B_H5
             if (bModel == null)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理不存在！");
             var categroyModel = await _b_CategroyRepository.GetAsync(input.CategroyId);
-            var categroyPrice = _b_CategroyManager.GetCategroyPriceForUser(AbpSession.UserId.Value, input.CategroyId);
-            var totalAmout = categroyModel.Price * input.Number;
+            var categroyPrice = _b_CategroyManager.GetCategroyPriceForUser(AbpSession.UserId.Value, categroyModel.Price);
+            var totalAmout = categroyPrice * input.Number;
 
 
             var orderInmodel = new B_OrderIn()
@@ -362,22 +367,6 @@ namespace B_H5
 
             await _repository.InsertAsync(orderInmodel);
             OrderInForCurrentUser(orderInmodel);
-
-
-            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
-            await service.Create(new CreateB_OrderInput()
-            {
-                Amout = orderInmodel.Amout,
-                BusinessId = orderInmodel.Id,
-                BusinessType = OrderAmoutBusinessTypeEnum.进货,
-                InOrOut = OrderAmoutEnum.入账,
-                OrderNo = orderInmodel.OrderNo,
-                UserId = AbpSession.UserId.Value
-            });
-
-
-
-
         }
 
         /// <summary>
@@ -432,9 +421,8 @@ namespace B_H5
                                 item.Status = InOrderStatusEnum.已完成;
                                 _repository.Update(item);
                                 ///上级往下发货成功 余额往下
-                                org_AgencyBlance = org_AgencyBlance + item.Amout;
-
-                                OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
+                                var sale = OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
+                                org_AgencyBlance = org_AgencyBlance + sale;
                                 OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
                                 break;
                             }
@@ -450,8 +438,9 @@ namespace B_H5
                                     item.Status = InOrderStatusEnum.已完成;
                                     _repository.Update(item);
                                     ///上级往下发货成功 余额往下
-                                    org_AgencyBlance = org_AgencyBlance + item.Amout;
-                                    OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
+                                    ///上级往下发货成功 余额往下
+                                    var sale = OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
+                                    org_AgencyBlance = org_AgencyBlance + sale;
                                     OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
                                 }
                                 else
@@ -462,9 +451,8 @@ namespace B_H5
                                     item.Status = InOrderStatusEnum.已完成;
                                     _repository.Update(item);
                                     ///上级往下发货成功 余额往下
-                                    org_AgencyBlance = org_AgencyBlance + item.Amout;
-
-                                    OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
+                                    var sale = OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
+                                    org_AgencyBlance = org_AgencyBlance + sale;
                                     OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
                                 }
 
@@ -487,7 +475,7 @@ namespace B_H5
         }
 
 
-        private void OrderInForChildDetail(B_OrderIn orderInmodel, Guid categroyId, int number, long userId, long p_UserId)
+        private decimal OrderInForChildDetail(B_OrderIn orderInmodel, Guid categroyId, int number, long userId, long p_UserId)
         {
 
             _b_CWDetailAppService.CreateAsync(new CreateB_CWDetailInput()
@@ -510,6 +498,124 @@ namespace B_H5
             });
 
             var categroyModel = _b_CategroyRepository.Get(orderInmodel.CategroyId);
+
+            var p_Agency = _b_AgencyRepository.FirstOrDefault(r => r.UserId == p_UserId);
+            var agency = _b_AgencyRepository.FirstOrDefault(r => r.UserId == userId);
+            var profit = _b_CategroyManager.GetProfitForUser(p_Agency.AgencyLevelId, agency.AgencyLevelId, orderInmodel.CategroyId);
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+            #region 销售额
+
+            var new_parent_Sale = new B_AgencySales()
+            {
+                Id = Guid.NewGuid(),
+                AgencyId = p_Agency.Id,
+                CategroyId = orderInmodel.CategroyId,
+                Profit = 0,
+                Sales = orderInmodel.Amout,
+                SalesDate = DateTime.Now,
+                UserId = p_Agency.UserId,
+                FromUserId = userId,
+            };
+
+            if (agency.OriginalPid == agency.P_Id)
+            {
+                new_parent_Sale.Profit = profit;
+            }
+            else
+            {
+                var oldParentAgency = _b_AgencyRepository.Get(agency.OriginalPid.Value);
+                new_parent_Sale.Profit = profit / 2;
+                new_parent_Sale.Sales = orderInmodel.Amout - profit / 2;
+                var new_Oldparent_Sale = new B_AgencySales()
+                {
+                    Id = Guid.NewGuid(),
+                    AgencyId = oldParentAgency.Id,
+                    UserId = oldParentAgency.UserId,
+                    CategroyId = orderInmodel.CategroyId,
+                    Profit = profit / 2,
+                    Sales = 0,
+                    SalesDate = DateTime.Now,
+                    FromUserId = userId,
+                };
+                _b_AgencySalesRepository.Insert(new_Oldparent_Sale);
+
+
+                //原始上家的进钱
+                service.Create(new CreateB_OrderInput()
+                {
+                    Amout = new_Oldparent_Sale.Profit,
+                    BusinessId = orderInmodel.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                    InOrOut = OrderAmoutEnum.入账,
+                    OrderNo = orderInmodel.OrderNo,
+                    UserId = oldParentAgency.UserId,
+                    IsBlance = true,
+                    IsGoodsPayment = false,
+                });
+            }
+            _b_AgencySalesRepository.Insert(new_parent_Sale);
+
+            #endregion
+
+
+            #region  消费记录
+
+
+            //进货者的花钱
+            if (orderInmodel.Balance > 0)
+            {
+                service.Create(new CreateB_OrderInput()
+                {
+                    Amout = orderInmodel.Balance,
+                    BusinessId = orderInmodel.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                    InOrOut = OrderAmoutEnum.出账,
+                    OrderNo = orderInmodel.OrderNo,
+                    UserId = orderInmodel.UserId,
+                    IsBlance = true,
+                    IsGoodsPayment = false,
+                });
+            }
+            if (orderInmodel.GoodsPayment > 0)
+            {
+                service.Create(new CreateB_OrderInput()
+                {
+                    Amout = orderInmodel.GoodsPayment,
+                    BusinessId = orderInmodel.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                    InOrOut = OrderAmoutEnum.出账,
+                    OrderNo = orderInmodel.OrderNo,
+                    UserId = orderInmodel.UserId,
+                    IsBlance = false,
+                    IsGoodsPayment = true
+                });
+            }
+
+
+            ///上家的进钱
+
+            service.Create(new CreateB_OrderInput()
+            {
+                Amout = new_parent_Sale.Sales,
+                BusinessId = orderInmodel.Id,
+                BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                InOrOut = OrderAmoutEnum.入账,
+                OrderNo = orderInmodel.OrderNo,
+                UserId = p_Agency.UserId,
+                IsBlance = true,
+                IsGoodsPayment = false,
+            });
+
+
+            //原始上家的进钱 放前面
+
+
+
+
+            #endregion
+
+
+
             SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.当前用户进货订单完成, userId, $"进货订单{orderInmodel.OrderNo}"
                             , categroyModel.Name, "货物已转入云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
 
@@ -518,6 +624,8 @@ namespace B_H5
 
             SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.下级代理进货订单完成, p_UserId, $"进货订单{orderInmodel.OrderNo}"
                             , categroyModel.Name, $"货物已转入代理（{parent_User.Name}）云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
+
+            return new_parent_Sale.Sales;
         }
 
 
@@ -544,10 +652,9 @@ namespace B_H5
                 //发送微信模板消息
                 SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.当前用户进货订单完成, AbpSession.UserId.Value, $"进货订单{orderInmodel.OrderNo}"
                             , categroyModel.Name, "货物已转入云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
+                var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
                 if (b_AgencyModel.AgencyLevel != 1)
                 {
-
-
                     var parent_AgencyModel = _b_AgencyRepository.FirstOrDefault(r => r.Id == b_AgencyModel.P_Id);
                     if (parent_AgencyModel == null)
                         throw new UserFriendlyException((int)ErrorCode.CodeValErr, "非一级代理找不到上级代理");
@@ -562,9 +669,161 @@ namespace B_H5
                     });
 
 
+
+
+
+
+                    #region  销售额
+
+                    var new_parent_Sale = new B_AgencySales()
+                    {
+                        Id = Guid.NewGuid(),
+                        AgencyId = parent_AgencyModel.Id,
+                        UserId = parent_AgencyModel.UserId,
+                        CategroyId = orderInmodel.CategroyId,
+                        Profit = 0,
+                        Sales = orderInmodel.Amout,
+                        SalesDate = DateTime.Now,
+                        FromUserId = orderInmodel.UserId,
+                    };
+                    var profit = _b_CategroyManager.GetProfitForUser(parent_AgencyModel.AgencyLevelId, b_AgencyModel.AgencyLevelId, orderInmodel.CategroyId);
+                    if (b_AgencyModel.OriginalPid == b_AgencyModel.P_Id)
+                    {
+                        new_parent_Sale.Profit = profit;
+                    }
+                    else
+                    {
+                        var oldParentAgency = _b_AgencyRepository.Get(b_AgencyModel.OriginalPid.Value);
+                        new_parent_Sale.Profit = profit / 2;
+                        new_parent_Sale.Sales = new_parent_Sale.Sales - new_parent_Sale.Profit;
+                        var new_Oldparent_Sale = new B_AgencySales()
+                        {
+                            Id = Guid.NewGuid(),
+                            AgencyId = oldParentAgency.Id,
+                            UserId = oldParentAgency.UserId,
+                            CategroyId = orderInmodel.CategroyId,
+                            Profit = profit / 2,
+                            Sales = 0,
+                            SalesDate = DateTime.Now,
+                            FromUserId = orderInmodel.UserId
+                        };
+                        _b_AgencySalesRepository.Insert(new_Oldparent_Sale);
+
+                        //原始上家的进钱
+                        service.Create(new CreateB_OrderInput()
+                        {
+                            Amout = new_Oldparent_Sale.Profit,
+                            BusinessId = orderInmodel.Id,
+                            BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                            InOrOut = OrderAmoutEnum.入账,
+                            OrderNo = orderInmodel.OrderNo,
+                            UserId = oldParentAgency.UserId,
+                            IsBlance = true,
+                            IsGoodsPayment = false,
+                        });
+                    }
+                    _b_AgencySalesRepository.Insert(new_parent_Sale);
+                    #endregion
+
+
+                    #region  消费记录
+
+
+                    //进货者的花钱
+                    if (orderInmodel.Balance > 0)
+                    {
+                        service.Create(new CreateB_OrderInput()
+                        {
+                            Amout = orderInmodel.Balance,
+                            BusinessId = orderInmodel.Id,
+                            BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                            InOrOut = OrderAmoutEnum.出账,
+                            OrderNo = orderInmodel.OrderNo,
+                            UserId = orderInmodel.UserId,
+                            IsBlance = true,
+                            IsGoodsPayment = false,
+                        });
+                    }
+                    if (orderInmodel.GoodsPayment > 0)
+                    {
+                        service.Create(new CreateB_OrderInput()
+                        {
+                            Amout = orderInmodel.GoodsPayment,
+                            BusinessId = orderInmodel.Id,
+                            BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                            InOrOut = OrderAmoutEnum.出账,
+                            OrderNo = orderInmodel.OrderNo,
+                            UserId = orderInmodel.UserId,
+                            IsBlance = false,
+                            IsGoodsPayment = true
+                        });
+                    }
+
+
+                    ///上家的进钱
+
+                    service.Create(new CreateB_OrderInput()
+                    {
+                        Amout = new_parent_Sale.Sales,
+                        BusinessId = orderInmodel.Id,
+                        BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                        InOrOut = OrderAmoutEnum.入账,
+                        OrderNo = orderInmodel.OrderNo,
+                        UserId = parent_AgencyModel.UserId,
+                        IsBlance = true,
+                        IsGoodsPayment = false,
+                    });
+
+
+                    //原始上家的进钱 放前面
+
+
+
+
+                    #endregion
+
+
+
+
                     var parent_User = _userRepository.Get(parent_AgencyModel.UserId);
                     SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.下级代理进货订单完成, parent_AgencyModel.UserId, $"进货订单{orderInmodel.OrderNo}"
                             , categroyModel.Name, $"货物已转入代理（{parent_User.Name}）云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
+                }
+                else
+                {
+                    ///一级代理进货 不会产生谁的销售额；
+
+                    #region   消费记录
+                    //进货者的花钱
+                    if (orderInmodel.Balance > 0)
+                    {
+                        service.Create(new CreateB_OrderInput()
+                        {
+                            Amout = orderInmodel.Balance,
+                            BusinessId = orderInmodel.Id,
+                            BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                            InOrOut = OrderAmoutEnum.出账,
+                            OrderNo = orderInmodel.OrderNo,
+                            UserId = orderInmodel.UserId,
+                            IsBlance = true,
+                            IsGoodsPayment = false,
+                        });
+                    }
+                    if (orderInmodel.GoodsPayment > 0)
+                    {
+                        service.Create(new CreateB_OrderInput()
+                        {
+                            Amout = orderInmodel.GoodsPayment,
+                            BusinessId = orderInmodel.Id,
+                            BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                            InOrOut = OrderAmoutEnum.出账,
+                            OrderNo = orderInmodel.OrderNo,
+                            UserId = orderInmodel.UserId,
+                            IsBlance = false,
+                            IsGoodsPayment = true
+                        });
+                    }
+                    #endregion
                 }
 
 
@@ -587,6 +846,16 @@ namespace B_H5
             }
 
         }
+
+
+
+
+
+
+
+
+
+
 
 
 

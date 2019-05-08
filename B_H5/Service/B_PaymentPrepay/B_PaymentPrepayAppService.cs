@@ -269,14 +269,16 @@ namespace B_H5
                 await _b_AgencyRepository.UpdateAsync(_agencyModel);
 
                 var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
-                await service.Create(new CreateB_OrderInput()
+                await service.CreateAsync(new CreateB_OrderInput()
                 {
                     Amout = model.PayAmout,
                     BusinessId = model.Id,
                     BusinessType = OrderAmoutBusinessTypeEnum.充值,
                     InOrOut = OrderAmoutEnum.入账,
                     OrderNo = model.Code,
-                    UserId = _agencyModel.UserId
+                    UserId = _agencyModel.UserId,
+                    IsBlance = false,
+                    IsGoodsPayment = true,
                 });
 
                 dic.Add("keyword1", userModel.Name);

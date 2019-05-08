@@ -47,6 +47,17 @@ namespace B_H5
         public OrderAmoutBusinessTypeEnum BusinessType { get; set; }
 
 
+        /// <summary>
+        /// 是余额
+        /// </summary>
+        public bool IsBlance { get; set; }
+
+        /// <summary>
+        /// 是货款
+        /// </summary>
+        public bool IsGoodsPayment { get; set; }
+
+
         #endregion
     }
 }

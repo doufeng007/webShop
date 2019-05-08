@@ -229,6 +229,19 @@ namespace B_H5
 
         }
 
+        public B_AgencyLevelListOutputDto GetAgencyLevelByUserId(long userId)
+        {
+            var b_Agency = _b_AgencyRepository.FirstOrDefault(r => r.UserId == userId);
+            if (b_Agency == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理不存在");
+            var list = GetAgencyLevelFromCache();
+            var ret = list.FirstOrDefault(r => r.Id == b_Agency.AgencyLevelId);
+            if (ret == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "获取代理等级失败");
+            return ret;
+
+        }
+
         public B_AgencyLevelListOutputDto GetAgencyLevelOneFromCache()
         {
             var list = GetAgencyLevelFromCache();
