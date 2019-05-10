@@ -20,6 +20,7 @@ using Abp.WorkFlow;
 using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
+using Abp.Authorization;
 
 namespace B_H5
 {
@@ -29,17 +30,19 @@ namespace B_H5
     public class B_NoticeAppService : FRMSCoreAppServiceBase, IB_NoticeAppService
     {
         private readonly IRepository<B_Notice, Guid> _repository;
+        private readonly IRepository<B_NoticeUserReadLog, Guid> _b_NoticeUserReadLogRepository;
 
-        public B_NoticeAppService(IRepository<B_Notice, Guid> repository
+        public B_NoticeAppService(IRepository<B_Notice, Guid> repository, IRepository<B_NoticeUserReadLog, Guid> b_NoticeUserReadLogRepository
 
         )
         {
             this._repository = repository;
+            _b_NoticeUserReadLogRepository = b_NoticeUserReadLogRepository;
 
         }
 
         /// <summary>
-        /// 获取公告列表
+        /// 后台-获取公告列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
@@ -58,6 +61,81 @@ namespace B_H5
 
             return new PagedResultDto<B_NoticeListOutputDto>(toalCount, ret);
         }
+
+        /// <summary>
+        /// H5 获取公告列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task<PagedResultDto<B_NoticeListOutputDto>> GetListForWx(GetB_NoticeListInput input)
+        {
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                        join b in _b_NoticeUserReadLogRepository.GetAll() on new { a.Id, UserId = AbpSession.UserId.Value } equals new { Id = b.NoticeId, UserId = b.UserId } into g
+                        from c in g.DefaultIfEmpty()
+                        where a.Status == NoticeStatusEnum.正常
+                        select new B_NoticeListOutputDto()
+                        {
+                            Id = a.Id,
+                            Title = a.Title,
+                            Status = a.Status,
+                            CreationTime = a.CreationTime,
+                            IsRead = c == null ? false : true
+                        };
+            var totalCount = await query.CountAsync();
+            var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+
+            return new PagedResultDto<B_NoticeListOutputDto>(totalCount, ret);
+        }
+
+
+        /// <summary>
+        /// H5 获取用户未读消息数量
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task<int> GetListForWxNotRead()
+        {
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                        join b in _b_NoticeUserReadLogRepository.GetAll() on new { a.Id, UserId = AbpSession.UserId.Value } equals new { Id = b.NoticeId, UserId = b.UserId } into g
+                        from c in g.DefaultIfEmpty()
+                        where a.Status == NoticeStatusEnum.正常
+                        select new B_NoticeListOutputDto()
+                        {
+                            Id = a.Id,
+                            IsRead = c == null ? false : true
+                        };
+            var totalCount = await query.Where(r => r.IsRead == false).CountAsync();
+            return totalCount;
+        }
+
+
+        /// <summary>
+        /// 第一次打开公告链接时调用
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task ReadNotice(EntityDto<Guid> input)
+        {
+            var model = await _repository.GetAsync(input.Id);
+            if (_b_NoticeUserReadLogRepository.GetAll().Any(r => r.Id == model.Id && r.UserId == AbpSession.UserId.Value))
+            {
+                return;
+            }
+            else
+            {
+                await _b_NoticeUserReadLogRepository.InsertAsync(new B_NoticeUserReadLog()
+                {
+                    Id = Guid.NewGuid(),
+                    NoticeId = model.Id,
+                    UserId = AbpSession.UserId.Value
+                });
+            }
+
+        }
+
 
         /// <summary>
         /// 获取公告详情

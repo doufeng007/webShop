@@ -11,7 +11,7 @@ using Abp.WorkFlow;
 namespace B_H5
 {
     [AutoMapFrom(typeof(B_Notice))]
-    public class B_NoticeListOutputDto 
+    public class B_NoticeListOutputDto
     {
         /// <summary>
         /// Id
@@ -33,6 +33,9 @@ namespace B_H5
         /// CreationTime
         /// </summary>
         public DateTime CreationTime { get; set; }
+
+
+        public bool IsRead { get; set; }
 
 
     }

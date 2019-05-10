@@ -21,7 +21,7 @@ namespace B_H5
     {
         public int? TenantId { get; set; }
         #region 表字段
-        
+
         /// <summary>
         /// Title
         /// </summary>
@@ -44,5 +44,18 @@ namespace B_H5
 
 
         #endregion
+    }
+
+    [Serializable]
+    [Table("B_NoticeUserReadLog")]
+    public class B_NoticeUserReadLog : Entity<Guid>, IMayHaveTenant
+    {
+        public int? TenantId { get; set; }
+
+
+        public Guid NoticeId { get; set; }
+
+
+        public long UserId { get; set; }
     }
 }

@@ -51,6 +51,9 @@ namespace B_H5
         public DateTime CreationTime { get; set; }
 
 
+        public Guid ApplyId { get; set; }
+
+
         /// <summary>
         /// 头像
         /// </summary>

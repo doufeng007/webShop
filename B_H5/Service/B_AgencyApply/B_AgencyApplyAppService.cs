@@ -133,9 +133,15 @@ namespace B_H5
         public async Task<B_AgencyApplyCount> GetCount()
         {
             var ret = new B_AgencyApplyCount();
-            ret.WaitAuditCount = await _repository.GetAll().Where(r => r.Status == B_AgencyApplyStatusEnum.待审核).CountAsync();
-            ret.PassCount = await _repository.GetAll().Where(r => r.Status == B_AgencyApplyStatusEnum.已通过).CountAsync();
-            ret.NoPassCount = await _repository.GetAll().Where(r => r.Status == B_AgencyApplyStatusEnum.未通过).CountAsync();
+
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                        join b in _b_InviteUrlRepository.GetAll() on a.InviteUrlId equals b.Id
+                        join u in UserManager.Users on b.CreatorUserId.Value equals u.Id
+                        select a;
+
+            ret.WaitAuditCount = await query.Where(r => r.Status == B_AgencyApplyStatusEnum.待审核).CountAsync();
+            ret.PassCount = await query.Where(r => r.Status == B_AgencyApplyStatusEnum.已通过).CountAsync();
+            ret.NoPassCount = await query.Where(r => r.Status == B_AgencyApplyStatusEnum.未通过).CountAsync();
             return ret;
         }
 

@@ -102,11 +102,12 @@ namespace B_H5
                                 AgencyLevelName = b.Name,
                                 AgenCyCode = a.AgenCyCode,
                                 CreationTime = a.CreationTime,
+                                ApplyId = a.ApplyId,
                             };
 
                 var toalCount = await query.CountAsync();
                 var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
-                var businessIds = ret.Select(r => r.Id.ToString()).ToList();
+                var businessIds = ret.Select(r => r.ApplyId.ToString()).ToList();
                 if (businessIds.Count > 0)
                 {
                     var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
@@ -115,9 +116,9 @@ namespace B_H5
                         BusinessType = AbpFileBusinessType.代理头像
                     });
                     foreach (var item in ret)
-                        if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
+                        if (fileGroups.Any(r => r.BusinessId == item.ApplyId.ToString()))
                         {
-                            var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                            var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.ApplyId.ToString());
                             if (fileModel != null)
                             {
                                 var files = fileModel.Files;

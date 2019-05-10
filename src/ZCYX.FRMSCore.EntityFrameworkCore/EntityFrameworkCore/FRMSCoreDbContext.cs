@@ -317,10 +317,13 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
         public virtual DbSet<B_AgencySalesDetail> B_AgencySalesDetail { get; set; }
 
+
+
+        public virtual DbSet<B_NoticeUserReadLog> B_NoticeUserReadLog { get; set; }
+
+
         
 
-
-            
 
         #endregion
 

@@ -21,12 +21,24 @@ namespace B_H5
         /// <returns></returns>
 		Task<PagedResultDto<B_NoticeListOutputDto>> GetList(GetB_NoticeListInput input);
 
-		/// <summary>
+
+        Task<PagedResultDto<B_NoticeListOutputDto>> GetListForWx(GetB_NoticeListInput input);
+
+
+        Task ReadNotice(EntityDto<Guid> input);
+
+
+        Task<int> GetListForWxNotRead();
+
+
+
+
+        /// <summary>
         /// 根据主键获取实体
         /// </summary>
         /// <param name="input">主键</param>
         /// <returns></returns>
-		Task<B_NoticeOutputDto> Get(EntityDto<Guid> input);
+        Task<B_NoticeOutputDto> Get(EntityDto<Guid> input);
 
 		/// <summary>
         /// 添加一个B_Notice
