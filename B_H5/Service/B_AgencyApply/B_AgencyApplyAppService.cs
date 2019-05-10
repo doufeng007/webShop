@@ -229,6 +229,12 @@ namespace B_H5
         public async Task<Guid> Create(CreateB_AgencyApplyInput input)
         {
 
+            if (input.InviteUrlId.HasValue)
+            {
+                if (_repository.GetAll().Where(r => r.Status != B_AgencyApplyStatusEnum.未通过).Any(r => r.Name == input.Name))
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理名称重复！");
+            }
+
             var newmodel = new B_AgencyApply()
             {
                 Id = Guid.NewGuid(),

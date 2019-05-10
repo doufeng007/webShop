@@ -279,9 +279,8 @@ namespace B_H5
             //};
             //var apiList = new GFF_GoodsListDto();
             //apiList.GFF_Goods.Add(apiP);
-
-
-            //var ret = await SoapClient.Create_GFF_GoodsAsync(Newtonsoft.Json.JsonConvert.SerializeObject(apiList), "80010", "fe6db94a-68d4-47fa-838b-42955529807380010");
+            //var parameter = "GFF_Goods{ \"GFF_Goods\": { \"item\": [      {        \"GoodsCode\":\"4992440034447\",        \"SKU\": \"4992440034447\",        \"CnName\": \"保湿补水美白晒后修复面膜 10片装\",\"EnName\": \"保湿补水美白晒后修复面膜10片装\",\"CustomcCode\": \"1\",\"ProducingArea\": \"1\",\"Weight\": \"0.1\",\"Length\": \"1\",\"Width\": \"1\",\"High\": \"1\",\"Price\": \"1\",\"Field2\": \"否\"}]}}";
+            //var ret = await SoapClient.Create_GFF_GoodsAsync(parameter, "80010", "fe6db94a-68d4-47fa-838b-42955529807380010");
 
         }
 
