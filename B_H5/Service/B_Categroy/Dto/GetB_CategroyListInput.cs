@@ -10,15 +10,7 @@ namespace B_H5
 {
     public class GetB_CategroyListInput : PagedAndSortedInputDto, IShouldNormalize
     {
-        /// <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// P_Id
-        /// </summary>
-        public Guid? P_Id { get; set; }
+        
 
       
 

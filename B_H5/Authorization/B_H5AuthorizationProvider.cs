@@ -19,7 +19,7 @@ namespace B_H5
 
         public override void SetPermissions(IPermissionDefinitionContext context)
         {
-            _baseprovider.SetPermissionsWithMouldName(context, "B_H5");
+            _baseprovider.SetPermissionsWithMouldName(context, "WebShop");
         }
         private static ILocalizableString L(string name)
         {

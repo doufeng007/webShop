@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.WorkFlow;
+using Abp.File;
 
 namespace B_H5
 {
@@ -57,6 +58,8 @@ namespace B_H5
         /// CreationTime
         /// </summary>
         public DateTime CreationTime { get; set; }
+
+        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
 
 
     }

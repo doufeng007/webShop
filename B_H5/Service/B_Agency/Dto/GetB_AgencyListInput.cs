@@ -1,4 +1,5 @@
-﻿using Abp.Runtime.Validation;
+﻿using Abp.File;
+using Abp.Runtime.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,5 +81,14 @@ namespace B_H5
                 Sorting = " CreationTime desc";
             }
         }
+    }
+
+
+
+
+    public class UpadteAgencyTouxiangInputDto
+    {
+        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
+
     }
 }

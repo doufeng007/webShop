@@ -16,7 +16,7 @@ namespace B_H5
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
-		Task<PagedResultDto<B_CategroyListOutputDto>> GetList(GetB_CategroyListInput input);
+		Task<PagedResultDto<B_CategroyListOutputDto>> GetCWCategroyList(GetB_CategroyListInput input);
 
 
         /// <summary>

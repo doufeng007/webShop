@@ -85,7 +85,7 @@ namespace B_H5
                         case OrderAmoutBusinessTypeEnum.充值:
                             entity.Type = "";
                             break;
-                        case OrderAmoutBusinessTypeEnum.奖励:
+                        case OrderAmoutBusinessTypeEnum.团队管理奖金:
                             entity.Type = "团队管理奖";
                             break;
                         case OrderAmoutBusinessTypeEnum.保证金:
@@ -111,7 +111,7 @@ namespace B_H5
                             break;
                         case OrderAmoutBusinessTypeEnum.充值:
                             break;
-                        case OrderAmoutBusinessTypeEnum.奖励:
+                        case OrderAmoutBusinessTypeEnum.团队管理奖金:
                             break;
                         case OrderAmoutBusinessTypeEnum.保证金:
                             break;
@@ -170,7 +170,7 @@ namespace B_H5
                         case OrderAmoutBusinessTypeEnum.充值:
                             entity.Type = "";
                             break;
-                        case OrderAmoutBusinessTypeEnum.奖励:
+                        case OrderAmoutBusinessTypeEnum.团队管理奖金:
                             entity.Type = "团队管理奖";
                             break;
                         case OrderAmoutBusinessTypeEnum.保证金:
@@ -196,7 +196,7 @@ namespace B_H5
                             break;
                         case OrderAmoutBusinessTypeEnum.充值:
                             break;
-                        case OrderAmoutBusinessTypeEnum.奖励:
+                        case OrderAmoutBusinessTypeEnum.团队管理奖金:
                             break;
                         case OrderAmoutBusinessTypeEnum.保证金:
                             break;
@@ -215,7 +215,7 @@ namespace B_H5
 
 
         /// <summary>
-        /// 代理金额
+        /// 后台-代理金额列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -241,7 +241,7 @@ namespace B_H5
                             InviteAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.推荐奖金).Sum(r => r.a.Amout),
                             ChildOrderinOutAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.提货 && r.a.InOrOut == OrderAmoutEnum.入账).Sum(r => r.a.Amout),
                             OrderInAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.进货 && r.a.InOrOut == OrderAmoutEnum.出账).Sum(r => r.a.Amout),
-                            TeamBonus = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.奖励 && r.a.InOrOut == OrderAmoutEnum.入账).Sum(r => r.a.Amout),
+                            TeamBonus = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.团队管理奖金 && r.a.InOrOut == OrderAmoutEnum.入账).Sum(r => r.a.Amout),
                             WithdrawalAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.提现).Sum(r => r.a.Amout),
                             AgencyCreateTime = g.Key.CreationTime
 
@@ -264,6 +264,10 @@ namespace B_H5
 
 
         }
+
+
+
+        
 
 
 

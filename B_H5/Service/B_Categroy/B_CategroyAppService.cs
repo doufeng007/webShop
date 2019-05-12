@@ -37,29 +37,48 @@ namespace B_H5
         }
 
         /// <summary>
-        /// 根据条件分页获取列表
+        /// H5 获取我的云仓-进货 可进货类别列表
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
-        public async Task<PagedResultDto<B_CategroyListOutputDto>> GetList(GetB_CategroyListInput input)
+        public async Task<PagedResultDto<B_CategroyListOutputDto>> GetCWCategroyList(GetB_CategroyListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-
+                        where a.FirestLevelCategroyPropertyId == FirestLevelCategroyProperty.进提货 && !a.P_Id.HasValue
                         select new B_CategroyListOutputDto()
                         {
                             Id = a.Id,
                             Name = a.Name,
-                            P_Id = a.P_Id,
                             Price = a.Price,
                             Unit = a.Unit,
                             Tag = a.Tag,
-                            Remark = a.Remark,
                             Status = a.Status,
                             CreationTime = a.CreationTime
-
                         };
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+
+            var businessIds = ret.Select(r => r.Id.ToString()).ToList();
+            if (businessIds.Count > 0)
+            {
+                var fileGroups = await _abpFileRelationAppService.GetMultiListAsync(new GetMultiAbpFilesInput()
+                {
+                    BusinessIds = businessIds,
+                    BusinessType = AbpFileBusinessType.商品类别图
+                });
+                foreach (var item in ret)
+                    if (fileGroups.Any(r => r.BusinessId == item.Id.ToString()))
+                    {
+                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                        if (fileModel != null)
+                        {
+                            var files = fileModel.Files;
+                            if (files.Count > 0)
+                                item.File = files.FirstOrDefault();
+                        }
+
+                    }
+            }
 
             return new PagedResultDto<B_CategroyListOutputDto>(toalCount, ret);
         }

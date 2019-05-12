@@ -126,4 +126,14 @@ namespace B_H5
         public DateTime AgencyCreateTime { get; set; }
 
     }
+
+
+
+    public class AgencyMoneyDetailListDto
+    {
+        public OrderAmoutBusinessTypeEnum BusinessType { get; set; }
+
+
+        public string BusinessTitle { get; set; }
+    }
 }

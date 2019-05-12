@@ -253,6 +253,44 @@ namespace B_H5
 
 
         /// <summary>
+        /// 修改代理头像
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task UpadteAgencyTouxiang(UpadteAgencyTouxiangInputDto input)
+        {
+            var model = await _repository.FirstOrDefaultAsync(r => r.UserId == AbpSession.UserId.Value);
+            if (model == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理不存在！");
+
+
+
+            if (input.File != null)
+            {
+                var fileList3 = new List<AbpFileListInput>();
+
+                fileList3.Add(new AbpFileListInput() { Id = input.File.Id, Sort = input.File.Sort });
+
+                await _abpFileRelationAppService.UpdateAsync(new CreateFileRelationsInput()
+                {
+                    BusinessId = model.ApplyId.ToString(),
+                    BusinessType = (int)AbpFileBusinessType.代理头像,
+                    Files = fileList3
+                });
+            }
+            else
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "未上传代理头像！");
+            }
+
+
+
+
+        }
+
+
+        /// <summary>
         /// 获取代理人详情
         /// </summary>
         /// <param name="input">主键</param>

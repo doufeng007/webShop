@@ -22,7 +22,7 @@ namespace B_H5
         public override void SetNavigation(INavigationProviderContext context)
         {
 
-            _baseProvider.SetNavigationWithMouldName(context, "B_H5");
+            _baseProvider.SetNavigationWithMouldName(context, "WebShop");
             
 
 

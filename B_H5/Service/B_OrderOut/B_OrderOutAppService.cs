@@ -387,7 +387,7 @@ namespace B_H5
                                 {
                                     Amout = 2,
                                     BusinessId = newmodel.Id,
-                                    BusinessType = OrderAmoutBusinessTypeEnum.奖励,
+                                    BusinessType = OrderAmoutBusinessTypeEnum.团队管理奖金,
                                     InOrOut = OrderAmoutEnum.入账,
                                     OrderNo = newmodel.OrderNo,
                                     UserId = p_AgencyModel.UserId,

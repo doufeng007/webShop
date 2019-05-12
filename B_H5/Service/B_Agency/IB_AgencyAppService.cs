@@ -29,6 +29,14 @@ namespace B_H5
         Task<B_AgencyOutputDto> Get(EntityDto<Guid> input);
 
 
+        /// <summary>
+        /// 修改代理头像
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpadteAgencyTouxiang(UpadteAgencyTouxiangInputDto input);
+
+
         Task<B_AgencyOutputDto> GetSelf();
 
         /// <summary>
