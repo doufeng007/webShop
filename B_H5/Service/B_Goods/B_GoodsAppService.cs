@@ -21,7 +21,8 @@ using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using ServiceReference;
-
+using Abp;
+using B_H5.Service.CloudService.Dto;
 
 namespace B_H5
 {
@@ -236,7 +237,7 @@ namespace B_H5
             var newmodel = new B_Goods()
             {
                 Id = Guid.NewGuid(),
-                Code = input.Code,
+                Code = DateTime.Now.DateTimeToStamp().ToString(),
                 ModeType = input.ModeType,
                 Spe = input.Spe,
                 UnitName = input.UnitName,
@@ -262,25 +263,26 @@ namespace B_H5
                 Files = fileList3
             });
 
-            //var apiP = new GFF_GoodsDto()
-            //{
-            //    CnName = newmodel.Name,
-            //    CustomcCode = "",
-            //    EnName = newmodel.Name,
-            //    Field2 = "",
-            //    GoodsCode = newmodel.Id.ToString(),
-            //    High = "",
-            //    Length = "",
-            //    ProducingArea = "",
-            //    SKU = newmodel.Id.ToString(),
-            //    Weight = "",
-            //    Price = "",
-            //    Width = ""
-            //};
-            //var apiList = new GFF_GoodsListDto();
-            //apiList.GFF_Goods.Add(apiP);
-            //var parameter = "GFF_Goods{ \"GFF_Goods\": { \"item\": [      {        \"GoodsCode\":\"4992440034447\",        \"SKU\": \"4992440034447\",        \"CnName\": \"保湿补水美白晒后修复面膜 10片装\",\"EnName\": \"保湿补水美白晒后修复面膜10片装\",\"CustomcCode\": \"1\",\"ProducingArea\": \"1\",\"Weight\": \"0.1\",\"Length\": \"1\",\"Width\": \"1\",\"High\": \"1\",\"Price\": \"1\",\"Field2\": \"否\"}]}}";
-            //var ret = await SoapClient.Create_GFF_GoodsAsync(parameter, "80010", "fe6db94a-68d4-47fa-838b-42955529807380010");
+
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<CloudService>();
+            var goods = new Service.CloudService.Dto.GFF_GoodsItem()
+            {
+                CnName = newmodel.Name,
+                CustomcCode = "",
+                GoodsCode = newmodel.Code,
+                Price = newmodel.Price.ToString(),
+                SKU = newmodel.Code,
+
+            };
+            var goodsList = new List<GFF_GoodsItem>();
+            goodsList.Add(goods);
+            await service.CreateGoods(new Service.CloudService.Dto.CreateGoodsInput()
+            {
+                GFF_Goods = new Service.CloudService.Dto.GFF_Goods()
+                {
+                    item = goodsList
+                }
+            });
 
         }
 

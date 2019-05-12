@@ -15,7 +15,7 @@ using Abp.Application.Services;
 using System.Linq.Dynamic.Core;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
-
+using ZCYX.FRMSCore.Model;
 
 namespace Abp.File
 {
@@ -171,6 +171,8 @@ namespace Abp.File
             }
             foreach (var item in input.Files)
             {
+                if (item.Id == Guid.Empty)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "文件id 不能为Guid.Empty");
                 var entity = new AbpFileRelation()
                 {
                     Id = Guid.NewGuid(),
@@ -190,6 +192,8 @@ namespace Abp.File
         {
             foreach (var item in input.Files)
             {
+                if (item.Id == Guid.Empty)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "文件id 不能为Guid.Empty");
                 var entity = new AbpFileRelation()
                 {
                     Id = Guid.NewGuid(),
@@ -214,6 +218,8 @@ namespace Abp.File
 
             foreach (var item in input.Files)
             {
+                if (item.Id == Guid.Empty)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "文件id 不能为Guid.Empty");
                 var entity = new AbpFileRelation()
                 {
                     Id = Guid.NewGuid(),
@@ -238,6 +244,8 @@ namespace Abp.File
 
             foreach (var item in input.Files)
             {
+                if (item.Id == Guid.Empty)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "文件id 不能为Guid.Empty");
                 var entity = new AbpFileRelation()
                 {
                     Id = Guid.NewGuid(),

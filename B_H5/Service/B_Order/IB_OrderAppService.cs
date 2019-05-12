@@ -18,6 +18,10 @@ namespace B_H5
         Task<PagedResultDto<GetUserGoodPaymentListOutput>> GetGoodPaymentList(GetB_OrderListInput input);
 
 
+
+        Task<PagedResultDto<AgencyMoneyStaticDto>> GetAgencyMoneyStatic(GetAgencyMoneyStaticInput input);
+
+
         Task<UserBlanceListDto> Get();
 
 

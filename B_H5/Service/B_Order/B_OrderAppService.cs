@@ -21,6 +21,7 @@ using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using Abp.Authorization;
+using Abp;
 
 namespace B_H5
 {
@@ -128,7 +129,11 @@ namespace B_H5
         }
 
 
-
+        /// <summary>
+        /// 获取用户货款详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize]
         public async Task<PagedResultDto<GetUserGoodPaymentListOutput>> GetGoodPaymentList(GetB_OrderListInput input)
         {
@@ -206,6 +211,58 @@ namespace B_H5
             }
 
             return new PagedResultDto<GetUserGoodPaymentListOutput>(toalCount, ret);
+        }
+
+
+        /// <summary>
+        /// 代理金额
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize("WebShop.Manager")]
+        public async Task<PagedResultDto<AgencyMoneyStaticDto>> GetAgencyMoneyStatic(GetAgencyMoneyStaticInput input)
+        {
+            var searchFlag = false;
+            if (!input.SearchKey.IsNullOrEmpty())
+                searchFlag = true;
+            var query = from a in _repository.GetAll()
+                        join b in _b_AgencyRepository.GetAll() on a.UserId equals b.UserId
+                        join c in UserManager.Users on b.UserId equals c.Id
+                        where (!input.LeavelId.HasValue || b.AgencyLevelId == input.LeavelId.Value)
+                        && (!searchFlag || (b.AgenCyCode.Contains(input.SearchKey) || c.Name.Contains(input.SearchKey)))
+                        group new { a, b, c } by new { a.UserId, b.AgencyLevelId, c.Name, b.AgenCyCode, b.Balance, b.GoodsPayment, b.CreationTime } into g
+                        select new AgencyMoneyStaticDto
+                        {
+                            AgencyCode = g.Key.AgenCyCode,
+                            AgencyLevelId = g.Key.AgencyLevelId,
+                            AgencyName = g.Key.Name,
+                            Blance = g.Key.Balance,
+                            GoodsPayment = g.Key.GoodsPayment,
+                            InviteAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.推荐奖金).Sum(r => r.a.Amout),
+                            ChildOrderinOutAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.提货 && r.a.InOrOut == OrderAmoutEnum.入账).Sum(r => r.a.Amout),
+                            OrderInAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.进货 && r.a.InOrOut == OrderAmoutEnum.出账).Sum(r => r.a.Amout),
+                            TeamBonus = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.奖励 && r.a.InOrOut == OrderAmoutEnum.入账).Sum(r => r.a.Amout),
+                            WithdrawalAmout = g.Where(r => r.a.BusinessType == OrderAmoutBusinessTypeEnum.提现).Sum(r => r.a.Amout),
+                            AgencyCreateTime = g.Key.CreationTime
+
+                        };
+
+            var totalCount = await query.CountAsync();
+            var data = await query.OrderByDescending(r => r.AgencyCreateTime).PageBy(input).ToListAsync();
+
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_AgencyLevelAppService>();
+            foreach (var item in data)
+            {
+                var agencyLeavelModel = service.GetAgencyLevelFromCache(item.AgencyLevelId);
+                item.AgencyLevelName = agencyLeavelModel.Name;
+                item.Deposite = item.Deposite;
+            }
+
+
+            return new PagedResultDto<AgencyMoneyStaticDto>(totalCount, data);
+
+
+
         }
 
 
