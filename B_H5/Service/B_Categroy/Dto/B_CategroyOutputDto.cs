@@ -59,7 +59,9 @@ namespace B_H5
         /// </summary>
         public DateTime CreationTime { get; set; }
 
+        public FirestLevelCategroyProperty FirestLevelCategroyPropertyId { get; set; }
 
-		
+        public GetAbpFilesOutput File { get; set; } = new GetAbpFilesOutput();
+
     }
 }

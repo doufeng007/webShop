@@ -119,7 +119,18 @@ namespace B_H5
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
-            return model.MapTo<B_CategroyOutputDto>();
+            var ret = model.MapTo<B_CategroyOutputDto>();
+
+
+            var fielRet = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = model.Id.ToString(),
+                BusinessType = (int)AbpFileBusinessType.商品类别图
+            });
+            if (fielRet.Count() > 0)
+                ret.File = fielRet.FirstOrDefault();
+
+            return ret;
         }
         /// <summary>
         /// 添加一个商品类别
@@ -135,6 +146,7 @@ namespace B_H5
             }
             var newmodel = new B_Categroy()
             {
+                Id = Guid.NewGuid(),
                 Name = input.Name,
                 P_Id = input.P_Id,
                 Price = input.Price,
@@ -183,8 +195,20 @@ namespace B_H5
                 dbmodel.Tag = input.Tag;
                 dbmodel.Remark = input.Remark;
                 dbmodel.Status = input.Status;
+                dbmodel.FirestLevelCategroyPropertyId = input.FirestLevelCategroyPropertyId;
 
                 await _repository.UpdateAsync(dbmodel);
+
+                var fileList = new List<AbpFileListInput>();
+
+                fileList.Add(new AbpFileListInput() { Id = input.File.Id, Sort = input.File.Sort });
+
+                await _abpFileRelationAppService.UpdateAsync(new CreateFileRelationsInput()
+                {
+                    BusinessId = dbmodel.Id.ToString(),
+                    BusinessType = (int)AbpFileBusinessType.商品类别图,
+                    Files = fileList
+                });
 
             }
             else
