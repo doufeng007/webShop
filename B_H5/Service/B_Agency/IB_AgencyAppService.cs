@@ -28,6 +28,9 @@ namespace B_H5
         /// <returns></returns>
         Task<B_AgencyOutputDto> Get(EntityDto<Guid> input);
 
+
+        Task<B_AgencyOutputDto> GetSelf();
+
         /// <summary>
         /// 添加一个B_Agency
         /// </summary>

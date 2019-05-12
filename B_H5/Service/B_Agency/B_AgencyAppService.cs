@@ -253,6 +253,70 @@ namespace B_H5
 
 
         /// <summary>
+        /// 获取代理人详情
+        /// </summary>
+        /// <param name="input">主键</param>
+        /// <returns></returns>
+        [AbpAuthorize]
+
+        public async Task<B_AgencyOutputDto> GetSelf()
+        {
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                        join u in UserManager.Users on a.UserId equals u.Id
+                        join b in _b_AgencyLevelepository.GetAll() on a.AgencyLevelId equals b.Id
+                        where a.UserId == AbpSession.UserId.Value
+                        select new B_AgencyOutputDto()
+                        {
+                            Address = a.Address,
+                            AgenCyCode = a.AgenCyCode,
+                            AgencyLevelName = b.Name,
+                            City = a.City,
+                            County = a.County,
+                            Id = a.Id,
+                            PhoneNumber = u.PhoneNumber,
+                            Provinces = a.Provinces,
+                            SignData = a.SignData,
+                            UserId = a.UserId,
+                            UserName = u.Name,
+                            ApplyId = a.ApplyId,
+                            PNumber = a.PNumber,
+
+
+                        };
+            var model = await query.FirstOrDefaultAsync();
+            if (model == null)
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            }
+            var fielRet = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = model.ApplyId.ToString(),
+                BusinessType = (int)AbpFileBusinessType.代理头像
+            });
+            if (fielRet.Count() > 0)
+                model.File = fielRet.FirstOrDefault();
+
+
+            model.CredentFiles = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = model.ApplyId.ToString(),
+                BusinessType = (int)AbpFileBusinessType.申请代理打款凭证
+            });
+
+
+            model.HandleCredentFiles = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
+            {
+                BusinessId = model.ApplyId.ToString(),
+                BusinessType = (int)AbpFileBusinessType.申请代理手持证件
+            });
+            return model;
+        }
+
+
+
+
+
+        /// <summary>
         /// 后台管理员添加一级代理
         /// </summary>
         /// <param name="input">实体</param>
