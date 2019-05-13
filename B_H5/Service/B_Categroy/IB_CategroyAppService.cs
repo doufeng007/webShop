@@ -19,6 +19,10 @@ namespace B_H5
 		Task<PagedResultDto<B_CategroyListOutputDto>> GetCWCategroyList(GetB_CategroyListInput input);
 
 
+
+        Task<PagedResultDto<B_CategroyListOutputDto>> GetList(GetB_CategroyListInput input);
+
+
         /// <summary>
         /// 根据类别id获取下级类别------云仓提货
         /// </summary>

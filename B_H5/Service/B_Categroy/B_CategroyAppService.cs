@@ -84,6 +84,35 @@ namespace B_H5
         }
 
 
+        /// <summary>
+        /// 获取商品类别列表
+        /// </summary>
+        /// <param name="page">查询实体</param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<B_CategroyListOutputDto>> GetList(GetB_CategroyListInput input)
+        {
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+
+                        select new B_CategroyListOutputDto()
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            P_Id = a.P_Id,
+                            Price = a.Price,
+                            Unit = a.Unit,
+                            Tag = a.Tag,
+                            Remark = a.Remark,
+                            Status = a.Status,
+                            CreationTime = a.CreationTime
+
+                        };
+            var toalCount = await query.CountAsync();
+            var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+
+            return new PagedResultDto<B_CategroyListOutputDto>(toalCount, ret);
+        }
+
+
 
         /// <summary>
         /// 根据类别id获取下级类别------云仓提货
@@ -195,7 +224,7 @@ namespace B_H5
                 dbmodel.Tag = input.Tag;
                 dbmodel.Remark = input.Remark;
                 dbmodel.Status = input.Status;
-                dbmodel.FirestLevelCategroyPropertyId = input.FirestLevelCategroyPropertyId;
+                //dbmodel.FirestLevelCategroyPropertyId = input.FirestLevelCategroyPropertyId;
 
                 await _repository.UpdateAsync(dbmodel);
 
