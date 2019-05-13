@@ -241,6 +241,12 @@ namespace B_H5
                     throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理名称重复！");
             }
 
+            var leavelRepository = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<B_AgencyLevel, Guid>>();
+            var applyLeavelModel = await leavelRepository.GetAsync(input.AgencyLevelId);
+            if (input.PayAmout < (applyLeavelModel.FirstRechargeAmout + applyLeavelModel.Deposit))
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "充值金额不足！");
+
+
             var newmodel = new B_AgencyApply()
             {
                 Id = Guid.NewGuid(),
@@ -365,6 +371,11 @@ namespace B_H5
                 model.Status = B_AgencyApplyStatusEnum.已通过;
 
 
+
+
+
+
+
                 var agencyLeavelOne = _b_AgencyLevelService.GetAgencyLevelOneFromCache();
 
                 var userService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IUserAppService>();
@@ -410,8 +421,40 @@ namespace B_H5
                     newmodel.P_Id = invite_AgencyModel.Id;
                     newmodel.OriginalPid = invite_AgencyModel.Id;
                 }
+                var leavelRepository = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<B_AgencyLevel, Guid>>();
+                var applyLeavelModel = await leavelRepository.GetAsync(model.AgencyLevelId);
+
+                newmodel.GoodsPayment = model.PayAmout - applyLeavelModel.Deposit;
 
                 await _b_AgencyRepository.InsertAsync(newmodel);
+
+
+                var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+                await service.CreateAsync(new CreateB_OrderInput()
+                {
+                    Amout = model.PayAmout - applyLeavelModel.Deposit,
+                    BusinessId = model.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.充值,
+                    InOrOut = OrderAmoutEnum.入账,
+                    OrderNo = DateTime.Now.DateTimeToStamp().ToString(),
+                    UserId = newmodel.UserId,
+                    IsBlance = false,
+                    IsGoodsPayment = true,
+                });
+
+
+                await service.CreateAsync(new CreateB_OrderInput()
+                {
+                    Amout = model.PayAmout - applyLeavelModel.Deposit,
+                    BusinessId = model.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.保证金,
+                    InOrOut = OrderAmoutEnum.入账,
+                    OrderNo = DateTime.Now.DateTimeToStamp().ToString(),
+                    UserId = newmodel.UserId,
+                    IsBlance = false,
+                    IsGoodsPayment = false,
+                });
+
 
 
                 if (invite_AgencyModel == null)
@@ -460,6 +503,10 @@ namespace B_H5
                     };
                     await _b_AgencyGroupRelationRepository.InsertAsync(groupRelation);
                 }
+
+
+
+
             }
             else
             {

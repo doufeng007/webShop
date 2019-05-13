@@ -180,6 +180,11 @@ namespace B_H5
             var toLeavelModel = await _b_AgencyLevelRepository.FirstOrDefaultAsync(input.ToAgencyLevelId);
             if (toLeavelModel == null)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理级别不存在！");
+            if (toLeavelModel.Level <= oldLeavelModel.Level)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理不能降级！");
+            var minPayAmout = toLeavelModel.FirstRechargeAmout + (toLeavelModel.Deposit - oldLeavelModel.Deposit);
+            if (input.PayAmout < minPayAmout)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "充值金额不足！");
 
             var newmodel = new B_AgencyUpgrade()
             {
@@ -298,7 +303,7 @@ namespace B_H5
                 }
                 else
                 {
-                    var newParentId =  _b_AgencyManager.GetParentAgencyId(b_AgencyModel.Id, toLeavelModel.Level - 1);
+                    var newParentId = _b_AgencyManager.GetParentAgencyId(b_AgencyModel.Id, toLeavelModel.Level - 1);
 
                     b_AgencyModel.P_Id = newParentId;
 
@@ -308,6 +313,33 @@ namespace B_H5
 
 
                 }
+
+                var oldLeavelModel = await _b_AgencyLevelRepository.GetAsync(b_AgencyModel.AgencyLevelId);
+                var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+                await service.CreateAsync(new CreateB_OrderInput()
+                {
+                    Amout = model.PayAmout - (toLeavelModel.Deposit- oldLeavelModel.Deposit),
+                    BusinessId = model.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.充值,
+                    InOrOut = OrderAmoutEnum.入账,
+                    OrderNo = DateTime.Now.DateTimeToStamp().ToString(),
+                    UserId = b_AgencyModel.UserId,
+                    IsBlance = false,
+                    IsGoodsPayment = true,
+                });
+
+
+                await service.CreateAsync(new CreateB_OrderInput()
+                {
+                    Amout = toLeavelModel.Deposit - oldLeavelModel.Deposit,
+                    BusinessId = model.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.保证金,
+                    InOrOut = OrderAmoutEnum.入账,
+                    OrderNo = DateTime.Now.DateTimeToStamp().ToString(),
+                    UserId = b_AgencyModel.UserId,
+                    IsBlance = false,
+                    IsGoodsPayment = false,
+                });
 
 
 
