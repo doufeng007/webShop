@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.WorkFlow;
+using B_H5.Service.B_Agency.Dto;
 
 namespace B_H5
 {
@@ -73,5 +74,23 @@ namespace B_H5
         /// <param name="openId"></param>
         /// <returns></returns>
         Task RegistWxOpenId(string openId);
+
+
+        Task<B_AgencyCountStatisticalDto> GetStatis();
+
+
+        Task<PagedResultDto<B_AgencyAddCountStatisDto>> GetAddAgencyList(B_AgencyAddCountStatisInput input);
+
+
+        Task<PagedResultDto<TeamCountStatisDto>> GetTeamCountStatis(TeamCountStatisInput input);
+
+
+        Task<PagedResultDto<TeamCountStatisDto>> GetInViteCountStatis(TeamCountStatisInput input);
+
+
+        Task<List<string>> GetAgencyAreaList();
+
+
+        Task<List<AgencyAreaStatisDto>> GetAgencyAreaStatis(string provinceCode);
     }
 }

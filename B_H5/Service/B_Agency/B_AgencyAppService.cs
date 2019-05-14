@@ -28,6 +28,7 @@ using Microsoft.Extensions.Configuration;
 using ZCYX.FRMSCore.Configuration;
 using Abp.Reflection.Extensions;
 using Abp.Authorization;
+using B_H5.Service.B_Agency.Dto;
 
 namespace B_H5
 {
@@ -44,12 +45,14 @@ namespace B_H5
         private readonly IRepository<B_AgencyLevel, Guid> _b_AgencyLevelepository;
         private readonly IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> _userRepository;
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IRepository<B_InviteUrl, Guid> _b_InviteUrlRepository;
 
 
         public B_AgencyAppService(IRepository<B_Agency, Guid> repository, IRepository<AbpDictionary, Guid> abpDictionaryrepository
             , IUnitOfWorkManager unitOfWorkManager, IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_AgencyLevel, Guid> b_AgencyLevelepository
             , IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> userRepository, IRepository<B_AgencyApply, Guid> b_AgencyApplyRepository
             , IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository, IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository
+            , IRepository<B_InviteUrl, Guid> b_InviteUrlRepository
 
         )
         {
@@ -64,6 +67,7 @@ namespace B_H5
             _b_AgencyApplyRepository = b_AgencyApplyRepository;
             _b_AgencyGroupRepository = b_AgencyGroupRepository;
             _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
+            _b_InviteUrlRepository = b_InviteUrlRepository;
 
         }
 
@@ -521,7 +525,166 @@ namespace B_H5
 
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<B_AgencyCountStatisticalDto> GetStatis()
+        {
+            var query = from a in _repository.GetAll()
+                        where a.Status == B_AgencyAcountStatusEnum.正常
+                        select a;
 
+            var ret = new B_AgencyCountStatisticalDto();
+            ret.TotalCount = await query.CountAsync();
+            ret.TeamCount = await query.Where(r => r.AgencyLevel == 1).CountAsync();
+
+            var queryLeavel = from a in _b_AgencyLevelepository.GetAll()
+                              join b in _repository.GetAll() on new { a.Id, Status = B_AgencyAcountStatusEnum.正常 } equals new { Id = b.AgencyLevelId, b.Status } into g
+                              select new B_AgencyLeavelCountStatisticalDto
+                              {
+                                  Leavel = a.Level,
+                                  Count = g.Count()
+                              };
+            ret.Leavels = await queryLeavel.ToListAsync();
+
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 代理新增统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<B_AgencyAddCountStatisDto>> GetAddAgencyList(B_AgencyAddCountStatisInput input)
+        {
+            var query = from a in _b_AgencyApplyRepository.GetAll()
+                        join b in _repository.GetAll() on a.Id equals b.ApplyId
+                        where a.Status == B_AgencyApplyStatusEnum.已通过
+                        select new
+                        {
+                            B_AgencyId = b.Id,
+                            CreatTime = b.CreationTime,
+                            Leavel = b.AgencyLevel,
+                            CreatDay = b.CreationTime.ToString("yyyyMMdd"),
+                            CreatMonth = b.CreationTime.ToString("yyyyMM"),
+                        };
+
+            query = query.WhereIf(input.Leavel.HasValue, r => r.Leavel == input.Leavel.Value);
+
+            if (input.DayOrMonth == 1)
+            {
+                var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_AgencyAddCountStatisDto { Count = r.Count(), Date = r.Key });
+                var totalCount = await groupQuery.CountAsync();
+                var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                return new PagedResultDto<B_AgencyAddCountStatisDto>(totalCount, ret);
+            }
+            else
+            {
+                var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_AgencyAddCountStatisDto { Count = r.Count(), Date = r.Key });
+                var totalCount = await groupQuery.CountAsync();
+                var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                return new PagedResultDto<B_AgencyAddCountStatisDto>(totalCount, ret);
+            }
+        }
+
+
+        /// <summary>
+        /// 团队人数排行榜
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<TeamCountStatisDto>> GetTeamCountStatis(TeamCountStatisInput input)
+        {
+            var query = from a in _b_AgencyGroupRepository.GetAll()
+                        join b in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals b.GroupId
+                        join agency in _repository.GetAll() on b.AgencyId equals agency.Id
+                        join u in UserManager.Users on agency.UserId equals u.Id
+                        let c = from agency in _repository.GetAll()
+                                join r in _b_AgencyGroupRelationRepository.GetAll() on agency.Id equals r.AgencyId
+                                where r.GroupId == a.Id
+                                select agency
+                        where b.IsGroupLeader == true
+                        select new TeamCountStatisDto
+                        {
+                            AgencyCount = c.Count(),
+                            Name = u.Name,
+                        };
+
+            var totalCount = await query.CountAsync();
+            var data = await query.OrderByDescending(r => r.AgencyCount).PageBy(input).ToListAsync();
+            var ret = new PagedResultDto<TeamCountStatisDto>(totalCount, data);
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 推荐人数排行榜
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<TeamCountStatisDto>> GetInViteCountStatis(TeamCountStatisInput input)
+        {
+            var query = from a in _b_InviteUrlRepository.GetAll()
+                        join u in UserManager.Users on a.CreatorUserId.Value equals u.Id
+                        let c = from agency in _repository.GetAll()
+                                join r in _b_AgencyApplyRepository.GetAll() on agency.ApplyId equals r.Id
+                                where r.InviteUrlId == a.Id
+                                select agency
+                        select new TeamCountStatisDto
+                        {
+                            AgencyCount = c.Count(),
+                            Name = u.Name,
+                        };
+
+            var totalCount = await query.CountAsync();
+            var data = await query.OrderByDescending(r => r.AgencyCount).PageBy(input).ToListAsync();
+            var ret = new PagedResultDto<TeamCountStatisDto>(totalCount, data);
+            return ret;
+        }
+
+
+
+        /// <summary>
+        /// 获取所有代理的省份区域列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> GetAgencyAreaList()
+        {
+            var query = from a in _repository.GetAll()
+                        where a.Status == B_AgencyAcountStatusEnum.正常
+                        select a.Provinces;
+            return await query.Distinct().ToListAsync();
+        }
+
+        /// <summary>
+        /// 获取代理区域统计
+        /// </summary>
+        /// <param name="provinceCode">省份编码</param>
+        /// <returns></returns>
+        public async Task<List<AgencyAreaStatisDto>> GetAgencyAreaStatis(string provinceCode)
+        {
+            var totalAgecyCount = await _repository.GetAll().Where(r => r.Status == B_AgencyAcountStatusEnum.正常).CountAsync();
+            var searchProviceFlag = (!provinceCode.IsNullOrEmpty());
+            var query = from a in _repository.GetAll()
+                        where (searchProviceFlag == false || a.Provinces == provinceCode) && a.Status == B_AgencyAcountStatusEnum.正常
+                        group a by a.City into g
+                        select new AgencyAreaStatisDto
+                        {
+                            AgencyCount = g.Count(),
+                            Name = g.Key,
+                        };
+            var data = await query.ToListAsync();
+            if (totalAgecyCount > 0)
+                foreach (var item in data)
+                {
+                    item.Proportion = decimal.Parse(item.AgencyCount.ToString()) / decimal.Parse(totalAgecyCount.ToString());
+                }
+
+            return data;
+
+        }
 
     }
 }
