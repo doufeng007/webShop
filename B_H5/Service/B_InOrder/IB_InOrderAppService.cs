@@ -17,6 +17,10 @@ namespace B_H5
         Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input);
 
 
+
+        Task<List<B_InOrderListOutputDto>> GetList(GetB_InOrderListInput input);
+
+
         /// <summary>
         /// 
         /// </summary>

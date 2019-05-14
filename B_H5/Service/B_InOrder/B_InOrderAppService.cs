@@ -72,13 +72,15 @@ namespace B_H5
 
         }
         /// <summary>
-        /// 获取进货单列表
+        ///H5 我的进货列表 、  下级进货列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize]
         public async Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input)
         {
             var userIdList = new List<long>();
+            userIdList.Add(AbpSession.UserId.Value);
             if (input.LowerUsers)
             {
                 if (!AbpSession.UserId.HasValue)
@@ -90,15 +92,22 @@ namespace B_H5
                         throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理人数据不存在！");
                     else
                     {
-                        //userIdList = _b_AgencyRepository.GetAll().Where(r=>r.P_Id)
+                        var underAgencys = await _b_AgencyRepository.GetAll().Where(r => r.P_Id == currentAgencyModel.Id).ToListAsync();
+                        underAgencys.Select(r => r.UserId).ToList().ForEach(r =>
+                        {
+                            userIdList.Add(r);
+                        });
+
                     }
                 }
             }
+
 
             var query = from a in _repository.GetAll()
                         join u in UserManager.Users on a.UserId equals u.Id
                         join b in _b_OrderRepository.GetAll() on a.Id equals b.BusinessId
                         join c in _b_CategroyRepository.GetAll() on a.CategroyId equals c.Id
+                        where userIdList.Contains(a.UserId)
                         select new B_InOrderListOutputDto
                         {
                             Id = a.Id,
@@ -119,7 +128,6 @@ namespace B_H5
 
 
             query = query.WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
-                .WhereIf(input.UserId.HasValue, r => r.UserId == input.UserId.Value)
                 .WhereIf(input.StartDate.HasValue, r => r.CreationTime >= input.StartDate.Value)
                 .WhereIf(input.EndDate.HasValue, r => r.CreationTime <= input.EndDate.Value)
               .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.OrderNo.Contains(input.SearchKey) || r.UserName.Contains(input.SearchKey));
@@ -148,6 +156,46 @@ namespace B_H5
                     }
             }
 
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 后端-进货管理列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<B_InOrderListOutputDto>> GetList(GetB_InOrderListInput input)
+        {
+            var query = from a in _repository.GetAll()
+                        join u in UserManager.Users on a.UserId equals u.Id
+                        join b in _b_OrderRepository.GetAll() on a.Id equals b.BusinessId
+                        join c in _b_CategroyRepository.GetAll() on a.CategroyId equals c.Id
+                        select new B_InOrderListOutputDto
+                        {
+                            Id = a.Id,
+                            Amout = a.Amout,
+                            Balance = a.Balance,
+                            CreationTime = a.CreationTime,
+                            GoodsPayment = a.GoodsPayment,
+                            Number = a.Number,
+                            OrderNo = b.OrderNo,
+                            CategroyId = a.CategroyId,
+                            CategroyTitle = c.Name,
+                            UserName = u.Name,
+                            UserId = a.UserId,
+                            Status = a.Status,
+
+                        };
+
+
+
+            query = query.WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
+                .WhereIf(input.StartDate.HasValue, r => r.CreationTime >= input.StartDate.Value)
+                .WhereIf(input.EndDate.HasValue, r => r.CreationTime <= input.EndDate.Value)
+              .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.OrderNo.Contains(input.SearchKey) || r.UserName.Contains(input.SearchKey));
+            var toalCount = await query.CountAsync();
+            var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
             return ret;
         }
 

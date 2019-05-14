@@ -36,11 +36,14 @@ namespace B_H5
         private readonly IRepository<B_AgencyGroup, Guid> _b_AgencyGroupRepository;
         private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
         private readonly B_AgencyManager _b_AgencyManager;
+        private readonly IRepository<B_AgencyApply, Guid> _b_AgencyApplyRepository;
+        private readonly IRepository<B_InviteUrl, Guid> _b_InviteUrlRepository;
 
         public B_AgencyUpgradeAppService(IRepository<B_AgencyUpgrade, Guid> repository, IRepository<B_Agency, Guid> b_AgencyRepository
             , IRepository<B_AgencyLevel, Guid> b_AgencyLevelRepository, IAbpFileRelationAppService abpFileRelationAppService
             , WxTemplateMessageManager wxTemplateMessageManager, IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository
             , IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository, B_AgencyManager b_AgencyManager
+            , IRepository<B_AgencyApply, Guid> b_AgencyApplyRepository, IRepository<B_InviteUrl, Guid> b_InviteUrlRepository
         )
         {
             this._repository = repository;
@@ -51,6 +54,8 @@ namespace B_H5
             _b_AgencyGroupRepository = b_AgencyGroupRepository;
             _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
             _b_AgencyManager = b_AgencyManager;
+            _b_AgencyApplyRepository = b_AgencyApplyRepository;
+            _b_InviteUrlRepository = b_InviteUrlRepository;
 
         }
 
@@ -318,7 +323,7 @@ namespace B_H5
                 var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
                 await service.CreateAsync(new CreateB_OrderInput()
                 {
-                    Amout = model.PayAmout - (toLeavelModel.Deposit- oldLeavelModel.Deposit),
+                    Amout = model.PayAmout - (toLeavelModel.Deposit - oldLeavelModel.Deposit),
                     BusinessId = model.Id,
                     BusinessType = OrderAmoutBusinessTypeEnum.充值,
                     InOrOut = OrderAmoutEnum.入账,
@@ -340,6 +345,28 @@ namespace B_H5
                     IsBlance = false,
                     IsGoodsPayment = false,
                 });
+
+                var applyModel = await _b_AgencyApplyRepository.FirstOrDefaultAsync(r => r.Id == b_AgencyModel.ApplyId);
+                if (applyModel == null)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "数据异常！");
+                if (applyModel.InviteUrlId != null)
+                {
+                    var inviteUrlModel = await _b_InviteUrlRepository.GetAsync(applyModel.InviteUrlId.Value);
+
+
+                    await service.CreateAsync(new CreateB_OrderInput()
+                    {
+                        Amout = toLeavelModel.RecommendAmout - oldLeavelModel.RecommendAmout,
+                        BusinessId = model.Id,
+                        BusinessType = OrderAmoutBusinessTypeEnum.推荐奖金,
+                        InOrOut = OrderAmoutEnum.入账,
+                        OrderNo = DateTime.Now.DateTimeToStamp().ToString(),
+                        UserId = inviteUrlModel.CreatorUserId.Value,
+                        IsBlance = true,
+                        IsGoodsPayment = false,
+                    });
+                }
+
 
 
 

@@ -502,6 +502,20 @@ namespace B_H5
                         IsGroupLeader = false,
                     };
                     await _b_AgencyGroupRelationRepository.InsertAsync(groupRelation);
+
+
+                    await service.CreateAsync(new CreateB_OrderInput()
+                    {
+                        Amout = applyLeavelModel.RecommendAmout,
+                        BusinessId = model.Id,
+                        BusinessType = OrderAmoutBusinessTypeEnum.推荐奖金,
+                        InOrOut = OrderAmoutEnum.入账,
+                        OrderNo = DateTime.Now.DateTimeToStamp().ToString(),
+                        UserId = invite_AgencyModel.UserId,
+                        IsBlance = true,
+                        IsGoodsPayment = false,
+                    });
+
                 }
 
 

@@ -20,8 +20,7 @@ namespace B_H5
 
         public DateTime? EndDate { get; set; }
 
-
-        public long? UserId { get; set; }
+        
 
         /// <summary>
         /// 是否获取下级进货单
