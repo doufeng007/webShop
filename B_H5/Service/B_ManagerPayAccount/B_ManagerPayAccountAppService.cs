@@ -146,5 +146,35 @@ namespace B_H5
         {
             await _repository.DeleteAsync(x => x.Id == input.Id);
         }
+
+        /// <summary>
+        /// 上线下线账户
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpOrDown(EntityDto<Guid> input)
+        {
+            if (input.Id != Guid.Empty)
+            {
+                var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
+                if (dbmodel == null)
+                {
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+                }
+                if (dbmodel.Status == PayAccountStatus.上线)
+                    dbmodel.Status = PayAccountStatus.下线;
+                else
+                    dbmodel.Status = PayAccountStatus.上线;
+                await _repository.UpdateAsync(dbmodel);
+            }
+            else
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            }
+        }
+
+
+
     }
+
 }

@@ -45,5 +45,13 @@ namespace B_H5
         /// <param name="input">主键</param>
         /// <returns></returns>
 		Task Delete(EntityDto<Guid> input);
+
+
+        /// <summary>
+        /// 账户上线、下线
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpOrDown(EntityDto<Guid> input);
     }
 }
