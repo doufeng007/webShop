@@ -47,6 +47,7 @@ namespace B_H5
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                         join b in UserManager.Users on a.ConfirmUserId equals b.Id into g
                         from c in g.DefaultIfEmpty()
+                        where a.Goodsid == input.Goodsid
                         select new B_InventoryAddRecordListOutputDto()
                         {
                             Id = a.Id,
