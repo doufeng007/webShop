@@ -299,6 +299,51 @@ namespace B_H5
 
 
 
+        /// <summary>
+        /// 后台-获取平台金额
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize("WebShop.Manager")]
+        public async Task<PagedResultDto<AmoutManagerStatisDto>> GetAmoutManagerStatis(GetAmoutManagerStatisInput input)
+        {
+            var query = from a in _repository.GetAll()
+                        join u in UserManager.Users on a.UserId equals u.Id
+                        join b in _b_AgencyRepository.GetAll() on u.Id equals b.UserId
+                        select new AmoutManagerStatisDto
+                        {
+                            AgencyCode = b.AgenCyCode,
+                            AgencyLeavelId = b.AgencyLevelId,
+                            AgencyName = u.Name,
+                            Amout = a.Amout,
+                            BusinessType = a.BusinessType,
+                            CreationTime = a.CreationTime,
+                            InOrOut = a.InOrOut == OrderAmoutEnum.入账 ? OrderAmoutEnum.出账 : OrderAmoutEnum.入账,
+                        };
+
+            query = query.WhereIf(input.BusinessType.HasValue, r => r.BusinessType == input.BusinessType.Value).WhereIf(input.AgencyLeavlId.HasValue, r => r.AgencyLeavelId == input.AgencyLeavlId.Value)
+                .WhereIf(input.InOrOut.HasValue, r => r.InOrOut == input.InOrOut.Value).WhereIf(input.StartDate.HasValue, r => r.CreationTime >= input.StartDate.Value)
+                .WhereIf(input.EndDate.HasValue, r => r.CreationTime <= input.EndDate.Value)
+                .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.AgencyName.Contains(input.SearchKey) || r.AgencyCode.Contains(input.SearchKey));
+
+            var totalCount = await query.CountAsync();
+
+            var data = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_AgencyLevelAppService>();
+            foreach (var item in data)
+            {
+                item.BusinessTypeTitle = item.BusinessType.ToString();
+                item.AgencyLeavelName = service.GetAgencyLevelFromCache(item.AgencyLeavelId).Name;
+            }
+
+
+            return new PagedResultDto<AmoutManagerStatisDto>(totalCount, data);
+        }
+
+
+
+
+
 
 
 

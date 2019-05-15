@@ -25,6 +25,9 @@ namespace B_H5
         Task<PagedResultDto<AgencyMoneyDetailListDto>> GetAgencyMoneyDetailList(GetAgencyMoneyDetailListInput input);
 
 
+        Task<PagedResultDto<AmoutManagerStatisDto>> GetAmoutManagerStatis(GetAmoutManagerStatisInput input);
+
+
         Task<UserBlanceListDto> Get();
 
 

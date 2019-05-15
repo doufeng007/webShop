@@ -170,4 +170,59 @@ namespace B_H5
             }
         }
     }
+
+
+    public class GetAmoutManagerStatisInput : PagedAndSortedInputDto, IShouldNormalize
+    {
+        public OrderAmoutBusinessTypeEnum? BusinessType { get; set; }
+
+        public Guid? AgencyLeavlId { get; set; }
+
+        public OrderAmoutEnum? InOrOut { get; set; }
+
+        /// <summary>
+        /// 打款日期-开始日期
+        /// </summary>
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// 打款日期-结束日期
+        /// </summary>
+        public DateTime? EndDate { get; set; }
+
+        public void Normalize()
+        {
+            if (string.IsNullOrEmpty(Sorting))
+            {
+                Sorting = " CreationTime desc";
+            }
+        }
+
+    }
+
+
+    public class AmoutManagerStatisDto
+    {
+        public OrderAmoutBusinessTypeEnum BusinessType { get; set; }
+
+        public string BusinessTypeTitle { get; set; }
+
+
+        public decimal Amout { get; set; }
+
+        public OrderAmoutEnum InOrOut { get; set; }
+
+        public string AgencyName { get; set; }
+
+
+        public string AgencyCode { get; set; }
+
+
+        public string AgencyLeavelName { get; set; }
+
+        public Guid AgencyLeavelId { get; set; }
+
+
+        public DateTime CreationTime { get; set; }
+    }
 }

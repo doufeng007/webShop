@@ -387,7 +387,7 @@ namespace B_H5
                                 {
                                     Amout = 2,
                                     BusinessId = newmodel.Id,
-                                    BusinessType = OrderAmoutBusinessTypeEnum.团队管理奖金,
+                                    BusinessType = OrderAmoutBusinessTypeEnum.提货,
                                     InOrOut = OrderAmoutEnum.入账,
                                     OrderNo = newmodel.OrderNo,
                                     UserId = p_AgencyModel.UserId,
@@ -427,15 +427,15 @@ namespace B_H5
 
 
 
-            await service.CreateAsync(new CreateB_OrderInput()
-            {
-                Amout = newmodel.Amout,
-                BusinessId = newmodel.Id,
-                BusinessType = OrderAmoutBusinessTypeEnum.提货,
-                InOrOut = OrderAmoutEnum.入账,
-                OrderNo = newmodel.OrderNo,
-                UserId = AbpSession.UserId.Value
-            });
+            //await service.CreateAsync(new CreateB_OrderInput()
+            //{
+            //    Amout = newmodel.Amout,
+            //    BusinessId = newmodel.Id,
+            //    BusinessType = OrderAmoutBusinessTypeEnum.提货,
+            //    InOrOut = OrderAmoutEnum.入账,
+            //    OrderNo = newmodel.OrderNo,
+            //    UserId = AbpSession.UserId.Value
+            //});
 
 
             _b_MessageAppService.Create(new CreateB_MessageInput()
