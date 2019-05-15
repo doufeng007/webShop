@@ -51,7 +51,7 @@ namespace B_H5
         public Guid? LeavelId { get; set; }
 
 
-        
+
 
 
         public void Normalize()
@@ -70,7 +70,7 @@ namespace B_H5
 
         public string AgencyName { get; set; }
 
-
+        public long UserId { get; set; }
 
         /// <summary>
         /// 代理级别
@@ -131,9 +131,43 @@ namespace B_H5
 
     public class AgencyMoneyDetailListDto
     {
+        /// <summary>
+        /// 类型
+        /// </summary>
         public OrderAmoutBusinessTypeEnum BusinessType { get; set; }
 
-
+        /// <summary>
+        /// 类型名称
+        /// </summary>
         public string BusinessTitle { get; set; }
+
+
+        /// <summary>
+        /// 时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// 金额
+        /// </summary>
+        public decimal Amout { get; set; }
+    }
+
+
+    public class GetAgencyMoneyDetailListInput : PagedAndSortedInputDto, IShouldNormalize
+    {
+        public OrderAmoutBusinessTypeEnum? BusinessType { get; set; }
+
+
+        public long UserId { get; set; }
+
+
+        public void Normalize()
+        {
+            if (string.IsNullOrEmpty(Sorting))
+            {
+                Sorting = " CreationTime desc";
+            }
+        }
     }
 }

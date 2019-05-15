@@ -233,6 +233,7 @@ namespace B_H5
                         group new { a, b, c } by new { a.UserId, b.AgencyLevelId, c.Name, b.AgenCyCode, b.Balance, b.GoodsPayment, b.CreationTime } into g
                         select new AgencyMoneyStaticDto
                         {
+                            UserId = g.Key.UserId,
                             AgencyCode = g.Key.AgenCyCode,
                             AgencyLevelId = g.Key.AgencyLevelId,
                             AgencyName = g.Key.Name,
@@ -267,7 +268,39 @@ namespace B_H5
 
 
 
-        
+        /// <summary>
+        /// 后台- 获取一个代理金额详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<AgencyMoneyDetailListDto>> GetAgencyMoneyDetailList(GetAgencyMoneyDetailListInput input)
+        {
+            var query = from a in _repository.GetAll()
+                        where a.UserId == input.UserId
+                        select new AgencyMoneyDetailListDto
+                        {
+                            Amout = a.Amout,
+                            BusinessType = a.BusinessType,
+                            CreationTime = a.CreationTime
+                        };
+
+            query = query.WhereIf(input.BusinessType.HasValue, r => r.BusinessType == input.BusinessType.Value);
+            var totalCount = await query.CountAsync();
+
+            var data = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+            foreach (var item in data)
+            {
+                item.BusinessTitle = item.BusinessType.ToString();
+            }
+
+
+            return new PagedResultDto<AgencyMoneyDetailListDto>(totalCount, data);
+        }
+
+
+
+
+
 
 
 
