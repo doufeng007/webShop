@@ -70,6 +70,9 @@ namespace B_H5
         public decimal Bonus { get; set; }
 
 
+        
+        public B_AgencySalesBusinessTypeEnum BusinessType { get; set; }
+
         #endregion
     }
 }

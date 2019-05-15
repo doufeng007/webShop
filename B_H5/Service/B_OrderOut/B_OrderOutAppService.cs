@@ -362,6 +362,7 @@ namespace B_H5
                                 Sales = item.Amout,
                                 SalesDate = DateTime.Now,
                                 FromUserId = b_AgencyModel.UserId,
+                                 BusinessType= B_AgencySalesBusinessTypeEnum.销售额,
                             };
                             _b_AgencySalesRepository.Insert(new_Sale);
 
@@ -380,7 +381,8 @@ namespace B_H5
                                     Profit = 0,
                                     Sales = 0,
                                     Bonus = bonusAmout,
-                                    SalesDate = DateTime.Now
+                                    SalesDate = DateTime.Now,
+                                     BusinessType = B_AgencySalesBusinessTypeEnum.提货奖金,
                                 };
                                 _b_AgencySalesRepository.Insert(new_P_Sale);
                                 p_AgencyModel.Balance = p_AgencyModel.Balance + bonusAmout;

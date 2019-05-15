@@ -20,6 +20,7 @@ using Abp.WorkFlow;
 using ZCYX.FRMSCore.Application;
 using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
+using Abp.Authorization;
 
 namespace B_H5
 {
@@ -36,14 +37,14 @@ namespace B_H5
         }
 
         /// <summary>
-        /// 替换奖金规则
+        /// 提货奖金规则
         /// </summary>
         /// <param name="page">查询实体</param>
         /// <returns></returns>
         public async Task<PagedResultDto<B_OrderOutBonusListOutputDto>> GetList(GetB_OrderOutBonusListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-
+                        join u in UserManager.Users on a.CreatorUserId equals u.Id
                         select new B_OrderOutBonusListOutputDto()
                         {
                             Id = a.Id,
@@ -51,7 +52,8 @@ namespace B_H5
                             EffectTime = a.EffectTime,
                             FailureTime = a.FailureTime,
                             Status = a.Status,
-                            CreationTime = a.CreationTime
+                            CreationTime = a.CreationTime,
+                            CreateUserName = u.Name
 
                         };
             var toalCount = await query.CountAsync();
@@ -83,7 +85,7 @@ namespace B_H5
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-
+        [AbpAuthorize]
         public async Task Create(CreateB_OrderOutBonusInput input)
         {
             var hasEffectModel = await _repository.FirstOrDefaultAsync(r => r.Status == BonusRuleStatusEnum.有效);

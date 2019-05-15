@@ -33,10 +33,12 @@ namespace B_H5
         private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
         private readonly IRepository<B_Categroy, Guid> _b_CategroyRepository;
         private readonly IAbpFileRelationAppService _abpFileRelationAppService;
+        private readonly IRepository<B_AgencySales, Guid> _b_AgencySalesRepository;
 
         public B_AgencySalesAppService(IRepository<B_AgencySales, Guid> repository, IRepository<B_Agency, Guid> b_AgencyRepository
             , IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository, IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository
             , IRepository<B_Categroy, Guid> b_CategroyRepository, IAbpFileRelationAppService abpFileRelationAppService
+            , IRepository<B_AgencySales, Guid> b_AgencySalesRepository
 
         )
         {
@@ -46,6 +48,7 @@ namespace B_H5
             _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
             _b_CategroyRepository = b_CategroyRepository;
             _abpFileRelationAppService = abpFileRelationAppService;
+            _b_AgencySalesRepository = b_AgencySalesRepository;
 
         }
 
@@ -201,24 +204,7 @@ namespace B_H5
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理不存在！");
             if (agencyModel.AgencyLevel == 1)
             {
-                var groupId = _b_AgencyGroupRelationRepository.FirstOrDefault(r => r.IsGroupLeader && r.AgencyId == agencyModel.Id).GroupId;
-
-                var team_LeavelOneAgencyQuery = from s in _repository.GetAll()
-                                                join a in _b_AgencyRepository.GetAll() on s.AgencyId equals a.Id
-                                                join b in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals b.AgencyId
-                                                where b.GroupId == groupId && a.AgencyLevel == 1 && a.Id != agencyModel.Id
-                                                &&
-                                                s.SalesDate >= startDate && s.SalesDate < enddate && (!input.CategroyId.HasValue || s.CategroyId == input.CategroyId.Value)
-                                                select s;
-                var result = team_LeavelOneAgencyQuery.GroupBy(r => r.AgencyId).Select(r => new { AgencyId = r.Key, TotalSales = r.Sum(o => o.Sales) });
-
-                var otherOneAgencyTotalSales = result.Sum(r => r.TotalSales);
-
-                var teamSalse = ret.TotalSales + otherOneAgencyTotalSales;
-
-                //ret.Discount =
-
-
+                ret.Discount = query.Sum(r => r.Discount);
             }
 
 
@@ -243,7 +229,8 @@ namespace B_H5
                 Sales = input.Sales,
                 SalesDate = input.SalesDate,
                 Profit = input.Profit,
-                Discount = input.Discount
+                Discount = input.Discount,
+                BusinessType = input.BusinessType
             };
 
             await _repository.InsertAsync(newmodel);
@@ -257,29 +244,29 @@ namespace B_H5
         /// <returns></returns>
         public async Task Update(UpdateB_AgencySalesInput input)
         {
-            if (input.Id != Guid.Empty)
-            {
-                var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
-                if (dbmodel == null)
-                {
-                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
-                }
+            //if (input.Id != Guid.Empty)
+            //{
+            //    var dbmodel = await _repository.FirstOrDefaultAsync(x => x.Id == input.Id);
+            //    if (dbmodel == null)
+            //    {
+            //        throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            //    }
 
-                dbmodel.UserId = input.UserId;
-                dbmodel.AgencyId = input.AgencyId;
-                dbmodel.CategroyId = input.CategroyId;
-                dbmodel.Sales = input.Sales;
-                dbmodel.SalesDate = input.SalesDate;
-                dbmodel.Profit = input.Profit;
-                dbmodel.Discount = input.Discount;
+            //    dbmodel.UserId = input.UserId;
+            //    dbmodel.AgencyId = input.AgencyId;
+            //    dbmodel.CategroyId = input.CategroyId;
+            //    dbmodel.Sales = input.Sales;
+            //    dbmodel.SalesDate = input.SalesDate;
+            //    dbmodel.Profit = input.Profit;
+            //    dbmodel.Discount = input.Discount;
 
-                await _repository.UpdateAsync(dbmodel);
+            //    await _repository.UpdateAsync(dbmodel);
 
-            }
-            else
-            {
-                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
-            }
+            //}
+            //else
+            //{
+            //    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            //}
         }
 
         /// <summary>
@@ -291,5 +278,131 @@ namespace B_H5
         {
             await _repository.DeleteAsync(x => x.Id == input.Id);
         }
+
+
+        /// <summary>
+        /// 统计团队的销售折扣
+        /// </summary>
+        public void CreateSalesDiscount()
+        {
+            var lastMonth = DateTime.Now.AddMonths(-1);
+            var saleMinDate = new DateTime(lastMonth.Year, lastMonth.Month, 1, 0, 0, 0);
+            var saleMaxDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0);
+            if (_repository.GetAll().Any(r => r.BusinessType == B_AgencySalesBusinessTypeEnum.销售折扣 && r.SalesDate == saleMinDate))
+                return;
+            else
+            {
+
+                var categroys = _b_CategroyRepository.GetAll().Where(r => r.P_Id == null);
+
+                foreach (var item_categroy in categroys)
+                {
+                    MakeOneLeavelSales(item_categroy.Id, saleMinDate, saleMaxDate);
+                }
+
+
+            }
+        }
+
+
+        private void MakeOneLeavelSales(Guid categroyId, DateTime saleMinDate, DateTime saleMaxDate)
+        {
+
+
+
+            var oneLeavelAgencys = from a in _b_AgencyRepository.GetAll()
+                                   join b in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals b.AgencyId
+                                   join c in _b_AgencyGroupRepository.GetAll() on b.GroupId equals c.Id
+                                   where a.AgencyLevel == 1 && b.IsGroupLeader == true
+                                   select new { a.Id, a.UserId, GroupId = c.Id };
+            foreach (var item in oneLeavelAgencys)
+            {
+
+                var teamSale = GetOneLeavelSales(categroyId, item.UserId, item.GroupId, saleMinDate, saleMaxDate);
+
+                var otherOneLeavelAgencys = from a in _b_AgencyRepository.GetAll()
+                                            join r in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals r.AgencyId
+                                            join b in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals b.AgencyId
+                                            where a.AgencyLevel == 1 && b.GroupId == item.GroupId && b.IsGroupLeader == false && r.IsGroupLeader == true
+                                            select new { a.Id, a.UserId, r.GroupId };
+
+                var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_TeamSaleBonusAppService>();
+                var teamDis = teamSale * service.GetEffectScale(teamSale);
+                var userDis = teamDis;
+                foreach (var otherOne in otherOneLeavelAgencys)
+                {
+                    var otherSale = GetOneLeavelSales(categroyId, otherOne.UserId, otherOne.GroupId, saleMinDate, saleMaxDate);
+                    var otherOneDis = otherSale * service.GetEffectScale(otherSale);
+                    userDis = userDis - otherOneDis;
+                }
+
+                var new_saleModel = new B_AgencySales()
+                {
+                    AgencyId = item.Id,
+                    Id = Guid.NewGuid(),
+                    BusinessType = B_AgencySalesBusinessTypeEnum.销售折扣,
+                    CategroyId = categroyId,
+                    Discount = userDis,
+                    SalesDate = saleMinDate,
+                    UserId = item.UserId,
+
+                };
+                var orderService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+                orderService.Create(new CreateB_OrderInput()
+                {
+                    Amout = userDis,
+                    BusinessId = new_saleModel.Id,
+                    BusinessType = OrderAmoutBusinessTypeEnum.团队管理奖金,
+                    InOrOut = OrderAmoutEnum.入账,
+                    OrderNo = DateTime.Now.DateTimeToStamp().ToString(),
+                    UserId = item.UserId,
+                    IsBlance = true,
+                    IsGoodsPayment = false,
+                });
+
+
+
+
+
+
+
+
+            }
+        }
+
+
+
+
+        private decimal GetOneLeavelSales(Guid categroyId, long userId, Guid groupId, DateTime saleMinDate, DateTime saleMaxDate)
+        {
+            var retsales = 0m;
+            var userSales = _repository.GetAll().Where(r => r.CategroyId == categroyId && r.UserId == userId && r.SalesDate >= saleMinDate && r.SalesDate < saleMaxDate).Sum(r => r.Sales);
+            retsales = userSales;
+            var otherOneLeavelAgencys = from a in _b_AgencyRepository.GetAll()
+                                        join r in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals r.AgencyId
+                                        join b in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals b.AgencyId
+                                        where a.AgencyLevel == 1 && b.GroupId == groupId && b.IsGroupLeader == false && r.IsGroupLeader == true
+                                        select new { a.Id, a.UserId, r.GroupId };
+            if (otherOneLeavelAgencys.Count() > 0)
+            {
+                foreach (var item in otherOneLeavelAgencys)
+                {
+                    retsales = retsales + GetOneLeavelSales(categroyId, item.UserId, item.GroupId, saleMinDate, saleMaxDate);
+                }
+
+            }
+
+
+            return retsales;
+
+        }
+
+
+        public void CreateJob()
+        {
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<BackgroudWorkJobWithHangFire>();
+            service.CreatJob();
+        }
+
     }
 }

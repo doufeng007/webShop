@@ -50,7 +50,8 @@ namespace B_H5
         public decimal Discount { get; set; }
 
 
-		
+        public B_AgencySalesBusinessTypeEnum BusinessType { get; set; }
+
         #endregion
     }
 }

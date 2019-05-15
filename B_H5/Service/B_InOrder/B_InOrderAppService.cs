@@ -569,6 +569,7 @@ namespace B_H5
                 SalesDate = DateTime.Now,
                 UserId = p_Agency.UserId,
                 FromUserId = userId,
+                BusinessType = B_AgencySalesBusinessTypeEnum.销售额
             };
 
             if (agency.OriginalPid == agency.P_Id)
@@ -590,6 +591,7 @@ namespace B_H5
                     Sales = 0,
                     SalesDate = DateTime.Now,
                     FromUserId = userId,
+                    BusinessType = B_AgencySalesBusinessTypeEnum.利润
                 };
                 _b_AgencySalesRepository.Insert(new_Oldparent_Sale);
 
@@ -786,6 +788,7 @@ namespace B_H5
                         Sales = orderInmodel.Amout,
                         SalesDate = DateTime.Now,
                         FromUserId = orderInmodel.UserId,
+                        BusinessType = B_AgencySalesBusinessTypeEnum.销售额,
                     };
                     var profit = _b_CategroyManager.GetProfitForUser(parent_AgencyModel.AgencyLevelId, b_AgencyModel.AgencyLevelId, orderInmodel.CategroyId);
                     if (b_AgencyModel.OriginalPid == b_AgencyModel.P_Id)
@@ -806,7 +809,8 @@ namespace B_H5
                             Profit = profit / 2,
                             Sales = 0,
                             SalesDate = DateTime.Now,
-                            FromUserId = orderInmodel.UserId
+                            FromUserId = orderInmodel.UserId,
+                            BusinessType = B_AgencySalesBusinessTypeEnum.利润,
                         };
                         _b_AgencySalesRepository.Insert(new_Oldparent_Sale);
 

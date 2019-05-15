@@ -6,22 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.File;
 using Abp.WorkFlow;
 
 namespace B_H5
 {
-    [AutoMapFrom(typeof(B_OrderOutBonus))]
-    public class B_OrderOutBonusListOutputDto
+    [AutoMapFrom(typeof(B_TeamSaleBonus))]
+    public class B_TeamSaleBonusOutputDto 
     {
         /// <summary>
         /// Id
         /// </summary>
         public Guid Id { get; set; }
-
-        /// <summary>
-        /// Amout
-        /// </summary>
-        public decimal Amout { get; set; }
 
         /// <summary>
         /// EffectTime
@@ -36,7 +32,7 @@ namespace B_H5
         /// <summary>
         /// Status
         /// </summary>
-        public BonusRuleStatusEnum Status { get; set; }
+        public int Status { get; set; }
 
         /// <summary>
         /// CreationTime
@@ -44,9 +40,6 @@ namespace B_H5
         public DateTime CreationTime { get; set; }
 
 
-
-        public string CreateUserName { get; set; }
-
-
+		
     }
 }

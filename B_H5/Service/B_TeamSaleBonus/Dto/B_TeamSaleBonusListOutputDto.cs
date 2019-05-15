@@ -10,18 +10,13 @@ using Abp.WorkFlow;
 
 namespace B_H5
 {
-    [AutoMapFrom(typeof(B_OrderOutBonus))]
-    public class B_OrderOutBonusListOutputDto
+    [AutoMapFrom(typeof(B_TeamSaleBonus))]
+    public class B_TeamSaleBonusListOutputDto
     {
         /// <summary>
         /// Id
         /// </summary>
         public Guid Id { get; set; }
-
-        /// <summary>
-        /// Amout
-        /// </summary>
-        public decimal Amout { get; set; }
 
         /// <summary>
         /// EffectTime
@@ -36,7 +31,7 @@ namespace B_H5
         /// <summary>
         /// Status
         /// </summary>
-        public BonusRuleStatusEnum Status { get; set; }
+
 
         /// <summary>
         /// CreationTime
@@ -44,8 +39,10 @@ namespace B_H5
         public DateTime CreationTime { get; set; }
 
 
+        public List<B_TeamSaleBonusDetailListOutputDto> Details { get; set; } = new List<B_TeamSaleBonusDetailListOutputDto>();
 
-        public string CreateUserName { get; set; }
+
+        public string CreatorUserName { get; set; }
 
 
     }

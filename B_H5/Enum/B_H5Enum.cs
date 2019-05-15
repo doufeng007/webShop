@@ -176,4 +176,19 @@ namespace B_H5
         失效 = 2
 
     }
+
+
+    public enum B_AgencySalesBusinessTypeEnum
+    {
+        销售额 = 1,
+        利润 = 2,
+        提货奖金 = 3,
+
+        /// <summary>
+        /// 团队奖金
+        /// </summary>
+        销售折扣 = 4,
+
+
+    }
 }
