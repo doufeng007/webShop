@@ -168,4 +168,12 @@ namespace B_H5
         代理邀请 = 0,
         代理升级 = 1
     }
+
+
+    public enum BonusRuleStatusEnum
+    {
+        有效 = 1,
+        失效 = 2
+
+    }
 }

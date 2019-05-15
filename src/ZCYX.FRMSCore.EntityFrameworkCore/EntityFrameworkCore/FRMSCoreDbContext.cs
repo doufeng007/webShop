@@ -218,7 +218,7 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
         public virtual DbSet<EmployeeProjecExperience> EmployeeProjecExperience { get; set; }
         public virtual DbSet<EmployeeResume> EmployeeResume { get; set; }
         public virtual DbSet<QuestionLibrary> QuestionLibrary { get; set; }
-    
+
 
 
         public virtual DbSet<Employees_Sign> Employees_Sign { get; set; }
@@ -247,7 +247,7 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
 
         public virtual DbSet<AbpWxTemplate> AbpWxTemplate { get; set; }
 
-        
+
 
         #region  B_H5
 
@@ -322,7 +322,12 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
         public virtual DbSet<B_NoticeUserReadLog> B_NoticeUserReadLog { get; set; }
 
 
-        
+        public virtual DbSet<B_OrderOutBonus> B_OrderOutBonus { get; set; }
+
+        public virtual DbSet<B_TeamSaleBonus> B_TeamSaleBonus { get; set; }
+
+
+        public virtual DbSet<B_TeamSaleBonusDetail> B_TeamSaleBonusDetail { get; set; }
 
 
         #endregion

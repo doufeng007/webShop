@@ -367,6 +367,9 @@ namespace B_H5
 
                             if (b_AgencyModel.AgencyLevel != 1 && b_AgencyModel.P_Id.HasValue)
                             {
+
+                                var bonusService = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderOutBonusAppService>();
+                                var bonusAmout = await bonusService.GetEffectAmoutAsync();
                                 var p_AgencyModel = _b_AgencyRepository.Get(b_AgencyModel.P_Id.Value);
                                 var new_P_Sale = new B_AgencySales()
                                 {
@@ -376,16 +379,16 @@ namespace B_H5
                                     CategroyId = item.CategroyId,
                                     Profit = 0,
                                     Sales = 0,
-                                    Bonus = 2,
+                                    Bonus = bonusAmout,
                                     SalesDate = DateTime.Now
                                 };
                                 _b_AgencySalesRepository.Insert(new_P_Sale);
-                                p_AgencyModel.Balance = p_AgencyModel.Balance + 2;
+                                p_AgencyModel.Balance = p_AgencyModel.Balance + bonusAmout;
                                 await _b_AgencyRepository.UpdateAsync(p_AgencyModel);
 
                                 await service.CreateAsync(new CreateB_OrderInput()
                                 {
-                                    Amout = 2,
+                                    Amout = bonusAmout,
                                     BusinessId = newmodel.Id,
                                     BusinessType = OrderAmoutBusinessTypeEnum.提货,
                                     InOrOut = OrderAmoutEnum.入账,
@@ -401,10 +404,10 @@ namespace B_H5
 
 
 
-                            
 
 
-                           
+
+
 
                         }
                     }
@@ -443,7 +446,7 @@ namespace B_H5
                 BusinessId = newmodel.Id,
                 BusinessType = B_H5MesagessType.订单,
                 Code = newmodel.OrderNo,
-                Title ="您在系统下了新提货订单",
+                Title = "您在系统下了新提货订单",
                 Content = $"订单编号：{newmodel.OrderNo}",
                 UserId = AbpSession.UserId.Value,
             });
