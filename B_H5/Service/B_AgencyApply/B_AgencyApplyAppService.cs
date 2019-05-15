@@ -234,15 +234,25 @@ namespace B_H5
 
         public async Task<Guid> Create(CreateB_AgencyApplyInput input)
         {
-
-            if (input.InviteUrlId.HasValue)
-            {
-                if (_repository.GetAll().Where(r => r.Status != B_AgencyApplyStatusEnum.未通过).Any(r => r.Name == input.Name))
-                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理名称重复！");
-            }
+            B_InviteUrl inviteUrlModel;
+            B_AgencyLevel applyLeavelModel;
+            if (_repository.GetAll().Where(r => r.Status != B_AgencyApplyStatusEnum.未通过).Any(r => r.Name == input.Name))
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理名称重复！");
 
             var leavelRepository = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IRepository<B_AgencyLevel, Guid>>();
-            var applyLeavelModel = await leavelRepository.GetAsync(input.AgencyLevelId);
+            if (input.InviteUrlId.HasValue)
+            {
+                inviteUrlModel = await _b_InviteUrlRepository.GetAsync(input.InviteUrlId.Value);
+                applyLeavelModel = await leavelRepository.GetAsync(inviteUrlModel.AgencyLevel);
+            }
+            else
+            {
+                applyLeavelModel = await leavelRepository.FirstOrDefaultAsync(r => r.Level == 1);
+                if (applyLeavelModel == null)
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理级别不存在！");
+            }
+
+
             if (input.PayAmout < (applyLeavelModel.FirstRechargeAmout + applyLeavelModel.Deposit))
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "充值金额不足！");
 
@@ -250,8 +260,8 @@ namespace B_H5
             var newmodel = new B_AgencyApply()
             {
                 Id = Guid.NewGuid(),
-                //AgencyLevelId = input.AgencyLevelId,
-                //AgencyLevel = input.AgencyLevel,
+                AgencyLevelId = applyLeavelModel.Id,
+                AgencyLevel = applyLeavelModel.Level,
                 Tel = input.Tel,
                 VCode = input.VCode,
                 Pwd = input.Pwd,
@@ -274,20 +284,6 @@ namespace B_H5
                 AgencyApplyType = AgencyApplyEnum.代理邀请,
                 OpenId = input.OpenId
             };
-
-            if (input.InviteUrlId.HasValue)
-            {
-                var inviteUrlModel = await _b_InviteUrlRepository.GetAsync(input.InviteUrlId.Value);
-                newmodel.AgencyLevel = _b_AgencyLevelService.GetAgencyLevelFromCache(inviteUrlModel.AgencyLevel).Level;
-                newmodel.AgencyLevelId = inviteUrlModel.AgencyLevel;
-            }
-            else
-            {
-                var oneModel = _b_AgencyLevelService.GetAgencyLevelOneFromCache();
-                newmodel.AgencyLevel = oneModel.Level;
-                newmodel.AgencyLevelId = oneModel.Id;
-            }
-
 
             await _repository.InsertAsync(newmodel);
 

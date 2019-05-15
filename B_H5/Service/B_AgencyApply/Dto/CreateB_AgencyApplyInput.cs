@@ -11,16 +11,16 @@ namespace B_H5
     public class CreateB_AgencyApplyInput
     {
         #region 表字段
-        /// <summary>
-        /// 代理等级id
-        /// </summary>
-        public Guid AgencyLevelId { get; set; }
+        ///// <summary>
+        ///// 代理等级id
+        ///// </summary>
+        //public Guid AgencyLevelId { get; set; }
 
-        /// <summary>
-        /// 代理等级
-        /// </summary>
-        [Range(0, int.MaxValue, ErrorMessage = "")]
-        public int AgencyLevel { get; set; }
+        ///// <summary>
+        ///// 代理等级
+        ///// </summary>
+        //[Range(0, int.MaxValue, ErrorMessage = "")]
+        //public int AgencyLevel { get; set; }
 
         /// <summary>
         /// 邀请链接id
