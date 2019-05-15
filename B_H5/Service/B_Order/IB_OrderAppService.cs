@@ -54,5 +54,12 @@ namespace B_H5
         /// <param name="input">主键</param>
         /// <returns></returns>
         Task Delete(EntityDto<Guid> input);
+
+
+
+        Task<OrderMoneyStatisDto> GetOrderMoneyStatis();
+
+
+        Task<PagedResultDto<B_SyatemAmoutStatisDto>> GetSyatemAmoutStatis(B_SyatemAmoutStatisInput input);
     }
 }

@@ -133,6 +133,17 @@ namespace B_H5
         推荐奖金 = 7
     }
 
+
+    public enum SystemAmoutType
+    {
+        订单 = 1,
+        提现 = 3,
+        充值 = 4,
+        团队管理奖金 = 5,
+        保证金 = 6,
+        推荐奖金 = 7
+    }
+
     public enum OrderOutStauts
     {
         待发货 = 0,
@@ -188,6 +199,21 @@ namespace B_H5
         /// 团队奖金
         /// </summary>
         销售折扣 = 4,
+
+
+    }
+
+    public enum B_SyatemAmoutStatisType
+    {
+        销售额 = 1,
+        充值金额 = 2,
+        提现金额 = 3,
+        保证金 = 4,
+        //奖励金额 = 5,
+        推荐奖 = 6,
+        提货奖 = 7,
+        销售返点奖 = 8
+
 
 
     }

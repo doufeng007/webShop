@@ -22,6 +22,7 @@ using ZCYX.FRMSCore.Extensions;
 using ZCYX.FRMSCore.Model;
 using Abp.Authorization;
 using Abp;
+using B_H5.Service.B_Agency.Dto;
 
 namespace B_H5
 {
@@ -31,9 +32,18 @@ namespace B_H5
         private readonly IRepository<B_OrderIn, Guid> _b_OrderInRepository;
         private readonly IRepository<B_Agency, Guid> _b_AgencyRepository;
         private readonly IRepository<B_AgencyLevel, Guid> _b_AgencyLevelRepository;
+        private readonly IRepository<B_AgencySales, Guid> _b_AgencySalesRepository;
+        private readonly IRepository<B_PaymentPrepay, Guid> _b_PaymentPrepayRepository;
+        private readonly IRepository<B_Withdrawal, Guid> _b_WithdrawalRepository;
+        private readonly IRepository<B_AgencyGroup, Guid> _b_AgencyGroupRepository;
+        private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
 
         public B_OrderAppService(IRepository<B_Order, Guid> repository, IRepository<B_OrderIn, Guid> b_OrderInRepository
             , IRepository<B_Agency, Guid> b_AgencyRepository, IRepository<B_AgencyLevel, Guid> b_AgencyLevelRepository
+            , IRepository<B_AgencySales, Guid> _repository, IRepository<B_AgencySales, Guid> b_AgencySalesRepository
+            , IRepository<B_PaymentPrepay, Guid> b_PaymentPrepayRepository, IRepository<B_Withdrawal, Guid> b_WithdrawalRepository
+            , IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository, IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository
+
 
         )
         {
@@ -41,6 +51,11 @@ namespace B_H5
             _b_OrderInRepository = b_OrderInRepository;
             _b_AgencyRepository = b_AgencyRepository;
             _b_AgencyLevelRepository = b_AgencyLevelRepository;
+            _b_AgencySalesRepository = b_AgencySalesRepository;
+            _b_PaymentPrepayRepository = b_PaymentPrepayRepository;
+            _b_WithdrawalRepository = b_WithdrawalRepository;
+            _b_AgencyGroupRepository = b_AgencyGroupRepository;
+            _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
 
         }
 
@@ -307,19 +322,42 @@ namespace B_H5
         [AbpAuthorize("WebShop.Manager")]
         public async Task<PagedResultDto<AmoutManagerStatisDto>> GetAmoutManagerStatis(GetAmoutManagerStatisInput input)
         {
-            var query = from a in _repository.GetAll()
-                        join u in UserManager.Users on a.UserId equals u.Id
-                        join b in _b_AgencyRepository.GetAll() on u.Id equals b.UserId
-                        select new AmoutManagerStatisDto
-                        {
-                            AgencyCode = b.AgenCyCode,
-                            AgencyLeavelId = b.AgencyLevelId,
-                            AgencyName = u.Name,
-                            Amout = a.Amout,
-                            BusinessType = a.BusinessType,
-                            CreationTime = a.CreationTime,
-                            InOrOut = a.InOrOut == OrderAmoutEnum.入账 ? OrderAmoutEnum.出账 : OrderAmoutEnum.入账,
-                        };
+            var query1 = from a in _b_OrderInRepository.GetAll()
+                         join b in _b_AgencyRepository.GetAll() on a.UserId equals b.UserId
+                         join u in UserManager.Users on a.UserId equals u.Id
+                         where a.IsOneLeavel == true
+                         select new AmoutManagerStatisDto()
+                         {
+                             AgencyCode = b.AgenCyCode,
+                             AgencyLeavelId = b.AgencyLevelId,
+                             AgencyName = u.Name,
+                             Amout = a.Amout,
+                             BusinessType = SystemAmoutType.订单,
+                             CreationTime = a.CreationTime,
+                             InOrOut = OrderAmoutEnum.入账,
+                         };
+            var btypelist = new List<OrderAmoutBusinessTypeEnum>();
+            btypelist.Add(OrderAmoutBusinessTypeEnum.提现);
+            btypelist.Add(OrderAmoutBusinessTypeEnum.充值);
+            btypelist.Add(OrderAmoutBusinessTypeEnum.团队管理奖金);
+            btypelist.Add(OrderAmoutBusinessTypeEnum.保证金);
+            btypelist.Add(OrderAmoutBusinessTypeEnum.推荐奖金);
+
+            var query2 = from a in _repository.GetAll()
+                         join u in UserManager.Users on a.UserId equals u.Id
+                         join b in _b_AgencyRepository.GetAll() on u.Id equals b.UserId
+                         where btypelist.Contains(a.BusinessType)
+                         select new AmoutManagerStatisDto
+                         {
+                             AgencyCode = b.AgenCyCode,
+                             AgencyLeavelId = b.AgencyLevelId,
+                             AgencyName = u.Name,
+                             Amout = a.Amout,
+                             BusinessType = (SystemAmoutType)a.BusinessType,
+                             CreationTime = a.CreationTime,
+                             InOrOut = a.InOrOut == OrderAmoutEnum.入账 ? OrderAmoutEnum.出账 : OrderAmoutEnum.入账,
+                         };
+            var query = query1.Union(query2);
 
             query = query.WhereIf(input.BusinessType.HasValue, r => r.BusinessType == input.BusinessType.Value).WhereIf(input.AgencyLeavlId.HasValue, r => r.AgencyLeavelId == input.AgencyLeavlId.Value)
                 .WhereIf(input.InOrOut.HasValue, r => r.InOrOut == input.InOrOut.Value).WhereIf(input.StartDate.HasValue, r => r.CreationTime >= input.StartDate.Value)
@@ -452,6 +490,272 @@ namespace B_H5
         {
             //await _repository.DeleteAsync(x => x.Id == input.Id);
         }
+
+
+        /// <summary>
+        /// 获取平台金额统计
+        /// </summary>
+        /// <returns></returns>
+        public async Task<OrderMoneyStatisDto> GetOrderMoneyStatis()
+        {
+            var ret = new OrderMoneyStatisDto();
+            var query1 = from a in _b_AgencySalesRepository.GetAll()
+                         select a;
+            ret.TotalSaleAmout = query1.Where(r => r.BusinessType == B_AgencySalesBusinessTypeEnum.销售额).Sum(r => r.Sales);
+            ret.TotalPrePayAmout = _b_PaymentPrepayRepository.GetAll().Where(r => r.Status == B_PrePayStatusEnum.已通过).Sum(r => r.PayAmout);
+            ret.TotalWithDrawalAmout = _b_WithdrawalRepository.GetAll().Where(r => r.Status == B_WithdrawalStatusEnum.已打款).Sum(r => r.Amout);
+            ret.TotalDeposite = _repository.GetAll().Where(r => r.BusinessType == OrderAmoutBusinessTypeEnum.保证金).Sum(r => r.Amout);
+            ret.TotalInviteAmout = _repository.GetAll().Where(r => r.BusinessType == OrderAmoutBusinessTypeEnum.推荐奖金).Sum(r => r.Amout);
+            ret.TotalOrderOutBonusAmout = _repository.GetAll().Where(r => r.BusinessType == OrderAmoutBusinessTypeEnum.提货).Sum(r => r.Amout);
+
+            ret.TotalTeamDisAmout = _repository.GetAll().Where(r => r.BusinessType == OrderAmoutBusinessTypeEnum.团队管理奖金).Sum(r => r.Amout);
+            ret.TotalRewardAmount = ret.TotalInviteAmout + ret.TotalOrderOutBonusAmout + ret.TotalTeamDisAmout;
+
+            ret.TotalAgencyBlance = _b_AgencyRepository.GetAll().Sum(r => r.Balance);
+            ret.TotalAgencyPayment = _b_AgencyRepository.GetAll().Sum(r => r.GoodsPayment);
+
+            ret.TotalSystemBlance = _b_OrderInRepository.GetAll().Where(r => r.IsOneLeavel).Sum(r => r.Amout);
+
+            ret.TotalSystemAmout = ret.TotalAgencyBlance + ret.TotalAgencyPayment + ret.TotalSystemBlance;
+
+            return ret;
+
+        }
+
+
+
+        /// <summary>
+        /// 获取平台金额统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<B_SyatemAmoutStatisDto>> GetSyatemAmoutStatis(B_SyatemAmoutStatisInput input)
+        {
+            if (input.BType == B_SyatemAmoutStatisType.销售额)
+            {
+                var query = from a in _b_AgencySalesRepository.GetAll()
+                            where a.BusinessType == B_AgencySalesBusinessTypeEnum.销售额 && a.CreationTime >= input.StartDate && a.CreationTime <= input.EndDate
+                            select new
+                            {
+                                a.Sales,
+                                CreatDay = a.CreationTime.ToString("yyyyMMdd"),
+                                CreatMonth = a.CreationTime.ToString("yyyyMM"),
+                            };
+                if (input.DayOrMonth == 1)
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Sales), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+                else
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Sales), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+            }
+            else if (input.BType == B_SyatemAmoutStatisType.充值金额)
+            {
+                var query = from a in _b_PaymentPrepayRepository.GetAll()
+                            where a.Status == B_PrePayStatusEnum.已通过 && a.CreationTime >= input.StartDate && a.CreationTime <= input.EndDate
+                            select new
+                            {
+                                a.PayAmout,
+                                CreatDay = a.CreationTime.ToString("yyyyMMdd"),
+                                CreatMonth = a.CreationTime.ToString("yyyyMM"),
+                            };
+                if (input.DayOrMonth == 1)
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.PayAmout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+                else
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.PayAmout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+            }
+
+            else if (input.BType == B_SyatemAmoutStatisType.提现金额)
+            {
+                var query = from a in _b_WithdrawalRepository.GetAll()
+                            where a.Status == B_WithdrawalStatusEnum.已打款 && a.CreationTime >= input.StartDate && a.CreationTime <= input.EndDate
+                            select new
+                            {
+                                a.Amout,
+                                CreatDay = a.CreationTime.ToString("yyyyMMdd"),
+                                CreatMonth = a.CreationTime.ToString("yyyyMM"),
+                            };
+                if (input.DayOrMonth == 1)
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+                else
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+            }
+
+
+            else if (input.BType == B_SyatemAmoutStatisType.保证金)
+            {
+                var query = from a in _repository.GetAll()
+                            where a.BusinessType == OrderAmoutBusinessTypeEnum.保证金 && a.CreationTime >= input.StartDate && a.CreationTime <= input.EndDate
+                            select new
+                            {
+                                a.Amout,
+                                CreatDay = a.CreationTime.ToString("yyyyMMdd"),
+                                CreatMonth = a.CreationTime.ToString("yyyyMM"),
+                            };
+                if (input.DayOrMonth == 1)
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+                else
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+            }
+
+            else if (input.BType == B_SyatemAmoutStatisType.提货奖)
+            {
+                var query = from a in _repository.GetAll()
+                            where a.BusinessType == OrderAmoutBusinessTypeEnum.提货 && a.CreationTime >= input.StartDate && a.CreationTime <= input.EndDate
+                            select new
+                            {
+                                a.Amout,
+                                CreatDay = a.CreationTime.ToString("yyyyMMdd"),
+                                CreatMonth = a.CreationTime.ToString("yyyyMM"),
+                            };
+                if (input.DayOrMonth == 1)
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+                else
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+            }
+
+            else if (input.BType == B_SyatemAmoutStatisType.推荐奖)
+            {
+                var query = from a in _repository.GetAll()
+                            where a.BusinessType == OrderAmoutBusinessTypeEnum.推荐奖金 && a.CreationTime >= input.StartDate && a.CreationTime <= input.EndDate
+                            select new
+                            {
+                                a.Amout,
+                                CreatDay = a.CreationTime.ToString("yyyyMMdd"),
+                                CreatMonth = a.CreationTime.ToString("yyyyMM"),
+                            };
+                if (input.DayOrMonth == 1)
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+                else
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+            }
+
+            else if (input.BType == B_SyatemAmoutStatisType.销售返点奖)
+            {
+                var query = from a in _repository.GetAll()
+                            where a.BusinessType == OrderAmoutBusinessTypeEnum.团队管理奖金 && a.CreationTime >= input.StartDate && a.CreationTime <= input.EndDate
+                            select new
+                            {
+                                a.Amout,
+                                CreatDay = a.CreationTime.ToString("yyyyMMdd"),
+                                CreatMonth = a.CreationTime.ToString("yyyyMM"),
+                            };
+                if (input.DayOrMonth == 1)
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatDay).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+                else
+                {
+                    var groupQuery = query.GroupBy(r => r.CreatMonth).Select(r => new B_SyatemAmoutStatisDto { Amout = r.Sum(o => o.Amout), Date = r.Key });
+                    var totalCount = await groupQuery.CountAsync();
+                    var ret = await groupQuery.OrderBy(r => r.Date).PageBy(input).ToListAsync();
+                    return new PagedResultDto<B_SyatemAmoutStatisDto>(totalCount, ret);
+                }
+            }
+            else
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "参数不正确！");
+            }
+
+
+        }
+
+
+
+
+        ///// <summary>
+        ///// 销售排行榜
+        ///// </summary>
+        ///// <param name="input"></param>
+        ///// <returns></returns>
+        //public async Task<PagedResultDto<SyatemAmoutOrderDto>> GetInViteCountStatis(TeamCountStatisInput input)
+        //{
+        //    var query = from a in _b_AgencyGroupRepository.GetAll()
+        //                join b in _b_AgencyGroupRelationRepository.GetAll() on a.Id equals b.GroupId
+        //                join agency in _repository.GetAll() on b.AgencyId equals agency.Id
+        //                join u in UserManager.Users on agency.UserId equals u.Id
+        //                let c = from agency in _repository.GetAll()
+        //                        join r in _b_AgencyGroupRelationRepository.GetAll() on agency.Id equals r.AgencyId
+        //                        where r.GroupId == a.Id
+        //                        select agency
+        //                where b.IsGroupLeader == true
+        //                select new TeamCountStatisDto
+        //                {
+        //                    AgencyCount = c.Count(),
+        //                    Name = u.Name,
+        //                };
+
+        //    var totalCount = await query.CountAsync();
+        //    var data = await query.OrderByDescending(r => r.AgencyCount).PageBy(input).ToListAsync();
+        //    var ret = new PagedResultDto<TeamCountStatisDto>(totalCount, data);
+        //    return ret;
+        //}
+
+
+        //public async Task<PagedResultDto<SyatemAmoutOrderDto>> GetAgencySaleOrderStatis(TeamCountStatisInput input)
+        //{
+
+        //}
 
 
 

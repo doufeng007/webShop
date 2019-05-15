@@ -294,6 +294,7 @@ namespace B_H5
             if (bModel.AgencyLevel == 1)  // 1级代理直接从云仓里进货
             {
 
+                orderInmodel.IsOneLeavel = true;
                 if (userInventory == null)
                 {
                     var newModel = new B_CWUserInventory()

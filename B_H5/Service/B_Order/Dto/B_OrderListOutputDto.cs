@@ -174,7 +174,7 @@ namespace B_H5
 
     public class GetAmoutManagerStatisInput : PagedAndSortedInputDto, IShouldNormalize
     {
-        public OrderAmoutBusinessTypeEnum? BusinessType { get; set; }
+        public SystemAmoutType? BusinessType { get; set; }
 
         public Guid? AgencyLeavlId { get; set; }
 
@@ -203,7 +203,7 @@ namespace B_H5
 
     public class AmoutManagerStatisDto
     {
-        public OrderAmoutBusinessTypeEnum BusinessType { get; set; }
+        public SystemAmoutType BusinessType { get; set; }
 
         public string BusinessTypeTitle { get; set; }
 

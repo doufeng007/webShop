@@ -18,7 +18,7 @@ namespace B_H5
     {
         public int? TenantId { get; set; }
         #region 表字段
-        
+
         /// <summary>
         /// Amout
         /// </summary>
@@ -57,6 +57,10 @@ namespace B_H5
 
 
         public string OrderNo { get; set; }
+
+
+
+        public bool IsOneLeavel { get; set; }
 
 
         #endregion

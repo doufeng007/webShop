@@ -561,7 +561,7 @@ namespace B_H5
         {
             var query = from a in _b_AgencyApplyRepository.GetAll()
                         join b in _repository.GetAll() on a.Id equals b.ApplyId
-                        where a.Status == B_AgencyApplyStatusEnum.已通过
+                        where a.Status == B_AgencyApplyStatusEnum.已通过 && b.CreationTime >= input.StartDate && b.CreationTime <= input.EndDate
                         select new
                         {
                             B_AgencyId = b.Id,
