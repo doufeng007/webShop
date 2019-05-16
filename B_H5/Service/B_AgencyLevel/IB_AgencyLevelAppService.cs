@@ -25,12 +25,18 @@ namespace B_H5
         /// <returns></returns>
 		Task<B_AgencyLevelOutputDto> Get(NullableIdDto<Guid> input);
 
-		/// <summary>
+        /// <summary>
+        /// 获取一级代理
+        /// </summary>
+        /// <returns></returns>
+        Task<B_AgencyLevelOutputDto> GetOneLeavel();
+
+        /// <summary>
         /// 添加一个B_AgencyLevel
         /// </summary>
         /// <param name="input">实体</param>
         /// <returns></returns>
-		Task Create(CreateB_AgencyLevelInput input);
+        Task Create(CreateB_AgencyLevelInput input);
 
 		/// <summary>
         /// 修改一个B_AgencyLevel

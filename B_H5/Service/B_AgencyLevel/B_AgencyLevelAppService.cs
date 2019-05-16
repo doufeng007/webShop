@@ -126,6 +126,25 @@ namespace B_H5
             }
             return model.MapTo<B_AgencyLevelOutputDto>();
         }
+
+
+        /// <summary>
+        /// 获取一级代理
+        /// </summary>
+        /// <param name="input">主键</param>
+        /// <returns></returns>
+
+        public async Task<B_AgencyLevelOutputDto> GetOneLeavel()
+        {
+
+            var model = await _repository.FirstOrDefaultAsync(x => x.Level == 1);
+            if (model == null)
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+            }
+            return model.MapTo<B_AgencyLevelOutputDto>();
+        }
+
         /// <summary>
         /// 新增代理级别
         /// </summary>
