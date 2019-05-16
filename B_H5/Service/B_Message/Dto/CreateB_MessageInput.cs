@@ -8,27 +8,26 @@ using System;
 namespace B_H5
 {
     [AutoMapTo(typeof(B_Message))]
-    public class CreateB_MessageInput 
+    public class CreateB_MessageInput
     {
         #region 表字段
         /// <summary>
         /// Title
         /// </summary>
-        [MaxLength(500,ErrorMessage = "Title长度必须小于500")]
-        [Required(ErrorMessage = "必须填写Title")]
-        public string Title { get; set; }
+        [MaxLength(500, ErrorMessage = "Title长度必须小于500")]
+        public string Title { get; set; } = "";
 
         /// <summary>
         /// Code
         /// </summary>
-        [MaxLength(100,ErrorMessage = "Code长度必须小于100")]
+        [MaxLength(100, ErrorMessage = "Code长度必须小于100")]
         [Required(ErrorMessage = "必须填写Code")]
         public string Code { get; set; }
 
         /// <summary>
         /// BusinessType
         /// </summary>
-        [Range(0, int.MaxValue,ErrorMessage="")]
+        [Range(0, int.MaxValue, ErrorMessage = "")]
         public B_H5MesagessType BusinessType { get; set; }
 
         /// <summary>
@@ -39,13 +38,13 @@ namespace B_H5
         /// <summary>
         /// Content
         /// </summary>
-        [MaxLength(500,ErrorMessage = "Content长度必须小于500")]
+        [MaxLength(500, ErrorMessage = "Content长度必须小于500")]
         public string Content { get; set; }
 
         /// <summary>
         /// Status
         /// </summary>
-        [Range(0, int.MaxValue,ErrorMessage="")]
+        [Range(0, int.MaxValue, ErrorMessage = "")]
         public int Status { get; set; }
 
 

@@ -291,6 +291,7 @@ namespace B_H5
                     UserId = _agencyModel.UserId,
                     IsBlance = false,
                     IsGoodsPayment = true,
+                   
                 });
 
 
@@ -301,6 +302,7 @@ namespace B_H5
                     Code = model.Code,
                     Content = $"充值单号：{model.Code}已经审核通过，{model.PayAcount}元已经充入货款 ",
                     UserId = model.CreatorUserId.Value,
+                    Title =""
 
                 });
 
