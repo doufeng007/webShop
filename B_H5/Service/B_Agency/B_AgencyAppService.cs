@@ -322,6 +322,9 @@ namespace B_H5
                             UserName = u.Name,
                             ApplyId = a.ApplyId,
                             PNumber = a.PNumber,
+                            Balance = a.Balance,
+                            GoodsPayment = a.GoodsPayment,
+
 
 
                         };
