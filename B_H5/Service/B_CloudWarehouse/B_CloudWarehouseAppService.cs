@@ -46,7 +46,7 @@ namespace B_H5
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<B_CWInOutDetailListOutputDto>> GetCWInOutDetailListAsync(GetB_CWInOutDetailListInput input)
+        public Task<PagedResultDto<B_CWInOutDetailListOutputDto>> GetCWInOutDetailListAsync(GetB_CWInOutDetailListInput input)
         {
             throw new NotImplementedException();
         }
@@ -57,13 +57,13 @@ namespace B_H5
         /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize]
-        public async Task<List<B_CWInventoryListOutputDto>> GetCWInventoryListAsync(GetB_CWInventoryListInput input)
+        public async Task<PagedResultDto<B_CWInventoryListOutputDto>> GetCWInventoryListAsync(GetB_CWInventoryListInput input)
         {
             var query = from a in _b_CategroyRepository.GetAll()
                         join bg in _b_CWUserInventoryRepository.GetAll() on new { Id = a.Id, UserId = AbpSession.UserId.Value }
                         equals new { Id = bg.CategroyId, UserId = bg.UserId } into g
                         from b in g.DefaultIfEmpty()
-                        where a.FirestLevelCategroyPropertyId == input.CategroyPropertyId
+                        where a.FirestLevelCategroyPropertyId == input.CategroyPropertyId && !a.P_Id.HasValue
                         select new B_CWInventoryListOutputDto
                         {
                             Id = a.Id,
@@ -95,7 +95,7 @@ namespace B_H5
 
                     }
             }
-            return ret;
+            return new PagedResultDto<B_CWInventoryListOutputDto>(toalCount, ret);
         }
 
 
