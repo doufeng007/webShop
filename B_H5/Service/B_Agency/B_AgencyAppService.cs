@@ -48,6 +48,7 @@ namespace B_H5
         private readonly IRepository<B_InviteUrl, Guid> _b_InviteUrlRepository;
 
 
+
         public B_AgencyAppService(IRepository<B_Agency, Guid> repository, IRepository<AbpDictionary, Guid> abpDictionaryrepository
             , IUnitOfWorkManager unitOfWorkManager, IAbpFileRelationAppService abpFileRelationAppService, IRepository<B_AgencyLevel, Guid> b_AgencyLevelepository
             , IRepository<ZCYX.FRMSCore.Authorization.Users.User, long> userRepository, IRepository<B_AgencyApply, Guid> b_AgencyApplyRepository
@@ -207,6 +208,7 @@ namespace B_H5
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                         join u in UserManager.Users on a.UserId equals u.Id
                         join b in _b_AgencyLevelepository.GetAll() on a.AgencyLevelId equals b.Id
+                        join c in _b_AgencyApplyRepository.GetAll() on a.ApplyId equals c.Id
                         where a.Id == input.Id
                         select new B_AgencyOutputDto()
                         {
@@ -223,6 +225,15 @@ namespace B_H5
                             UserName = u.Name,
                             ApplyId = a.ApplyId,
                             PNumber = a.PNumber,
+                            Balance = a.Balance,
+                            GoodsPayment = a.GoodsPayment,
+                            AgencyLeavel = a.AgencyLevel,
+                            BankName = c.BankName,
+                            BankUserName = c.BankUserName,
+                            PayAcount = c.PayAcount,
+                            PayAmout = c.PayAmout,
+                            PayDate = c.PayDate,
+                            PayType = c.PayType
 
 
                         };
@@ -231,6 +242,24 @@ namespace B_H5
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
+            if (model.AgencyLeavel != 1)
+            {
+                var queryInvite = from a in _b_AgencyApplyRepository.GetAll()
+                                  join c in _b_InviteUrlRepository.GetAll() on a.InviteUrlId equals c.Id
+                                  join u in UserManager.Users on c.CreatorUserId.Value equals u.Id
+                                  join b_a in _repository.GetAll() on u.Id equals b_a.UserId into n
+                                  from invitaAgency in n.DefaultIfEmpty()
+                                  where a.Id == model.ApplyId
+                                  select new { u.Name, Tel = u.PhoneNumber, Address = invitaAgency.Address };
+
+                var inviteModel = await queryInvite.FirstOrDefaultAsync();
+                model.InvitUserAddress = inviteModel.Address;
+                model.InvitUserName = inviteModel.Name;
+                model.InvitUserTel = inviteModel.Tel;
+
+            }
+
+
             var fielRet = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
             {
                 BusinessId = model.ApplyId.ToString(),
@@ -306,6 +335,7 @@ namespace B_H5
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                         join u in UserManager.Users on a.UserId equals u.Id
                         join b in _b_AgencyLevelepository.GetAll() on a.AgencyLevelId equals b.Id
+                        join c in _b_AgencyApplyRepository.GetAll() on a.ApplyId equals c.Id
                         where a.UserId == AbpSession.UserId.Value
                         select new B_AgencyOutputDto()
                         {
@@ -324,8 +354,13 @@ namespace B_H5
                             PNumber = a.PNumber,
                             Balance = a.Balance,
                             GoodsPayment = a.GoodsPayment,
-
-
+                            AgencyLeavel = a.AgencyLevel,
+                            BankName = c.BankName,
+                            BankUserName = c.BankUserName,
+                            PayAcount = c.PayAcount,
+                            PayAmout = c.PayAmout,
+                            PayDate = c.PayDate,
+                            PayType = c.PayType
 
                         };
             var model = await query.FirstOrDefaultAsync();
@@ -333,6 +368,23 @@ namespace B_H5
             {
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
+            if (model.AgencyLeavel != 1)
+            {
+                var queryInvite = from a in _b_AgencyApplyRepository.GetAll()
+                                  join c in _b_InviteUrlRepository.GetAll() on a.InviteUrlId equals c.Id
+                                  join u in UserManager.Users on c.CreatorUserId.Value equals u.Id
+                                  join b_a in _repository.GetAll() on u.Id equals b_a.UserId into n
+                                  from invitaAgency in n.DefaultIfEmpty()
+                                  where a.Id == model.ApplyId
+                                  select new { u.Name, Tel = u.PhoneNumber, Address = invitaAgency.Address };
+
+                var inviteModel = await queryInvite.FirstOrDefaultAsync();
+                model.InvitUserAddress = inviteModel.Address;
+                model.InvitUserName = inviteModel.Name;
+                model.InvitUserTel = inviteModel.Tel;
+
+            }
+
             var fielRet = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
             {
                 BusinessId = model.ApplyId.ToString(),

@@ -145,6 +145,9 @@ namespace B_H5
             return ret;
         }
 
+
+
+
         /// <summary>
         /// 管理-代理审核 查看详情
         /// </summary>
@@ -158,13 +161,13 @@ namespace B_H5
                         join u in UserManager.Users on b.CreatorUserId.Value equals u.Id into m
                         from u in m.DefaultIfEmpty()
                         join b_a in _b_AgencyRepository.GetAll() on u.Id equals b_a.UserId into n
-                        from b_a in n.DefaultIfEmpty()
+                        from invitaAgency in n.DefaultIfEmpty()
                         where a.Id == input.Id
                         select new B_AgencyApplyOutputDto
                         {
                             Id = a.Id,
                             Address = a.Address,
-                            AgencyLevelCode = "",
+                            AgencyCode = "",
 
                             AgencyLevelName = "",
                             BankName = a.BankName,
@@ -173,7 +176,7 @@ namespace B_H5
                             Country = a.Country,
                             County = a.County,
                             CreationTime = a.CreationTime,
-                            InvitUserAddress = b_a == null ? "" : b_a.Address,
+                            InvitUserAddress = invitaAgency == null ? "" : invitaAgency.Address,
                             InvitUserName = u == null ? "" : u.Name,
                             InvitUserTel = u == null ? "" : u.PhoneNumber,
                             Name = a.Name,

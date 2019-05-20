@@ -39,7 +39,7 @@ namespace B_H5
         /// <summary>
         /// 代理编号
         /// </summary>
-        public string AgencyLevelCode { get; set; }
+        public string AgencyCode { get; set; }
 
 
         public Guid AgencyLevelId { get; set; }
@@ -98,22 +98,22 @@ namespace B_H5
         public string Address { get; set; }
 
         /// <summary>
-        /// PayType
+        /// 打款方式
         /// </summary>
         public PayAccountType PayType { get; set; }
 
         /// <summary>
-        /// PayAmout
+        /// 打款金额
         /// </summary>
         public decimal PayAmout { get; set; }
 
         /// <summary>
-        /// PayAcount
+        /// 打款账户
         /// </summary>
         public string PayAcount { get; set; }
 
         /// <summary>
-        /// PayDate
+        /// 打款日志
         /// </summary>
         public DateTime PayDate { get; set; }
 
