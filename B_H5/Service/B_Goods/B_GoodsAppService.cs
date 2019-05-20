@@ -148,7 +148,7 @@ namespace B_H5
 
 
         /// <summary>
-        /// 根据商品类别获取商品类别----云仓提货 商品类别
+        /// 根据商品类别获取商品列表----云仓提货 商品类别
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>

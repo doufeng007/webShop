@@ -43,7 +43,7 @@ namespace B_H5
         public async Task<PagedResultDto<B_MyAddressListOutputDto>> GetList(GetB_MyAddressListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-
+                        where a.UserId == input.UserId
                         select new B_MyAddressListOutputDto()
                         {
                             Id = a.Id,

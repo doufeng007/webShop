@@ -148,6 +148,8 @@ namespace B_H5
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
             }
             var ret = model.MapTo<B_PaymentPrepayOutputDto>();
+            var userModel = await UserManager.GetUserByIdAsync(model.CreatorUserId.Value);
+            ret.Tel = userModel.PhoneNumber;
 
             ret.UserName = (await UserManager.GetUserByIdAsync(model.UserId)).Name;
             ret.CredentFiles = await _abpFileRelationAppService.GetListAsync(new GetAbpFilesInput()
@@ -291,7 +293,7 @@ namespace B_H5
                     UserId = _agencyModel.UserId,
                     IsBlance = false,
                     IsGoodsPayment = true,
-                   
+
                 });
 
 
@@ -302,7 +304,7 @@ namespace B_H5
                     Code = model.Code,
                     Content = $"充值单号：{model.Code}已经审核通过，{model.PayAcount}元已经充入货款 ",
                     UserId = model.CreatorUserId.Value,
-                    Title =""
+                    Title = ""
 
                 });
 

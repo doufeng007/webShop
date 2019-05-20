@@ -49,9 +49,28 @@ namespace B_H5
         /// <returns></returns>
         public async Task<PagedResultDto<B_WithdrawalListOutputDto>> GetList(GetB_WithdrawalListInput input)
         {
+
+            var statusArry = new List<B_WithdrawalStatusEnum>();
+            if (input.ListType == 1)
+            {
+                statusArry.Add(B_WithdrawalStatusEnum.待审核);
+                statusArry.Add(B_WithdrawalStatusEnum.未通过);
+            }
+            else if (input.ListType == 2)
+            {
+                statusArry.Add(B_WithdrawalStatusEnum.待打款);
+                statusArry.Add(B_WithdrawalStatusEnum.已打款);
+                statusArry.Add(B_WithdrawalStatusEnum.打款异常);
+            }
+            else
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "参数异常！");
+            }
+
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                         join b in _b_AgencyRepository.GetAll() on a.CreatorUserId.Value equals b.UserId
                         join u in UserManager.Users on b.UserId equals u.Id
+                        where statusArry.Contains(a.Status)
                         select new B_WithdrawalListOutputDto()
                         {
                             Id = a.Id,
@@ -66,6 +85,7 @@ namespace B_H5
                             Amout = a.Amout,
                             CreationTime = a.CreationTime,
                             AgencyLevelId = b.AgencyLevelId,
+                            Status = a.Status
 
 
                         };

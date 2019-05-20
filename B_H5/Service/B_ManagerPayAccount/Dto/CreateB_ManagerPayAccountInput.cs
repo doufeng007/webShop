@@ -49,7 +49,6 @@ namespace B_H5
         /// Remark
         /// </summary>
         [MaxLength(200,ErrorMessage = "Remark长度必须小于200")]
-        [Required(ErrorMessage = "必须填写Remark")]
         public string Remark { get; set; }
 
 

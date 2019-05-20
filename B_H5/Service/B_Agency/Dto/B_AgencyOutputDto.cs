@@ -163,5 +163,10 @@ namespace B_H5
         /// </summary>
         public string InvitUserAddress { get; set; }
 
+        /// <summary>
+        /// 微信号
+        /// </summary>
+        public string WxId { get; set; }
+
     }
 }

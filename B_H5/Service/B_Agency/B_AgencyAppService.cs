@@ -233,7 +233,8 @@ namespace B_H5
                             PayAcount = c.PayAcount,
                             PayAmout = c.PayAmout,
                             PayDate = c.PayDate,
-                            PayType = c.PayType
+                            PayType = c.PayType,
+                            WxId = c.WxId,
 
 
                         };
@@ -360,7 +361,8 @@ namespace B_H5
                             PayAcount = c.PayAcount,
                             PayAmout = c.PayAmout,
                             PayDate = c.PayDate,
-                            PayType = c.PayType
+                            PayType = c.PayType,
+                            WxId = c.WxId,
 
                         };
             var model = await query.FirstOrDefaultAsync();

@@ -35,6 +35,11 @@ namespace B_H5
         /// </summary>
         public DateTime? PayDateEnd { get; set; }
 
+        /// <summary>
+        /// 1 审核 2 打款
+        /// </summary>
+        public int ListType { get; set; }
+
 
 
         public void Normalize()

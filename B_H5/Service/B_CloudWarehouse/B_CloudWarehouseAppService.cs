@@ -63,14 +63,17 @@ namespace B_H5
                         join bg in _b_CWUserInventoryRepository.GetAll() on new { Id = a.Id, UserId = AbpSession.UserId.Value }
                         equals new { Id = bg.CategroyId, UserId = bg.UserId } into g
                         from b in g.DefaultIfEmpty()
-                        where a.FirestLevelCategroyPropertyId == input.CategroyPropertyId && !a.P_Id.HasValue
+                        where a.Id == input.CategroyId
                         select new B_CWInventoryListOutputDto
                         {
                             Id = a.Id,
                             Title = a.Name,
                             CanExtractCount = b == null ? 0 : b.Count,
                             TakeLessCount = b == null ? 0 : b.LessCount,
-                            CreationTime = a.CreationTime
+                            CreationTime = a.CreationTime,
+                            Price = a.Price,
+                            Tag = a.Tag,
+                            Unit = a.Unit
                         };
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();

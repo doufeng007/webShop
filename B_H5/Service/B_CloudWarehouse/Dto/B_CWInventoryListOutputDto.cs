@@ -38,6 +38,22 @@ namespace B_H5
         /// </summary>
         public DateTime CreationTime { get; set; }
 
+
+        /// <summary>
+        /// Price
+        /// </summary>
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// Unit
+        /// </summary>
+        public string Unit { get; set; }
+
+        /// <summary>
+        /// Tag
+        /// </summary>
+        public string Tag { get; set; }
+
         /// <summary>
         /// 图片
         /// </summary>
