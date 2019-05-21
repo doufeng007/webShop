@@ -198,6 +198,8 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
 
             }); // URL: /swagger
 
+            
+
 
             app.UseSignalR(routes =>
             {

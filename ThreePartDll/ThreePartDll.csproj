@@ -13,6 +13,9 @@
       <HintPath>Aspose.Words.dll</HintPath>
       <Private>true</Private>
     </Reference>
+    <Reference Include="FwSdk">
+      <HintPath>FwSdk.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

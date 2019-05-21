@@ -1,11 +1,17 @@
 ﻿using Abp.Application.Services;
+using Abp.Reflection.Extensions;
 using Abp.UI;
 using B_H5.Service.CloudService.Dto;
+using Fw.Api;
+using Fw.Api.Request;
+using Fw.Api.Response;
+using Microsoft.Extensions.Configuration;
 using ServiceReference;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ZCYX.FRMSCore.Configuration;
 using ZCYX.FRMSCore.Model;
 
 namespace B_H5
@@ -15,6 +21,17 @@ namespace B_H5
     {
         public APIWebServiceSoapClient SoapClient { get; set; }
 
+        private readonly IConfigurationRoot _appConfiguration;
+
+        private string CloudServiceUrl { get; set; }
+
+        private string CloudServiceAppKey { get; set; }
+
+        private string CloudServiceAppSecret { get; set; }
+
+        private string CloudServicePartnerId { get; set; }
+
+
 
         public string AppId = "80010";
 
@@ -23,6 +40,14 @@ namespace B_H5
         public CloudService()
         {
             SoapClient = new ServiceReference.APIWebServiceSoapClient(ServiceReference.APIWebServiceSoapClient.EndpointConfiguration.APIWebServiceSoap);
+
+            var coreAssemblyDirectoryPath = typeof(CloudService).GetAssembly().GetDirectoryPathOrNull();
+            _appConfiguration = AppConfigurations.Get(coreAssemblyDirectoryPath);
+
+            CloudServiceUrl = _appConfiguration["App:CloudServiceUrl"].ToString();
+            CloudServiceAppKey = _appConfiguration["App:CloudServiceAppKey"].ToString();
+            CloudServiceAppSecret = _appConfiguration["App:CloudServiceAppSecret"].ToString();
+            CloudServicePartnerId = _appConfiguration["App:CloudServicePartnerId"].ToString();
         }
 
 
@@ -60,5 +85,20 @@ namespace B_H5
             //}
 
         }
+
+
+        
+
+
+        public async Task PurchaseOutinorderConfirm(PurchaseOutinorderConfirmInput input)
+        {
+            var model = input;
+            Abp.Logging.LogHelper.Logger.Error($"收到参数：{Newtonsoft.Json.JsonConvert.SerializeObject(input)}");
+        }
+
+
+
+
+
     }
 }

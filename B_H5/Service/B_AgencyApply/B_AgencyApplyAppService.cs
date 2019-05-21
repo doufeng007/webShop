@@ -26,6 +26,7 @@ using Microsoft.Extensions.Configuration;
 using Abp.Reflection.Extensions;
 using ZCYX.FRMSCore.Configuration;
 using Abp.WeChat;
+using Abp.Runtime.Caching;
 
 namespace B_H5
 {
@@ -40,11 +41,13 @@ namespace B_H5
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
         private readonly IRepository<B_AgencyGroup, Guid> _b_AgencyGroupRepository;
         private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
+        private readonly string SmsCacheKey = "SmsCache";
+        private readonly ICacheManager _cacheManager;
 
         public B_AgencyApplyAppService(IRepository<B_AgencyApply, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
             , IRepository<B_InviteUrl, Guid> b_InviteUrlRepository, IRepository<B_Agency, Guid> b_AgencyRepository, IB_AgencyLevelAppService b_AgencyLevelService
             , WxTemplateMessageManager wxTemplateMessageManager, IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository
-            , IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository
+            , IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository, ICacheManager cacheManager
 
         )
         {
@@ -58,6 +61,7 @@ namespace B_H5
             _wxTemplateMessageManager = wxTemplateMessageManager;
             _b_AgencyGroupRepository = b_AgencyGroupRepository;
             _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
+            _cacheManager = cacheManager;
 
         }
 
@@ -556,6 +560,25 @@ namespace B_H5
         public async Task Delete(EntityDto<Guid> input)
         {
             await _repository.DeleteAsync(x => x.Id == input.Id);
+        }
+
+
+        public async Task SendSms(string phone)
+        {
+            var cache = _cacheManager.GetCache(SmsCacheKey);
+            var cacheValue = cache.GetOrDefault(phone).ToString();
+            if (cacheValue.IsNullOrEmpty())
+            {
+                var smsManager = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<AliSms.AliSmsManager>();
+                smsManager.SendSms("SMS_164860191", "乌生青",phone, "{\"code\":\"7777\"}");
+            }
+            else
+            {
+
+            }
+
+
+
         }
     }
 }

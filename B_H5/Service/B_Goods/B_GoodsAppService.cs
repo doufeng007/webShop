@@ -265,24 +265,35 @@ namespace B_H5
 
 
             var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<CloudService>();
-            var goods = new Service.CloudService.Dto.GFF_GoodsItem()
-            {
-                CnName = newmodel.Name,
-                CustomcCode = "",
-                GoodsCode = newmodel.Code,
-                Price = newmodel.Price.ToString(),
-                SKU = newmodel.Code,
+            //var goods = new Service.CloudService.Dto.GFF_GoodsItem()
+            //{
+            //    CnName = newmodel.Name,
+            //    CustomcCode = "",
+            //    GoodsCode = newmodel.Code,
+            //    Price = newmodel.Price.ToString(),
+            //    SKU = newmodel.Code,
 
-            };
-            var goodsList = new List<GFF_GoodsItem>();
-            goodsList.Add(goods);
-            await service.CreateGoods(new Service.CloudService.Dto.CreateGoodsInput()
-            {
-                GFF_Goods = new Service.CloudService.Dto.GFF_Goods()
-                {
-                    item = goodsList
-                }
-            });
+            //};
+            //var goodsList = new List<GFF_GoodsItem>();
+            //goodsList.Add(goods);
+            //await service.CreateGoods(new Service.CloudService.Dto.CreateGoodsInput()
+            //{
+            //    GFF_Goods = new Service.CloudService.Dto.GFF_Goods()
+            //    {
+            //        item = goodsList
+            //    }
+            //});
+
+
+
+            //service.CreatGoods(new Fw.Api.Request.WmsProductsSyncRequest.Item()
+            //{
+            //    ActionType = "ADD",
+            //    BarCode = newmodel.Id.ToString(),
+            //    ItemCode = newmodel.Id.ToString(),
+            //    ItemName = newmodel.Name,
+
+            //});
 
         }
 

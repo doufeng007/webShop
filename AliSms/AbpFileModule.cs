@@ -1,25 +1,16 @@
-﻿using Abp.Dapper;
-using Abp.Localization;
+﻿using Abp.Localization;
 using Abp.Localization.Dictionaries;
 using Abp.Localization.Dictionaries.Xml;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
-using Abp.WeChat;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace B_H5
+namespace AliSms
 {
-    [DependsOn(
-     typeof(ZCYX.FRMSCore.FRMSCoreApplicationModule),
-      typeof(Abp.WorkFlow.WorkFlowModule),
-        typeof(Abp.WorkFlowDictionary.WorkFlowDictionaryModule)
-        , typeof(AbpWeChatModule)
-        , typeof(AliSms.AliSmsManager)
-        , typeof(Abp.File.AbpFileModule))]
-    public class B_H5Module : AbpModule
+    public class AliSmsModule : AbpModule
     {
         public override void PreInitialize()
         {
@@ -49,22 +40,20 @@ namespace B_H5
 
 注意：当给内嵌的XML文件起名字时，要加上语言后缀，但是不要使用“.”，比如“MySource.ch.xml”，而要使用短号“-”，比如“MySource-en.xml”。因为当寻找资源时，“.”会造成问题。
              */
-            Configuration.Localization.Sources.Add(new DictionaryBasedLocalizationSource(B_H5Consts.LocalizationSourceName, new XmlEmbeddedFileLocalizationDictionaryProvider(
-                 Assembly.GetExecutingAssembly(),
-                 $"{B_H5Consts.LocalizationSourceName}.Localization")));
-            Configuration.Authorization.Providers.Add<B_H5AuthorizationProvider>();
+        //    Configuration.Localization.Sources.Add(new DictionaryBasedLocalizationSource("WorkFlowDictionaryLanguage", new XmlEmbeddedFileLocalizationDictionaryProvider(
+        //        Assembly.GetExecutingAssembly(),
+        //        "AbpProject.Demo.Localization"
+        //        )
+        //    )
+        //);
 
             //配置导航菜单
-            Configuration.Navigation.Providers.Add<B_H5NavigationProvider>();
+          //  Configuration.Navigation.Providers.Add<DictionaryNavigationProvider>();
 
         }
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(B_H5Module).GetAssembly());
-
-            //这里会自动去扫描程序集中配置好的映射关系
-            //DapperExtensions.SetMappingAssemblies(new List<Assembly> { typeof(MyModule).GetAssembly() });
-
+            IocManager.RegisterAssemblyByConvention(typeof(AliSmsModule).GetAssembly());
         }
     }
 }

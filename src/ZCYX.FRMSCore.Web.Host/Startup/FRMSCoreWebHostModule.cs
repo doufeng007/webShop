@@ -20,6 +20,7 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
         , typeof(AbpFileModule)
         , typeof(AbpSignalRCoreModule)
         , typeof(AbpWeChatModule)
+        , typeof(AliSms.AliSmsManager)
         , typeof(HR.HRModule)
         , typeof(SearchAll.SearchAllModule)
         , typeof(IMLib.IMLibModule)

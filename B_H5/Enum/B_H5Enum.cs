@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace B_H5
@@ -214,6 +215,42 @@ namespace B_H5
         提货奖 = 7,
         销售返点奖 = 8
 
+
+
+    }
+
+
+    /// <summary>
+    /// 发文对接操作类型
+    /// </summary>
+    public enum FineexMehodEnum
+    {
+        /// <summary>
+        /// 出入库单确认
+        /// </summary>
+        [Description("出入库单确认")]
+        FineexWmsPurchaseOutinorderConfirm = 1,
+
+
+        /// <summary>
+        /// 订单确认
+        /// </summary>
+        [Description("订单确认")]
+        FineexWmsTradeConfirm = 2,
+
+
+        /// <summary>
+        /// 退货单确认
+        /// </summary>
+        [Description("退货单确认")]
+        FineexWmsTradeReturnorderConfirm = 3,
+
+
+        /// <summary>
+        /// 快递物流详情查询
+        /// </summary>
+        [Description("快递物流详情查询")]
+        FineexWmsTradeWaybillprocessGet = 3,
 
 
     }

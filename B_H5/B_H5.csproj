@@ -22,11 +22,24 @@
     <ProjectReference Include="..\Abp.File\Abp.File.csproj" />
     <ProjectReference Include="..\Abp.WeChat\Abp.WeChat.csproj" />
     <ProjectReference Include="..\Abp.WorkFlow\Abp.WorkFlow.csproj" />
+    <ProjectReference Include="..\AliSms\AliSms.csproj" />
     <ProjectReference Include="..\src\ZCYX.FRMSCore.Application\ZCYX.FRMSCore.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="FwSdk">
+      <HintPath>Dll\FwSdk.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dll\FwSdk.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
