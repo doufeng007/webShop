@@ -419,6 +419,9 @@ namespace B_H5
 
             await _repository.InsertAsync(orderInmodel);
             OrderInForCurrentUser(orderInmodel);
+
+
+            await _b_AgencyRepository.UpdateAsync(bModel);
         }
 
         /// <summary>
