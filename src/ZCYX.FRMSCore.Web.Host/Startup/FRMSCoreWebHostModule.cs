@@ -20,7 +20,7 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
         , typeof(AbpFileModule)
         , typeof(AbpSignalRCoreModule)
         , typeof(AbpWeChatModule)
-        , typeof(AliSms.AliSmsManager)
+        , typeof(AliSms.AliSmsModule)
         , typeof(HR.HRModule)
         , typeof(SearchAll.SearchAllModule)
         , typeof(IMLib.IMLibModule)
@@ -85,6 +85,10 @@ namespace ZCYX.FRMSCore.Web.Host.Startup
                 .CreateControllersForAppServices(
                     typeof(AbpWeChatModule).GetAssembly()
                 );
+            Configuration.Modules.AbpAspNetCore()
+              .CreateControllersForAppServices(
+                  typeof(AliSms.AliSmsModule).GetAssembly()
+              );
 
             Configuration.Modules.AbpAspNetCore()
               .CreateControllersForAppServices(

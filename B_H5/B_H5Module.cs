@@ -17,7 +17,7 @@ namespace B_H5
       typeof(Abp.WorkFlow.WorkFlowModule),
         typeof(Abp.WorkFlowDictionary.WorkFlowDictionaryModule)
         , typeof(AbpWeChatModule)
-        , typeof(AliSms.AliSmsManager)
+        , typeof(AliSms.AliSmsModule)
         , typeof(Abp.File.AbpFileModule))]
     public class B_H5Module : AbpModule
     {
