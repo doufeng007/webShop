@@ -41,7 +41,7 @@ namespace B_H5
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
         private readonly IRepository<B_AgencyGroup, Guid> _b_AgencyGroupRepository;
         private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
-        private readonly string SmsCacheKey = "SmsCache";
+        private readonly string SmsCacheKey = "Sign_SmsCache";
         private readonly ICacheManager _cacheManager;
 
         public B_AgencyApplyAppService(IRepository<B_AgencyApply, Guid> repository, IAbpFileRelationAppService abpFileRelationAppService
@@ -241,6 +241,28 @@ namespace B_H5
 
         public async Task<Guid> Create(CreateB_AgencyApplyInput input)
         {
+
+            if (input.VCode.IsNullOrEmpty())
+            {
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "请输入短信验证码！");
+            }
+            else
+            {
+                var cache = _cacheManager.GetCache(SmsCacheKey);
+                var cacheValue = cache.GetOrDefault(input.Tel);
+                if (cacheValue == null || cacheValue.ToString().IsNullOrEmpty())
+                {
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "验证码已过期！");
+                }
+                else
+                {
+                    if (cacheValue.ToString() != input.VCode)
+                    {
+                        throw new UserFriendlyException((int)ErrorCode.CodeValErr, "验证码无效！");
+                    }
+                }
+            }
+
             B_InviteUrl inviteUrlModel;
             B_AgencyLevel applyLeavelModel;
             if (_repository.GetAll().Where(r => r.Status != B_AgencyApplyStatusEnum.未通过).Any(r => r.Name == input.Name))
@@ -566,15 +588,17 @@ namespace B_H5
         public async Task SendSms(string phone)
         {
             var cache = _cacheManager.GetCache(SmsCacheKey);
-            var cacheValue = cache.GetOrDefault(phone).ToString();
-            if (cacheValue.IsNullOrEmpty())
+            var cacheValue = cache.GetOrDefault(phone);
+            if (cacheValue == null || cacheValue.ToString().IsNullOrEmpty())
             {
+                var code = RandomHelper.GetRandom(100001, 999998);
                 var smsManager = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<AliSms.AliSmsManager>();
-                smsManager.SendSms("SMS_164860191", "乌生青",phone, "{\"code\":\"7777\"}");
+                smsManager.SendSms("SMS_164860191", "乌生青", phone, "{\"code\":\"" + code + "\"}");
+                cache.Set(phone, code, absoluteExpireTime: new TimeSpan(0, 0, 60));
             }
             else
             {
-
+                return;
             }
 
 

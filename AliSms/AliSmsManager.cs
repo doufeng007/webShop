@@ -61,6 +61,12 @@ namespace AliSms
             try
             {
                 CommonResponse response = client.GetCommonResponse(request);
+                dynamic retData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(response.Data);
+                if (retData.Code != "OK")
+                {
+                    Abp.Logging.LogHelper.Logger.Error($"阿里短信接口失败：{retData.Message}");
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "阿里短信接口失败");
+                }
 
             }
             catch (ServerException e)

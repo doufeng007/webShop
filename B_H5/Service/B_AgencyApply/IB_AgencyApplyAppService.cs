@@ -49,5 +49,13 @@ namespace B_H5
         /// <param name="input">主键</param>
         /// <returns></returns>
 		Task Delete(EntityDto<Guid> input);
+
+
+        /// <summary>
+        /// 发送注册验证码短信
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        Task SendSms(string phone);
     }
 }
