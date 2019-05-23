@@ -11,7 +11,7 @@ using Abp.WorkFlow;
 namespace B_H5
 {
     [AutoMapFrom(typeof(B_CWDetail))]
-    public class B_CWDetailListOutputDto 
+    public class B_CWDetailListOutputDto
     {
         /// <summary>
         /// Id
@@ -22,6 +22,9 @@ namespace B_H5
         /// UserId
         /// </summary>
         public long UserId { get; set; }
+
+
+        public string UserName { get; set; }
 
         /// <summary>
         /// RelationUserId
@@ -56,7 +59,7 @@ namespace B_H5
         /// </summary>
         public int Number { get; set; }
 
-     
+
 
         /// <summary>
         /// CreationTime

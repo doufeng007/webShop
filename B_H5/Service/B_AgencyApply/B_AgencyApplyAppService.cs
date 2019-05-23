@@ -27,6 +27,7 @@ using Abp.Reflection.Extensions;
 using ZCYX.FRMSCore.Configuration;
 using Abp.WeChat;
 using Abp.Runtime.Caching;
+using B_H5.Service.B_AgencyApply.Dto;
 
 namespace B_H5
 {
@@ -585,16 +586,16 @@ namespace B_H5
         }
 
 
-        public async Task SendSms(string phone)
+        public async Task SendSms(SendSmsInput input)
         {
             var cache = _cacheManager.GetCache(SmsCacheKey);
-            var cacheValue = cache.GetOrDefault(phone);
+            var cacheValue = cache.GetOrDefault(input.Phone);
             if (cacheValue == null || cacheValue.ToString().IsNullOrEmpty())
             {
                 var code = RandomHelper.GetRandom(100001, 999998);
                 var smsManager = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<AliSms.AliSmsManager>();
-                smsManager.SendSms("SMS_164860191", "乌生青", phone, "{\"code\":\"" + code + "\"}");
-                cache.Set(phone, code, absoluteExpireTime: new TimeSpan(0, 0, 60));
+                smsManager.SendSms("SMS_164860191", "乌生青", input.Phone, "{\"code\":\"" + code + "\"}");
+                cache.Set(input.Phone, code, absoluteExpireTime: new TimeSpan(0, 0, 180));
             }
             else
             {

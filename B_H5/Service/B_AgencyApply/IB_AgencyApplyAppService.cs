@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.WorkFlow;
+using B_H5.Service.B_AgencyApply.Dto;
 
 namespace B_H5
 {
@@ -50,12 +51,12 @@ namespace B_H5
         /// <returns></returns>
 		Task Delete(EntityDto<Guid> input);
 
-
+        
         /// <summary>
         /// 发送注册验证码短信
         /// </summary>
         /// <param name="phone"></param>
         /// <returns></returns>
-        Task SendSms(string phone);
+        Task SendSms(SendSmsInput input);
     }
 }
