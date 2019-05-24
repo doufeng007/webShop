@@ -55,7 +55,8 @@ namespace B_H5
                             Consignee = a.Consignee,
                             Tel = a.Tel,
                             IsDefault = a.IsDefault,
-                            CreationTime = a.CreationTime
+                            CreationTime = a.CreationTime,
+                            Name = a.Name
 
                         };
             var toalCount = await query.CountAsync();

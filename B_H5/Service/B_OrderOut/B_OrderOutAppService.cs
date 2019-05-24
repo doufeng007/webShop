@@ -43,6 +43,7 @@ namespace B_H5
         private readonly IRepository<B_AgencySales, Guid> _b_AgencySalesRepository;
         private readonly IB_MessageAppService _b_MessageAppService;
 
+
         public B_OrderOutAppService(IRepository<B_OrderOut, Guid> repository, IRepository<B_Categroy, Guid> b_CategroyRepository
             , IRepository<B_CWUserInventory, Guid> b_CWUserInventoryRepository, IRepository<B_OrderDetail, Guid> b_OrderDetailRepository
             , IRepository<B_OrderCourier, Guid> b_OrderCourierRepository, IRepository<B_Goods, Guid> b_GoodsRepository
@@ -327,7 +328,8 @@ namespace B_H5
             {
                 if (query.Any(r => r.Id == item.CategroyId))
                 {
-                    var cwUserInventory = await _b_CWUserInventoryRepository.FirstOrDefaultAsync(r => r.UserId == AbpSession.UserId.Value && r.CategroyId == item.CategroyId);
+                    var goodsModel = await _b_GoodsRepository.GetAsync(item.GoodsId);
+                    var cwUserInventory = await _b_CWUserInventoryRepository.FirstOrDefaultAsync(r => r.UserId == AbpSession.UserId.Value && r.CategroyId == goodsModel.CategroyIdP);
                     if (cwUserInventory == null)
                         throw new UserFriendlyException((int)ErrorCode.CodeValErr, "云仓货物不足，请先在云仓进货");
                     else
@@ -362,7 +364,7 @@ namespace B_H5
                                 Sales = item.Amout,
                                 SalesDate = DateTime.Now,
                                 FromUserId = b_AgencyModel.UserId,
-                                 BusinessType= B_AgencySalesBusinessTypeEnum.销售额,
+                                BusinessType = B_AgencySalesBusinessTypeEnum.销售额,
                             };
                             _b_AgencySalesRepository.Insert(new_Sale);
 
@@ -382,7 +384,7 @@ namespace B_H5
                                     Sales = 0,
                                     Bonus = bonusAmout,
                                     SalesDate = DateTime.Now,
-                                     BusinessType = B_AgencySalesBusinessTypeEnum.提货奖金,
+                                    BusinessType = B_AgencySalesBusinessTypeEnum.提货奖金,
                                 };
                                 _b_AgencySalesRepository.Insert(new_P_Sale);
                                 p_AgencyModel.Balance = p_AgencyModel.Balance + bonusAmout;

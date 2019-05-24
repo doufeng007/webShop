@@ -65,6 +65,9 @@ namespace B_H5
         public DateTime CreationTime { get; set; }
 
 
-		
+        public string Name { get; set; }
+
+
+
     }
 }
