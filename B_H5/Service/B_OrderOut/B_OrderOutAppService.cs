@@ -77,10 +77,11 @@ namespace B_H5
         public async Task<PagedResultDto<B_OrderOutListOutputDto>> GetList(GetB_OrderOutListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-                        join m in _b_OrderRepository.GetAll() on a.Id equals m.BusinessId
                         join b in UserManager.Users on a.UserId equals b.Id
                         join c in _b_MyAddressRepository.GetAll() on a.AddressId equals c.Id
-                        join d in _b_OrderDetailRepository.GetAll() on a.Id equals d.BId into g
+                        let d = (from detail in _b_OrderDetailRepository.GetAll()
+                                 where detail.BId == a.Id
+                                 select detail).Sum(o => o.Number)
                         select new B_OrderOutListOutputDto()
                         {
                             Id = a.Id,
@@ -90,8 +91,8 @@ namespace B_H5
                             AddressTel = c.Tel,
                             AddressUserName = c.Name,
                             CourierNum = "",
-                            GoodsNumber = g.Sum(r => r.Number),
-                            OrderNo = m.OrderNo,
+                            GoodsNumber = d,
+                            OrderNo = a.OrderNo,
                             Amout = a.Amout,
                             DeliveryFee = a.DeliveryFee,
                             GoodsPayment = a.GoodsPayment,
@@ -124,15 +125,17 @@ namespace B_H5
         public async Task<PagedResultDto<B_OrderOutMyListOutputDto>> GetMyList(GetB_OrderOutListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
-                        join m in _b_OrderRepository.GetAll() on a.Id equals m.BusinessId
                         join c in _b_MyAddressRepository.GetAll() on a.AddressId equals c.Id
-                        join d in _b_OrderDetailRepository.GetAll() on a.Id equals d.BId into g
+                        let d = (from detail in _b_OrderDetailRepository.GetAll()
+                                 where detail.BId == a.Id
+                                 select detail).Sum(o => o.Number)
+
                         select new B_OrderOutMyListOutputDto()
                         {
                             Id = a.Id,
                             AddressUserName = c.Name,
-                            OrderNo = m.OrderNo,
-                            GoodsNumber = g.Sum(r => r.Number),
+                            OrderNo = a.OrderNo,
+                            GoodsNumber = d,
                             Amout = a.Amout,
                             Status = a.Stauts,
                             CreationTime = a.CreationTime,
@@ -173,7 +176,7 @@ namespace B_H5
                 foreach (var item in orderDetailList)
                     if (fileGroups.Any(r => r.BusinessId == item.GoodsId.ToString()))
                     {
-                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.Id.ToString());
+                        var fileModel = fileGroups.FirstOrDefault(r => r.BusinessId == item.GoodsId.ToString());
                         if (fileModel != null)
                         {
                             var files = fileModel.Files;

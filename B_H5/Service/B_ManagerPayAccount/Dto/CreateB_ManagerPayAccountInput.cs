@@ -27,16 +27,16 @@ namespace B_H5
         /// <summary>
         /// BankName
         /// </summary>
-        [MaxLength(50,ErrorMessage = "BankName长度必须小于50")]
-        [Required(ErrorMessage = "必须填写BankName")]
-        public string BankName { get; set; }
+        [MaxLength(50, ErrorMessage = "BankName长度必须小于50")]
+
+        public string BankName { get; set; } = "";
 
         /// <summary>
         /// BankUserName
         /// </summary>
         [MaxLength(50,ErrorMessage = "BankUserName长度必须小于50")]
-        [Required(ErrorMessage = "必须填写BankUserName")]
-        public string BankUserName { get; set; }
+        
+        public string BankUserName { get; set; } = "";
 
         /// <summary>
         /// WxName
