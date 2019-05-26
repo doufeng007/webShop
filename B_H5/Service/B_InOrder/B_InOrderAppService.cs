@@ -77,10 +77,10 @@ namespace B_H5
         /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize]
-        public async Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input)
+        public async Task<PagedResultDto<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input)
         {
             var userIdList = new List<long>();
-            userIdList.Add(AbpSession.UserId.Value);
+           
             if (input.LowerUsers)
             {
                 if (!AbpSession.UserId.HasValue)
@@ -101,11 +101,14 @@ namespace B_H5
                     }
                 }
             }
+            else
+            {
+                userIdList.Add(AbpSession.UserId.Value);
+            }
 
 
             var query = from a in _repository.GetAll()
                         join u in UserManager.Users on a.UserId equals u.Id
-                        join b in _b_OrderRepository.GetAll() on a.Id equals b.BusinessId
                         join c in _b_CategroyRepository.GetAll() on a.CategroyId equals c.Id
                         where userIdList.Contains(a.UserId)
                         select new B_InOrderListOutputDto
@@ -116,7 +119,7 @@ namespace B_H5
                             CreationTime = a.CreationTime,
                             GoodsPayment = a.GoodsPayment,
                             Number = a.Number,
-                            OrderNo = b.OrderNo,
+                            OrderNo = a.OrderNo,
                             CategroyId = a.CategroyId,
                             CategroyTitle = c.Name,
                             UserName = u.Name,
@@ -156,7 +159,7 @@ namespace B_H5
                     }
             }
 
-            return ret;
+            return new PagedResultDto<B_InOrderListOutputDto>(toalCount, ret);
         }
 
 
@@ -165,11 +168,10 @@ namespace B_H5
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<B_InOrderListOutputDto>> GetList(GetB_InOrderListInput input)
+        public async Task<PagedResultDto<B_InOrderListOutputDto>> GetList(GetB_InOrderListInput input)
         {
             var query = from a in _repository.GetAll()
                         join u in UserManager.Users on a.UserId equals u.Id
-                        join b in _b_OrderRepository.GetAll() on a.Id equals b.BusinessId
                         join c in _b_CategroyRepository.GetAll() on a.CategroyId equals c.Id
                         select new B_InOrderListOutputDto
                         {
@@ -179,7 +181,7 @@ namespace B_H5
                             CreationTime = a.CreationTime,
                             GoodsPayment = a.GoodsPayment,
                             Number = a.Number,
-                            OrderNo = b.OrderNo,
+                            OrderNo = a.OrderNo,
                             CategroyId = a.CategroyId,
                             CategroyTitle = c.Name,
                             UserName = u.Name,
@@ -196,7 +198,7 @@ namespace B_H5
               .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.OrderNo.Contains(input.SearchKey) || r.UserName.Contains(input.SearchKey));
             var toalCount = await query.CountAsync();
             var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
-            return ret;
+            return new PagedResultDto<B_InOrderListOutputDto>(toalCount, ret);
         }
 
 
@@ -548,7 +550,7 @@ namespace B_H5
                 _b_AgencyRepository.Update(agencyModel);
             }
 
-             
+
 
         }
 

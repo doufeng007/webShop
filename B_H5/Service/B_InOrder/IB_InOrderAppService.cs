@@ -14,11 +14,11 @@ namespace B_H5
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input);
+        Task<PagedResultDto<B_InOrderListOutputDto>> GetB_InOrderListAsync(GetB_InOrderListInput input);
 
 
 
-        Task<List<B_InOrderListOutputDto>> GetList(GetB_InOrderListInput input);
+        Task<PagedResultDto<B_InOrderListOutputDto>> GetList(GetB_InOrderListInput input);
 
 
         /// <summary>
