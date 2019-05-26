@@ -126,7 +126,7 @@ namespace B_H5
         {
             var nowTime = DateTime.Now;
             var query = from a in _repository.GetAll()
-                        where nowTime >= a.EffectTime && nowTime < a.FailureTime
+                        where nowTime >= a.EffectTime && (!a.FailureTime.HasValue || nowTime < a.FailureTime.Value)
                         select a;
             var count = await query.CountAsync();
             if (count > 1)
@@ -147,7 +147,7 @@ namespace B_H5
         {
             var nowTime = DateTime.Now;
             var query = from a in _repository.GetAll()
-                        where nowTime >= a.EffectTime && nowTime < a.FailureTime
+                        where nowTime >= a.EffectTime && (!a.FailureTime.HasValue || nowTime < a.FailureTime.Value)
                         select a;
             var count = query.Count();
             if (count > 1)
