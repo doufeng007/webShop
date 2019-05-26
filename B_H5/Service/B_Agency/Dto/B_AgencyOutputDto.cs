@@ -34,6 +34,9 @@ namespace B_H5
         /// </summary>
         public string AgencyLevelName { get; set; }
 
+
+        public Guid AgencyLevelId { get; set; }
+
         /// <summary>
         /// 代理级别
         /// </summary>
