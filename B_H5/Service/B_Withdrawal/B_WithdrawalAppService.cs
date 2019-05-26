@@ -104,6 +104,53 @@ namespace B_H5
         }
 
 
+
+
+        /// <summary>
+        /// H5- 我的提款记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task<PagedResultDto<B_WithdrawalListOutputDto>> GetMyList(GetB_WithdrawalListInput input)
+        {
+            var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
+                        join b in _b_AgencyRepository.GetAll() on a.CreatorUserId.Value equals b.UserId
+                        join u in UserManager.Users on b.UserId equals u.Id
+                        where a.CreatorUserId==AbpSession.UserId
+                        select new B_WithdrawalListOutputDto()
+                        {
+                            Id = a.Id,
+                            Code = a.Code,
+                            PayTime = a.PayTime,
+                            Tel = u.PhoneNumber,
+                            UserName = u.Name,
+                            BankName = a.BankName,
+                            BankBranchName = a.BankBranchName,
+                            BankUserName = a.BankUserName,
+                            BankNumber = a.BankNumber,
+                            Amout = a.Amout,
+                            CreationTime = a.CreationTime,
+                            AgencyLevelId = b.AgencyLevelId,
+                            Status = a.Status
+
+
+                        };
+            query = query
+                //.WhereIf(input.PayType.HasValue, r => r.PayType == input.PayType.Value)
+                .WhereIf(input.AgencyLevelId.HasValue, r => r.AgencyLevelId == input.AgencyLevelId.Value)
+                .WhereIf(input.Status.HasValue, r => r.Status == input.Status.Value)
+                .WhereIf(input.PayDateStart.HasValue, r => r.PayTime >= input.PayDateStart.Value)
+                .WhereIf(input.PayDateEnd.HasValue, r => r.PayTime <= input.PayDateEnd.Value)
+                .WhereIf(!input.SearchKey.IsNullOrEmpty(), r => r.Code.Contains(input.SearchKey) ||
+                      r.UserName.Contains(input.SearchKey) || r.Tel.Contains(input.SearchKey));
+            var toalCount = await query.CountAsync();
+            var ret = await query.OrderByDescending(r => r.CreationTime).PageBy(input).ToListAsync();
+
+            return new PagedResultDto<B_WithdrawalListOutputDto>(toalCount, ret);
+        }
+
+
         /// <summary>
         /// 管理-提现审核列表 数量统计
         /// </summary>

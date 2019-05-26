@@ -430,6 +430,8 @@ namespace B_H5
                 BusinessType = input.BusinessType,
                 InOrOut = input.InOrOut,
                 OrderNo = input.OrderNo,
+                IsBlance = input.IsBlance,
+                IsGoodsPayment = input.IsGoodsPayment
             };
 
             await _repository.InsertAsync(newmodel);
@@ -448,6 +450,8 @@ namespace B_H5
                 BusinessType = input.BusinessType,
                 InOrOut = input.InOrOut,
                 OrderNo = input.OrderNo,
+                IsBlance = input.IsBlance,
+                IsGoodsPayment = input.IsGoodsPayment
             };
             _repository.Insert(newmodel);
 

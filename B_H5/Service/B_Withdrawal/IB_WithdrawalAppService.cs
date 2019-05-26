@@ -19,6 +19,9 @@ namespace B_H5
 		Task<PagedResultDto<B_WithdrawalListOutputDto>> GetList(GetB_WithdrawalListInput input);
 
 
+        Task<PagedResultDto<B_WithdrawalListOutputDto>> GetMyList(GetB_WithdrawalListInput input);
+
+
         Task<B_WithdrawalCount> GetCount();
 
 

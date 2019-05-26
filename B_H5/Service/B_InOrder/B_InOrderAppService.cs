@@ -646,35 +646,35 @@ namespace B_H5
             #region  消费记录
 
 
-            //进货者的花钱
-            if (orderInmodel.Balance > 0)
-            {
-                service.Create(new CreateB_OrderInput()
-                {
-                    Amout = orderInmodel.Balance,
-                    BusinessId = orderInmodel.Id,
-                    BusinessType = OrderAmoutBusinessTypeEnum.进货,
-                    InOrOut = OrderAmoutEnum.出账,
-                    OrderNo = orderInmodel.OrderNo,
-                    UserId = orderInmodel.UserId,
-                    IsBlance = true,
-                    IsGoodsPayment = false,
-                });
-            }
-            if (orderInmodel.GoodsPayment > 0)
-            {
-                service.Create(new CreateB_OrderInput()
-                {
-                    Amout = orderInmodel.GoodsPayment,
-                    BusinessId = orderInmodel.Id,
-                    BusinessType = OrderAmoutBusinessTypeEnum.进货,
-                    InOrOut = OrderAmoutEnum.出账,
-                    OrderNo = orderInmodel.OrderNo,
-                    UserId = orderInmodel.UserId,
-                    IsBlance = false,
-                    IsGoodsPayment = true
-                });
-            }
+            ////进货者的花钱
+            //if (orderInmodel.Balance > 0)
+            //{
+            //    service.Create(new CreateB_OrderInput()
+            //    {
+            //        Amout = orderInmodel.Balance,
+            //        BusinessId = orderInmodel.Id,
+            //        BusinessType = OrderAmoutBusinessTypeEnum.进货,
+            //        InOrOut = OrderAmoutEnum.出账,
+            //        OrderNo = orderInmodel.OrderNo,
+            //        UserId = orderInmodel.UserId,
+            //        IsBlance = true,
+            //        IsGoodsPayment = false,
+            //    });
+            //}
+            //if (orderInmodel.GoodsPayment > 0)
+            //{
+            //    service.Create(new CreateB_OrderInput()
+            //    {
+            //        Amout = orderInmodel.GoodsPayment,
+            //        BusinessId = orderInmodel.Id,
+            //        BusinessType = OrderAmoutBusinessTypeEnum.进货,
+            //        InOrOut = OrderAmoutEnum.出账,
+            //        OrderNo = orderInmodel.OrderNo,
+            //        UserId = orderInmodel.UserId,
+            //        IsBlance = false,
+            //        IsGoodsPayment = true
+            //    });
+            //}
 
 
             ///上家的进钱
@@ -747,6 +747,8 @@ namespace B_H5
             var b_AgencyModel = _b_AgencyRepository.GetAll().FirstOrDefault(r => r.UserId == AbpSession.UserId.Value);
             var userModel = _userRepository.Get(b_AgencyModel.UserId);
 
+            var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+
             if (orderInmodel.Status == InOrderStatusEnum.已完成)
             {
                 //创建入仓记录
@@ -775,7 +777,7 @@ namespace B_H5
                 //发送微信模板消息
                 SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.当前用户进货订单完成, AbpSession.UserId.Value, $"进货订单{orderInmodel.OrderNo}"
                             , categroyModel.Name, "货物已转入云仓", orderInmodel.Amout, InOrderStatusEnum.已完成);
-                var service = AbpBootstrapper.Create<Abp.Modules.AbpModule>().IocManager.IocContainer.Resolve<IB_OrderAppService>();
+                
                 if (b_AgencyModel.AgencyLevel != 1)
                 {
                     var parent_AgencyModel = _b_AgencyRepository.FirstOrDefault(r => r.Id == b_AgencyModel.P_Id);
@@ -968,6 +970,36 @@ namespace B_H5
 
 
 
+
+                //进货者的花钱
+                if (orderInmodel.Balance > 0)
+                {
+                    service.Create(new CreateB_OrderInput()
+                    {
+                        Amout = orderInmodel.Balance,
+                        BusinessId = orderInmodel.Id,
+                        BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                        InOrOut = OrderAmoutEnum.出账,
+                        OrderNo = orderInmodel.OrderNo,
+                        UserId = orderInmodel.UserId,
+                        IsBlance = true,
+                        IsGoodsPayment = false,
+                    });
+                }
+                if (orderInmodel.GoodsPayment > 0)
+                {
+                    service.Create(new CreateB_OrderInput()
+                    {
+                        Amout = orderInmodel.GoodsPayment,
+                        BusinessId = orderInmodel.Id,
+                        BusinessType = OrderAmoutBusinessTypeEnum.进货,
+                        InOrOut = OrderAmoutEnum.出账,
+                        OrderNo = orderInmodel.OrderNo,
+                        UserId = orderInmodel.UserId,
+                        IsBlance = false,
+                        IsGoodsPayment = true
+                    });
+                }
 
                 //发送微信模板消息
                 SendWeChatMessage(orderInmodel.Id.ToString(), TemplateMessageBusinessTypeEnum.当前用户进货订单上级缺货, AbpSession.UserId.Value, $"进货订单{orderInmodel.OrderNo}"
