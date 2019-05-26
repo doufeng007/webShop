@@ -15,7 +15,7 @@ namespace B_H5
         /// <summary>
         /// 数量
         /// </summary>
-        [Range(0, int.MaxValue, ErrorMessage = "")]
+        [Range(1, int.MaxValue, ErrorMessage = "")]
         public int Number { get; set; }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using Abp.Runtime.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +16,10 @@ namespace B_H5
         /// <summary>
         /// SalesDate
         /// </summary>
+        [Range(1000, 7777, ErrorMessage = "必须输入年数")]
         public int SalesDateYear { get; set; }
 
-
+        [Range(1, 12, ErrorMessage = "必须输入月数")]
         public int SalesDateMonth { get; set; }
 
 

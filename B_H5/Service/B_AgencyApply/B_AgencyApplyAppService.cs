@@ -243,26 +243,26 @@ namespace B_H5
         public async Task<Guid> Create(CreateB_AgencyApplyInput input)
         {
 
-            if (input.VCode.IsNullOrEmpty())
-            {
-                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "请输入短信验证码！");
-            }
-            else
-            {
-                var cache = _cacheManager.GetCache(SmsCacheKey);
-                var cacheValue = cache.GetOrDefault(input.Tel);
-                if (cacheValue == null || cacheValue.ToString().IsNullOrEmpty())
-                {
-                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "验证码已过期！");
-                }
-                else
-                {
-                    if (cacheValue.ToString() != input.VCode)
-                    {
-                        throw new UserFriendlyException((int)ErrorCode.CodeValErr, "验证码无效！");
-                    }
-                }
-            }
+            //if (input.VCode.IsNullOrEmpty())
+            //{
+            //    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "请输入短信验证码！");
+            //}
+            //else
+            //{
+            //    var cache = _cacheManager.GetCache(SmsCacheKey);
+            //    var cacheValue = cache.GetOrDefault(input.Tel);
+            //    if (cacheValue == null || cacheValue.ToString().IsNullOrEmpty())
+            //    {
+            //        throw new UserFriendlyException((int)ErrorCode.CodeValErr, "验证码已过期！");
+            //    }
+            //    else
+            //    {
+            //        if (cacheValue.ToString() != input.VCode)
+            //        {
+            //            throw new UserFriendlyException((int)ErrorCode.CodeValErr, "验证码无效！");
+            //        }
+            //    }
+            //}
 
             B_InviteUrl inviteUrlModel;
             B_AgencyLevel applyLeavelModel;

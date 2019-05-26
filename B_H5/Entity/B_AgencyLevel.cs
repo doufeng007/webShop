@@ -18,7 +18,7 @@ namespace B_H5
     {
         public int? TenantId { get; set; }
         #region 表字段
-        
+
         /// <summary>
         /// Name
         /// </summary>
@@ -59,7 +59,7 @@ namespace B_H5
         /// <summary>
         /// 折扣
         /// </summary>
-        public decimal Discount { get; set; }
+        public decimal Discount { get; set; } = 1;
 
 
         #endregion

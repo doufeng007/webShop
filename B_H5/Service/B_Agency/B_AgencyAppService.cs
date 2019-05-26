@@ -77,26 +77,26 @@ namespace B_H5
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize]
         public async Task<PagedResultDto<B_AgencyListOutputDto>> GetList(GetB_AgencyListInput input)
         {
             var b_AgencyId = Guid.Empty;
-            if (input.UserId.HasValue)
+            
+            var model = _repository.FirstOrDefault(r => r.UserId == AbpSession.UserId.Value);
+            if (model == null)
+                throw new UserFriendlyException((int)ErrorCode.CodeValErr, "查询用户不存在");
+            else
             {
-                var model = _repository.FirstOrDefault(r => r.UserId == input.UserId);
-                if (model == null)
-                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "查询用户不存在");
-                else
-                {
-                    b_AgencyId = model.Id;
-                }
+                b_AgencyId = model.Id;
             }
+            
 
             using (_unitOfWorkManager.Current.DisableFilter(AbpDataFilters.SoftDelete))
             {
                 var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
                             join u in UserManager.Users on a.UserId equals u.Id
                             join b in _b_AgencyLevelepository.GetAll() on a.AgencyLevelId equals b.Id
-                            where (!input.UserId.HasValue || a.P_Id == b_AgencyId)
+                            where a.P_Id == b_AgencyId
                             && a.Type == input.Type
                             && (!input.AgencyLevelId.HasValue || a.AgencyLevelId == input.AgencyLevelId.Value)
                             select new B_AgencyListOutputDto()

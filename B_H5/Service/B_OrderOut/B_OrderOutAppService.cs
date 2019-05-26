@@ -122,6 +122,7 @@ namespace B_H5
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize]
         public async Task<PagedResultDto<B_OrderOutMyListOutputDto>> GetMyList(GetB_OrderOutListInput input)
         {
             var query = from a in _repository.GetAll().Where(x => !x.IsDeleted)
@@ -129,7 +130,7 @@ namespace B_H5
                         let d = (from detail in _b_OrderDetailRepository.GetAll()
                                  where detail.BId == a.Id
                                  select detail).Sum(o => o.Number)
-
+                        where a.UserId == AbpSession.UserId.Value
                         select new B_OrderOutMyListOutputDto()
                         {
                             Id = a.Id,

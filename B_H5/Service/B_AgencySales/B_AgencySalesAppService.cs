@@ -142,7 +142,7 @@ namespace B_H5
                                Sales = a.Sales
                            };
 
-            var toalCount = await query.CountAsync();
+            var toalCount = await retQuery.CountAsync();
             var ret = await retQuery.OrderByDescending(r => r.CategroyName).PageBy(input).ToListAsync();
 
 

@@ -34,7 +34,7 @@ namespace B_H5
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task OrderIn(OrderInInput input);
+        Task<InOrderStatusEnum> OrderIn(OrderInInput input);
 
 
     }

@@ -245,7 +245,7 @@ namespace B_H5
         /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize]
-        public async Task OrderIn(OrderInInput input)
+        public async Task<InOrderStatusEnum> OrderIn(OrderInInput input)
         {
             if (input.Number <= 0)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "进货数量必须大于0");
@@ -405,7 +405,15 @@ namespace B_H5
                         }
                         else
                         {
-                            parent_Agency_Inventory.LessCount = parent_Agency_Inventory.LessCount + input.Number;
+                            if (parent_Agency_Inventory.LessCount == 0)
+                            {
+                                parent_Agency_Inventory.LessCount = parent_Agency_Inventory.LessCount + input.Number - parent_Agency_Inventory.Count;
+                            }
+                            else
+                            {
+                                parent_Agency_Inventory.LessCount = parent_Agency_Inventory.LessCount + input.Number;
+                            }
+
                             orderInmodel.Status = InOrderStatusEnum.上级缺货;
                         }
                         await _b_CWUserInventoryRepository.UpdateAsync(parent_Agency_Inventory);
@@ -422,14 +430,17 @@ namespace B_H5
 
 
             await _b_AgencyRepository.UpdateAsync(bModel);
+
+
+            return orderInmodel.Status;
         }
 
         /// <summary>
         /// 处理上级代理自动往下级代理发货
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="categroyId"></param>
-        /// <param name="number"></param>
+        /// <param name="userId">上级代理userid</param>
+        /// <param name="categroyId">类别id</param>
+        /// <param name="number">进货数量</param>
         /// <param name="agencyInventoryModel"></param>
         private void OrderInForChildeAgency(long userId, Guid categroyId, int number, B_CWUserInventory agencyInventoryModel = null)
         {
@@ -475,10 +486,14 @@ namespace B_H5
                                 agencyInventoryModel.LessCount = agencyInventoryModel.LessCount - (item.Number - currentAgencyInventoryCount);
                                 item.Status = InOrderStatusEnum.已完成;
                                 _repository.Update(item);
+
+                                currentAgencyInventoryCount = 0;
+                                currentNumber = 0;
+
                                 ///上级往下发货成功 余额往下
                                 var sale = OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
                                 org_AgencyBlance = org_AgencyBlance + sale;
-                                OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
+                                OrderInForChildeAgency(item.UserId, categroyId, item.Number);
                                 break;
                             }
                             else if (item.Number < (currentAgencyInventoryCount + currentNumber))
@@ -496,7 +511,7 @@ namespace B_H5
                                     ///上级往下发货成功 余额往下
                                     var sale = OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
                                     org_AgencyBlance = org_AgencyBlance + sale;
-                                    OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
+                                    OrderInForChildeAgency(item.UserId, categroyId, item.Number);
                                 }
                                 else
                                 {
@@ -508,10 +523,16 @@ namespace B_H5
                                     ///上级往下发货成功 余额往下
                                     var sale = OrderInForChildDetail(item, categroyId, item.Number, item.UserId, agencyInventoryModel.UserId);
                                     org_AgencyBlance = org_AgencyBlance + sale;
-                                    OrderInForChildeAgency(agencyInventoryModel.UserId, categroyId, item.Number);
+                                    OrderInForChildeAgency(item.UserId, categroyId, item.Number);
                                 }
 
                             }
+                        }
+
+
+                        if (currentNumber > 0)
+                        {
+                            agencyInventoryModel.Count = currentAgencyInventoryCount + currentNumber;
                         }
                     }
                 }
@@ -526,6 +547,8 @@ namespace B_H5
                 agencyModel.Balance = org_AgencyBlance;
                 _b_AgencyRepository.Update(agencyModel);
             }
+
+             
 
         }
 
