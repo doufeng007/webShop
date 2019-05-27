@@ -169,6 +169,8 @@ namespace B_H5
 
 
 
+
+
             await _repository.InsertAsync(new B_AgencyLevel()
             {
                 Id = Guid.NewGuid(),
@@ -178,6 +180,9 @@ namespace B_H5
             });
 
             _cacheManager.GetCache("B_AgencyLevelList").Remove("B_AgencyLevelList");
+
+
+
 
         }
 
@@ -194,6 +199,14 @@ namespace B_H5
                 if (dbmodel == null)
                 {
                     throw new UserFriendlyException((int)ErrorCode.CodeValErr, "该数据不存在！");
+                }
+                if (_repository.GetAll().Any(r => r.Level > input.Level && r.Deposit > input.Deposit))
+                {
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "高级别代理的首充金额不能小于低级别的首充金额！");
+                }
+                if (_repository.GetAll().Any(r => r.Level > input.Level && r.Deposit > input.Deposit))
+                {
+                    throw new UserFriendlyException((int)ErrorCode.CodeValErr, "高级别代理的保证金不能小于低级别的保证金！");
                 }
 
                 dbmodel.Name = input.Name;

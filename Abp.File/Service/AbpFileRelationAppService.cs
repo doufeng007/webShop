@@ -23,24 +23,28 @@ namespace Abp.File
     {
         private readonly IRepository<AbpFileRelation, Guid> _abpFileRelationRepository;
         private readonly IRepository<AbpFile, Guid> _abpFileRepository;
+        private readonly IRepository<AbpFileThumb, Guid> _abpFileThumbRepository;
 
         public AbpFileRelationAppService(IRepository<AbpFileRelation, Guid> abpFileRelationRepository,
-            IRepository<AbpFile, Guid> abpFileRepository)
+            IRepository<AbpFile, Guid> abpFileRepository, IRepository<AbpFileThumb, Guid> abpFileThumbRepository)
         {
             _abpFileRelationRepository = abpFileRelationRepository;
             _abpFileRepository = abpFileRepository;
+            _abpFileThumbRepository = abpFileThumbRepository;
         }
 
 
         public async Task<List<GetAbpFilesOutput>> GetListAsync(GetAbpFilesInput input)
         {
             var query = from a in _abpFileRepository.GetAll()
+                        join t in _abpFileThumbRepository.GetAll() on a.Id equals t.OrgFileId into g
+                        from thumb in g.DefaultIfEmpty()
                         join b in _abpFileRelationRepository.GetAll() on a.Id equals b.FileId
                         where b.BusinessId == input.BusinessId && b.BusinessType == input.BusinessType
                         && !b.IsDeleted
                         orderby b.CreationTime
                         orderby a.FileName
-                        select new { File = a, Sort = b.Sort };
+                        select new { File = a, Sort = b.Sort, Thumb = thumb };
             var ret = new List<GetAbpFilesOutput>();
             var data = await query.ToListAsync();
             foreach (var item in data)
@@ -50,7 +54,8 @@ namespace Abp.File
                     FileName = item.File.FileName,
                     FileSize = item.File.FileSize,
                     Id = item.File.Id,
-                    Sort = item.Sort
+                    Sort = item.Sort,
+                    ThumbId = item.Thumb?.Id ?? null,
                 };
                 ret.Add(entity);
             }
@@ -61,12 +66,14 @@ namespace Abp.File
         public List<GetAbpFilesOutput> GetList(GetAbpFilesInput input)
         {
             var query = from a in _abpFileRepository.GetAll()
+                        join t in _abpFileThumbRepository.GetAll() on a.Id equals t.OrgFileId into g
+                        from thumb in g.DefaultIfEmpty()
                         join b in _abpFileRelationRepository.GetAll() on a.Id equals b.FileId
                         where b.BusinessId == input.BusinessId && b.BusinessType == input.BusinessType
                         && !b.IsDeleted
                         orderby a.CreationTime descending
                         orderby a.FileName
-                        select new { File = a, Sort = b.Sort };
+                        select new { File = a, Sort = b.Sort, Thumb = thumb };
             var ret = new List<GetAbpFilesOutput>();
             foreach (var item in query)
             {
@@ -75,7 +82,8 @@ namespace Abp.File
                     FileName = item.File.FileName,
                     FileSize = item.File.FileSize,
                     Id = item.File.Id,
-                    Sort = item.Sort
+                    Sort = item.Sort,
+                    ThumbId = item.Thumb?.Id ?? null,
                 };
                 ret.Add(entity);
             }
@@ -89,12 +97,14 @@ namespace Abp.File
             if (input.BusinessIds == null || input.BusinessIds.Count == 0)
                 throw new UserFriendlyException(0, "业务参数错误");
             var query = from a in _abpFileRepository.GetAll()
+                        join t in _abpFileThumbRepository.GetAll() on a.Id equals t.OrgFileId into g
+                        from thumb in g.DefaultIfEmpty()
                         join b in _abpFileRelationRepository.GetAll() on a.Id equals b.FileId
                         where input.BusinessIds.Contains(b.BusinessId) && b.BusinessType == businessType
                         && !b.IsDeleted
                         orderby b.CreationTime
                         orderby a.FileName
-                        select new { File = a, Sort = b.Sort, BusinessId = b.BusinessId };
+                        select new { File = a, Sort = b.Sort, Thumb = thumb, BusinessId = b.BusinessId };
             var ret = new List<GetMultiAbpFilesOutput>();
             var data = await query.ToListAsync();
             var dataGroup = data.GroupBy(r => r.BusinessId).ToList();
@@ -108,7 +118,8 @@ namespace Abp.File
                         FileName = r.File.FileName,
                         FileSize = r.File.FileSize,
                         Id = r.File.Id,
-                        Sort = r.Sort
+                        Sort = r.Sort,
+                        ThumbId = r.Thumb?.Id ?? null,
                     }).ToList(),
                 };
                 ret.Add(entity);
@@ -123,12 +134,14 @@ namespace Abp.File
             if (input.BusinessIds == null || input.BusinessIds.Count == 0)
                 throw new UserFriendlyException(0, "业务参数错误");
             var query = from a in _abpFileRepository.GetAll()
+                        join t in _abpFileThumbRepository.GetAll() on a.Id equals t.OrgFileId into g
+                        from thumb in g.DefaultIfEmpty()
                         join b in _abpFileRelationRepository.GetAll() on a.Id equals b.FileId
                         where input.BusinessIds.Contains(b.BusinessId) && b.BusinessType == businessType
                         && !b.IsDeleted
                         orderby b.CreationTime
                         orderby a.FileName
-                        select new { File = a, Sort = b.Sort, BusinessId = b.BusinessId };
+                        select new { File = a, Sort = b.Sort, Thumb = thumb, BusinessId = b.BusinessId };
             var ret = new List<GetMultiAbpFilesOutput>();
             var data = query.ToList();
             var dataGroup = data.GroupBy(r => r.BusinessId).ToList();
@@ -142,7 +155,8 @@ namespace Abp.File
                         FileName = r.File.FileName,
                         FileSize = r.File.FileSize,
                         Id = r.File.Id,
-                        Sort = r.Sort
+                        Sort = r.Sort,
+                        ThumbId = r.Thumb?.Id ?? null,
                     }).ToList(),
                 };
                 ret.Add(entity);

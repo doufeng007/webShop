@@ -14,6 +14,14 @@ namespace Abp.File
 
         public string FileExtend { get; set; }
 
+        /// <summary>
+        /// 是否成功生成缩略图
+        /// </summary>
+        public bool HasThumFile { get; set; }
+
+
+        public Guid ThumFileId { get; set; }
+
 
     }
 

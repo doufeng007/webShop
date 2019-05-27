@@ -29,6 +29,7 @@ namespace Abp.File
     {
         public Guid Id { get; set; }
 
+
         public int Sort { get; set; }
     }
 

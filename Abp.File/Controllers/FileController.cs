@@ -21,15 +21,17 @@ namespace Abp.File
     public class AbpFileController : AbpController
     {
         private IHostingEnvironment hostingEnv;
-      //  private ISearchAllAppService _searchAllAppService;
+        //  private ISearchAllAppService _searchAllAppService;
         private readonly IRepository<AbpFile, Guid> _abpFilerepository;
+        private readonly IRepository<AbpFileThumb, Guid> _abpFileThumbRepository;
 
         string[] pictureFormatArray = { "png", "jpg", "jpeg", "bmp", "gif", "ico", "PNG", "JPG", "JPEG", "BMP", "GIF", "ICO" };
 
-        public AbpFileController(IHostingEnvironment env, IRepository<AbpFile, Guid> abpFilerepository)
+        public AbpFileController(IHostingEnvironment env, IRepository<AbpFile, Guid> abpFilerepository, IRepository<AbpFileThumb, Guid> abpFileThumbRepository)
         {
             this.hostingEnv = env;
             _abpFilerepository = abpFilerepository;
+            _abpFileThumbRepository = abpFileThumbRepository;
             //_searchAllAppService = searchAllAppService;
         }
 
@@ -64,14 +66,16 @@ namespace Abp.File
                     Directory.CreateDirectory(filePath);
                 }
 
-                string suffix = fileName.ToString().Split(".")[1];
+                string suffix = System.IO.Path.GetExtension(fileName);
+
+
 
                 //if (!pictureFormatArray.Contains(suffix))
                 //{
                 //    return Json(AbpFileReturn_Helper_DG.Error_Msg_Ecode_Elevel_HttpCode("the picture format not support ! you must upload files that suffix like 'png','jpg','jpeg','bmp','gif','ico'."));
                 //}
 
-                fileName = Guid.NewGuid() + "." + suffix;
+                fileName = Guid.NewGuid() + suffix;
 
                 string fileFullName = filePath + fileName;
 
@@ -87,7 +91,7 @@ namespace Abp.File
                     Size = file.Length,
                     FileExtend = suffix,
                 };
-                filePathResultList.Add(ret);
+
                 var entity = new AbpFile()
                 {
                     Id = ret.Id,
@@ -101,27 +105,27 @@ namespace Abp.File
                 if (isWordToPdf)
                 {
                     var ext = suffix.ToLower();
-                    if (ext == "doc" || ext == "docx")
+                    if (ext == ".doc" || ext == ".docx")
                     {
-                        var savePath = fileFullName.Replace("." + suffix, ".pdf");
+                        var savePath = fileFullName.Replace(suffix, ".pdf");
                         try
                         {
                             ThreePartDll.ThreePartDllHelper.CreatePDF(fileFullName, savePath);
                             var turnFilePath = savePath;
-                            var turnFileName = old_fileName.Replace("." + suffix, ".pdf");
+                            var turnFileName = old_fileName.Replace(suffix, ".pdf");
                             System.IO.FileInfo objFI = new System.IO.FileInfo(savePath);
                             entity = new AbpFile()
                             {
                                 Id = Guid.NewGuid(),
                                 FileName = turnFileName,
-                                FileExtend = "pdf",
+                                FileExtend = ".pdf",
                                 FileSize = objFI.Length,
                                 TurnFileId = ret.Id,
                                 TurnType = TurnType.转PDF,
                                 FilePath = turnFilePath
                             };
                             _abpFilerepository.Insert(entity);
-                           
+
                         }
                         catch (Exception ex)
                         {
@@ -137,6 +141,31 @@ namespace Abp.File
                  pageoffice.Content = entity.FilePath;
                  pageoffice.Title = entity.FileName;
                  _searchAllAppService.CreateOffice(pageoffice);*/
+
+                if (string.Compare(".jpg", suffix, true) == 0 || string.Compare(".JPEG", suffix, true) == 0 || string.Compare(".GIF", suffix, true) == 0
+                   || string.Compare(".PNG", suffix, true) == 0)
+                {
+                    var thumFilePath = Abp.File.Controllers.FileHelper.MakeThumbnail(fileFullName, 100, 100);
+                    if (!string.IsNullOrWhiteSpace(thumFilePath))
+                    {
+                        var thumentity = new AbpFileThumb()
+                        {
+                            Id = Guid.NewGuid(),
+                            FileExtend = suffix,
+                            FileName = ret.FileName,
+                            FilePath = thumFilePath,
+                            FileSize = 0,
+                            OrgFileId = entity.Id
+
+                        };
+
+                        _abpFileThumbRepository.Insert(thumentity);
+                        ret.HasThumFile = true;
+                        ret.ThumFileId = thumentity.Id;
+                    }
+                }
+
+                filePathResultList.Add(ret);
 
             }
 
@@ -238,18 +267,18 @@ namespace Abp.File
             return Json(AbpFileReturn_Helper_DG.Success_Msg_Data_DCount_HttpCode(message, filePathResultList, filePathResultList.Count));
         }
         [HttpGet]
-        public IActionResult GetTest(string title,string content)
+        public IActionResult GetTest(string title, string content)
         {
             var a = new string[] { "title", "date" };
             var b = new object[] { title, DateTime.Now.ToString("yyyy年MM月dd日") };
             string filePath = hostingEnv.WebRootPath + $@"\Files\test.docx";
-            var file = ThreePartDll.ThreePartDllHelper.Get(a, b, filePath,content);
+            var file = ThreePartDll.ThreePartDllHelper.Get(a, b, filePath, content);
             return base.File(file, "application/msword", "Template.docx");
         }
 
 
         [HttpGet]
-        public IActionResult Show(string id,bool isTurn=false)
+        public IActionResult Show(string id, bool isTurn = false)
         {
             var fileId = Guid.Empty;
             if (!Guid.TryParse(id, out fileId))
@@ -257,11 +286,11 @@ namespace Abp.File
             var fileModel = _abpFilerepository.Get(fileId);
             if (isTurn)
             {
-                fileModel= _abpFilerepository.FirstOrDefault(x=>x.TurnType==TurnType.转PDF &&x.TurnFileId == fileId);
+                fileModel = _abpFilerepository.FirstOrDefault(x => x.TurnType == TurnType.转PDF && x.TurnFileId == fileId);
             }
             var filepath = fileModel.FilePath;
             var fileName = fileModel.FileName;
-          
+
             FileInfo tmpFile = new FileInfo(filepath);
             if (!tmpFile.Exists)
             {
@@ -276,7 +305,7 @@ namespace Abp.File
         [HttpGet]
         public IActionResult ShowFile(string filename)
         {
-            string filePath = hostingEnv.WebRootPath + $@"/Files/upload/"+ filename + ".xlsx";
+            string filePath = hostingEnv.WebRootPath + $@"/Files/upload/" + filename + ".xlsx";
             FileInfo tmpFile = new FileInfo(filePath);
             if (!tmpFile.Exists)
             {
@@ -284,14 +313,15 @@ namespace Abp.File
                 return Json(AbpFileReturn_Helper_DG.Error_Msg_Ecode_Elevel_HttpCode(message));
             }
             var stream = System.IO.File.OpenRead(tmpFile.FullName);
-            return File(stream, "application/vnd.android.package-archive", Path.GetFileName(filename+ "工作日报.xlsx"));
+            return File(stream, "application/vnd.android.package-archive", Path.GetFileName(filename + "工作日报.xlsx"));
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetTemplate(Guid modelId,int type) {
+        public IActionResult GetTemplate(Guid modelId, int type)
+        {
             var temproot = hostingEnv.ContentRootPath + @"\wwwroot\templates\";//模板文件夹
             var t = "";
             switch (type)
@@ -309,8 +339,9 @@ namespace Abp.File
                 var stream = System.IO.File.OpenRead(temproot + $@"\{temfilename}");
                 return File(stream, "application/vnd.android.package-archive", Path.GetFileName(temfilename));
             }
-            else {
-              throw new  UserFriendlyException((int)ErrorCode.DataAccessErr, "当前模版文件不存在，请先保存后再试。");
+            else
+            {
+                throw new UserFriendlyException((int)ErrorCode.DataAccessErr, "当前模版文件不存在，请先保存后再试。");
             }
         }
         [HttpGet]
@@ -348,8 +379,10 @@ namespace Abp.File
             {
                 return null;
             }
-            
+
         }
+
+
     }
 
 

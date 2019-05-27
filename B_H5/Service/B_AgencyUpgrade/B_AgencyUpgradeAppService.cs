@@ -35,7 +35,7 @@ namespace B_H5
         private readonly WxTemplateMessageManager _wxTemplateMessageManager;
         private readonly IRepository<B_AgencyGroup, Guid> _b_AgencyGroupRepository;
         private readonly IRepository<B_AgencyGroupRelation, Guid> _b_AgencyGroupRelationRepository;
-       // private readonly B_AgencyManager _b_AgencyManager;
+        private readonly B_AgencyManager _b_AgencyManager;
         private readonly IRepository<B_AgencyApply, Guid> _b_AgencyApplyRepository;
         private readonly IRepository<B_InviteUrl, Guid> _b_InviteUrlRepository;
 
@@ -43,7 +43,7 @@ namespace B_H5
             , IRepository<B_AgencyLevel, Guid> b_AgencyLevelRepository, IAbpFileRelationAppService abpFileRelationAppService
             , WxTemplateMessageManager wxTemplateMessageManager, IRepository<B_AgencyGroup, Guid> b_AgencyGroupRepository
             , IRepository<B_AgencyGroupRelation, Guid> b_AgencyGroupRelationRepository
-            //, B_AgencyManager b_AgencyManager
+            , B_AgencyManager b_AgencyManager
             , IRepository<B_AgencyApply, Guid> b_AgencyApplyRepository, IRepository<B_InviteUrl, Guid> b_InviteUrlRepository
         )
         {
@@ -54,7 +54,7 @@ namespace B_H5
             _wxTemplateMessageManager = wxTemplateMessageManager;
             _b_AgencyGroupRepository = b_AgencyGroupRepository;
             _b_AgencyGroupRelationRepository = b_AgencyGroupRelationRepository;
-          //  _b_AgencyManager = b_AgencyManager;
+            _b_AgencyManager = b_AgencyManager;
             _b_AgencyApplyRepository = b_AgencyApplyRepository;
             _b_InviteUrlRepository = b_InviteUrlRepository;
 
@@ -186,7 +186,7 @@ namespace B_H5
             var toLeavelModel = await _b_AgencyLevelRepository.FirstOrDefaultAsync(input.ToAgencyLevelId);
             if (toLeavelModel == null)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理级别不存在！");
-            if (toLeavelModel.Level <= oldLeavelModel.Level)
+            if (toLeavelModel.Level >= oldLeavelModel.Level)
                 throw new UserFriendlyException((int)ErrorCode.CodeValErr, "代理不能降级！");
             var minPayAmout = toLeavelModel.FirstRechargeAmout + (toLeavelModel.Deposit - oldLeavelModel.Deposit);
             if (input.PayAmout < minPayAmout)
@@ -309,11 +309,11 @@ namespace B_H5
                 }
                 else
                 {
-                    //var newParentId = _b_AgencyManager.GetParentAgencyId(b_AgencyModel.Id, toLeavelModel.Level - 1);
+                    var newParentId = _b_AgencyManager.GetParentAgencyId(b_AgencyModel.Id, toLeavelModel.Level - 1);
 
-                    //b_AgencyModel.P_Id = newParentId;
+                    b_AgencyModel.P_Id = newParentId;
 
-                    //await _b_AgencyRepository.UpdateAsync(b_AgencyModel);
+                    await _b_AgencyRepository.UpdateAsync(b_AgencyModel);
 
 
 

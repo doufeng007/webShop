@@ -15,6 +15,11 @@ namespace Abp.File
 
         public int Sort { get; set; }
 
+        /// <summary>
+        /// 缩略图id
+        /// </summary>
+        public Guid? ThumbId { get; set; }
+
     }
 
     public class GetMultiAbpFilesOutput

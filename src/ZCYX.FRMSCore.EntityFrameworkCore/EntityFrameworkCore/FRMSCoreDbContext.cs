@@ -91,6 +91,11 @@ namespace ZCYX.FRMSCore.EntityFrameworkCore
         public virtual DbSet<AbpFile> AbpFile { get; set; }
 
 
+        public virtual DbSet<AbpFileThumb> AbpFileThumb { get; set; }
+
+        
+
+
         public virtual DbSet<AbpFileRelation> AbpFileRelation { get; set; }
 
 
